@@ -1,0 +1,41 @@
+require 'roxml'
+module CJ::Model 
+
+  # @abstract Base model class for XML payload
+  class Base
+    include ROXML
+    def initialize(attributes = {})
+      attributes.each { |name, value|
+        send "#{name}=", value if self.respond_to? "#{name}="
+      }
+    end
+
+    def to_xmldoc
+      xmldoc = Nokogiri::XML::Document.new
+      xmldoc.root = self.to_xml
+      xmldoc.encoding = 'utf-8'
+      xmldoc.serialize
+      return xmldoc.to_s.sub(xmldoc.root.name, xmldoc.root.name+" xmlns:mps=\"http://mps\"")
+    end
+
+    def to_xmldoc_r
+      xmldoc = Nokogiri::XML::Document.new
+      xmldoc.root = self.to_xml
+      xmldoc.encoding = 'utf-8'
+      xmldoc.serialize
+      xml = xmldoc.to_s.sub(xmldoc.root.name, xmldoc.root.name+" xmlns:mps=\"http://mps\"")
+      xml = xml.gsub(/(?<=\<).*?(?=removeme\>)/,"")
+      xml = xml.gsub("<removeme>","")
+
+      return xml
+    end   
+
+  end # of class
+
+  # System Error Message
+  class SystemError < Base
+    xml_name "error"
+    xml_accessor :message
+  end
+
+end # of module

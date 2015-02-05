@@ -1,0 +1,27 @@
+require_relative './base.rb'
+require_relative './entries.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful add address
+  #
+  #  @example Sample XML structure
+  #
+  #<mps:remove_address_from_policy_list xmlns:mps="http://mps">
+  #   <target>string</target>
+  #   <direction>string</direction>
+  #   <list_id>string</list_id>
+  #   <!-- One or more repetitions of <entries></entries> elements -->
+  #   <entries>string</entries>
+  #</mps:remove_address_from_policy_list
+    class RemoveAddressFromPolicy < Base
+
+    xml_name "mps:remove_address_from_policy_list"
+    xml_accessor :target
+    xml_accessor :direction
+    xml_accessor :list_id
+    xml_accessor :entries, :as => [AnubisNetwork::Model::Entries]#, :in => 'address'
+  end
+
+
+end # of module

@@ -1,0 +1,160 @@
+module AnubisNetwork
+
+  # Policy (Restful API)
+  class Filter
+
+    # initialize a new instance of Authenticaiton
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Lists the domains configured at MPS platform..
+    def get_list(params)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_list/#{params[:target]}/#{params[:direction]}/#{params[:list_id]}/",
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:get_listResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_listResponse).*?(?=\>)/,"get_listResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Adds one or more address/ip to a policy list.
+    #
+    # @param params [Hash]
+    # @example params sample:
+    # params[:session]=session
+    # params[:target]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:direction]="inbound"
+    # params[:list_id]="whitelist"
+    # params[:entries]=["aaa@abc.com","bbb@abc.com"]
+    def add_address_to_policy_list(params)
+      aatp = AnubisNetwork::Model::AddAddressToPolicy .new
+      aatp.target = params[:target]
+      aatp.direction = params[:direction]
+      aatp.list_id = params[:list_id]
+      entries = Array.new
+      params[:entries].each do |entry|
+        e = AnubisNetwork::Model::Entries.new
+        e.entries = entry
+        entries.push(e)
+      end
+      aatp.entries = entries
+      payload = aatp.to_xmldoc_r
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/add_address_to_policy_list/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:add_address_to_policy_listResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:add_address_to_policy_listResponse).*?(?=\>)/,"add_address_to_policy_listResponse")
+      return Hash.from_xml(xml).to_json
+
+    end
+
+    # Retrieves the specified filter rules
+    #
+    # @param params [Hash]
+    # @example params sample:
+    # params[:session]=session
+    # params[:target_id]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:direction]="inbound"
+    # params[:filter_name]=""
+    def remove_address_from_policy_list(params)
+      rafp = AnubisNetwork::Model::RemoveAddressFromPolicy .new
+      rafp.target = params[:target]
+      rafp.direction = params[:direction]
+      rafp.list_id = params[:list_id]
+      entries = Array.new
+      params[:entries].each do |entry|
+        e = AnubisNetwork::Model::Entries.new
+        e.entries = entry
+        entries.push(e)
+      end
+      rafp.entries = entries
+      payload = rafp.to_xmldoc_r
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/remove_address_from_policy_list/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:remove_address_from_policy_listResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:remove_address_from_policy_listResponse).*?(?=\>)/,"remove_address_from_policy_listResponse")
+      return Hash.from_xml(xml).to_json
+
+    end
+
+    # Activates or deactivates empty sender blacklisting.
+    #
+    # @param params [Hash]
+    # @example params sample:
+    # params[:session]=session
+    # params[:target]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:direction]="inbound"
+    # params[:value]=true
+    def set_blacklist_empty_senders(params)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/set_blacklist_empty_senders/#{params[:target]}/#{params[:direction]}/#{params[:value]}/",
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:set_blacklist_empty_sendersResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:set_blacklist_empty_sendersResponse).*?(?=\>)/,"set_blacklist_empty_sendersResponse")
+      return Hash.from_xml(xml).to_json
+
+    end
+
+    # Retrieves the specified filter rules
+    #
+    # @param params [Hash]
+    # @example params sample:
+    # params[:session]=session
+    # params[:target_id]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:direction]="inbound"
+    # params[:filter_name]="xxxxx"
+    def get_filter_rules(params)
+      fr = AnubisNetwork::Model::GetFilterRules .new
+      fr.target_id = params[:target_id]
+      fr.direction = params[:direction]
+      fr.filter_name = params[:filter_name]
+      payload = fr.to_xmldoc
+      # debugger
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_filter_rules/",
+        body: payload,
+        session: params[:session]
+      )
+      # debugger
+      xml = result.body.sub(/(?<=\<n:get_filter_rulesResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_filter_rulesResponse).*?(?=\>)/,"get_filter_rulesResponse")
+      return Hash.from_xml(xml).to_json
+
+    end
+
+    # Resets the current status for empy senders blacklisting in order to use the inherited settings.
+    #
+    # @param params [Hash]
+    # @example params sample:
+    # params[:session]=session
+    # params[:target]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:direction]="inbound"
+    def reset_blacklist_empty_senders(params)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/reset_blacklist_empty_senders/#{params[:target]}/#{params[:direction]}/",
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:reset_blacklist_empty_sendersResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:reset_blacklist_empty_sendersResponse).*?(?=\>)/,"reset_blacklist_empty_sendersResponse")
+      # debugger
+      return Hash.from_xml(xml).to_json
+
+    end
+  end # of class
+end # of module

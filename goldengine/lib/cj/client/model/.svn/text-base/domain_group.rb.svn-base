@@ -1,0 +1,25 @@
+require_relative './base.rb'
+require_relative './domain_group_setting.rb'
+
+module AnubisNetwork::Model 
+
+  #  Add Domain Group for Mail Protection Service
+  #  @note This is used by RESTful DomainGroup
+  #
+  #  @example Sample XML structure
+  #<mps:add_group xmlns:mps="http://mps">
+  # <domain_group_settings>
+  #    <domain>domain</domain>
+  #    <domain_type>Group</domain_type>
+  #    <parent_domain_id>parent_id</parent_domain_id>
+  #    <support_contact>abc@abc.com</support_contact>
+  #    <time_zone>string</time_zone>
+  # </domain_group_settings>
+  #</mps:add_group>
+  class DomainGroup < Base
+    xml_name "mps:add_group"
+    xml_accessor :domain_group_settings, :as => AnubisNetwork::Model::DomainGroupSetting
+  end
+
+
+end # of module

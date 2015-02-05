@@ -1,0 +1,14 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  class Address < Base
+    xml_name "removeme"
+    xml_accessor :address
+  end
+
+  def initialize(address)
+    self.address = address
+  end
+
+end # of module

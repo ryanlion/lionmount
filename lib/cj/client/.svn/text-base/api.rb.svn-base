@@ -1,0 +1,69 @@
+module AnubisNetwork 
+  # This class wraps the commonly used API call to Mail Protection Service
+  class API
+
+    # @!attribute [r] authentication
+    # @return [AnubisNetwork::Authentication] a new instance of {AnubisNetwork::Authentication}
+    attr_reader :authentication
+
+    # @!attribute [r] domain_group
+    # @return [AnubisNetwork::DomainGroup] a new instance of {AnubisNetwork::DomainGroup}
+    attr_reader :domain_group
+
+    # @!attribute [r] domain
+    # @return [AnubisNetwork::Domain] a new instance of {AnubisNetwork::Domain}
+    attr_reader :domain
+
+    # @!attribute [r] top_domain
+    # @return [AnubisNetwork::TopDomain] a new instance of {AnubisNetwork::TopDomain}
+    attr_reader :top_domain
+
+    # @!attribute [r] policy
+    # @return [AnubisNetwork::Policy] a new instance of {AnubisNetwork::Policy}
+    attr_reader :policy
+
+    # @!attribute [r] filter
+    # @return [AnubisNetwork::Filter] a new instance of {AnubisNetwork::Filter}
+    attr_reader :filter
+
+    # @!attribute [r] Users
+    # @return [AnubisNetwork::Users] a new instance of {AnubisNetwork::Users}
+    attr_reader :users
+
+    # @!attribute [r] address
+    # @return [AnubisNetwork::Address] a new instance of {AnubisNetwork::Address}
+    attr_reader :address
+
+    # @!attribute [r] time_zone
+    # @return [AnubisNetwork::Timezone] a new instance of {AnubisNetwork::Timezone}
+    attr_reader :time_zone
+
+    # initialize a new instance of API
+    #
+    # @param protocol [String]
+    # @param host [String]
+    def initialize(protocol, host)
+      @connection = AnubisNetwork::Connection.new(protocol, host)
+      @authentication = AnubisNetwork::Authentication.new(@connection)
+      @domain_group = AnubisNetwork::DomainGroup.new(@connection)
+      @domain = AnubisNetwork::Domain.new(@connection)
+      @policy = AnubisNetwork::Policy.new(@connection)
+      @filter = AnubisNetwork::Filter.new(@connection)
+      @users = AnubisNetwork::Users.new(@connection)
+      @address = AnubisNetwork::Address.new(@connection)
+      @time_zone = AnubisNetwork::Timezone.new(@connection)
+      @top_domain = AnubisNetwork::TopDomain.new(@connection)
+    end
+
+  end # of class
+end # of module
+
+require_relative 'api/authentication'
+require_relative 'api/domain_group'
+require_relative 'api/domain'
+require_relative 'api/address'
+require_relative 'api/policy'
+require_relative 'api/filter'
+require_relative 'api/users'
+require_relative 'api/top_domain'
+require_relative 'api/time_zone'

@@ -1,0 +1,20 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful authentication
+  #
+  #  @example Sample XML structure
+  #    <mps:authenticate xmlns:mps="http://mps">
+  #      <user_name>Sample</user_name>
+  #      <password>password</userName>
+  #      <keep_session>true</keep_session>
+  #    </mps:authenticate>
+  class Authentication < Base
+    xml_name "mps:authenticate"
+    xml_accessor :user_name
+    xml_accessor :password
+    xml_accessor :keep_session
+  end
+
+end # of module

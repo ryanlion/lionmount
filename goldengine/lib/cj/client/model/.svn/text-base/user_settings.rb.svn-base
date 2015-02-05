@@ -1,0 +1,24 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  class Settings < Base
+
+    xml_name "settings"
+    xml_accessor :mps_id
+    xml_accessor :real_name
+    xml_accessor :role_name
+    xml_accessor :user_name
+  end
+
+  class UserSettings < Base
+
+    xml_name "user_settings"
+    xml_accessor :mps_id
+    xml_accessor :real_name
+    xml_accessor :role_name
+    xml_accessor :user_name
+  end
+
+
+end

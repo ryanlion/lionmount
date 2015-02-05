@@ -1,0 +1,13 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  class ExternalSettings < Base
+
+    xml_name "user_external_settings"
+    xml_accessor :password_disabled
+    xml_accessor :mps_id
+    xml_accessor :remote_user_id
+  end
+
+end # of module

@@ -1,0 +1,51 @@
+require 'json'
+
+module AnubisNetwork 
+
+  # Authentication (Restful API)
+  class Authentication
+
+    # initialize a new instance of Authenticaiton
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Login to AnubisNetwork
+    #
+    # @param user_name [String]
+    # @param password [String] 
+    # @param keep_session [boolean]  
+    def login(user_name, password, keep_session)
+      au = AnubisNetwork::Model::Authentication.new
+      au.user_name = user_name
+      au.password = password
+      au.keep_session = keep_session
+      payload = au.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_auth/authenticate/",
+        body: payload
+      )
+      #result = result.sub(/(?<=\<n:authenticateResponse).*?(?=\>)/,"")
+      #result = result.gsub(/(?=n:authenticateResponse).*?(?=\>)/,"authenticateResponse")
+      #return Hash.from_xml(result).to_json
+      session = result.headers["Set-Cookie"].split("\;")[0].split("=")[1]
+      return session
+    end
+
+
+    # Ends the client session.
+    def logout
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_auth/log_out/"
+      )
+      xml = result.body.sub(/(?<=\<n:log_outResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:log_outResponse).*?(?=\>)/,"log_outResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+  end # of class
+end # of module

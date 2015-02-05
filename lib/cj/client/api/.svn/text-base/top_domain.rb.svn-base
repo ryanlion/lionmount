@@ -1,0 +1,26 @@
+module AnubisNetwork 
+
+  # TopDomain (Restful API)
+  class TopDomain
+
+    # initialize a new instance of TopDomain
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Retrieves the time zone locations list.
+    def get_top_domain(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_top_domain/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_top_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_top_domainResponse).*?(?=\>)/,"get_top_domainResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+  end # of class
+end # of module

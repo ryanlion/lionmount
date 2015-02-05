@@ -1,0 +1,20 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful GetFilterRules
+  #
+  #  @example Sample XML structure
+  #<mps:get_filter_rules xmlns:mps="http://mps">
+  #   <target_id>string</target_id>
+  #   <direction>string</direction>
+  #   <filter_name>string</filter_name>
+  #</mps:get_filter_rules> 
+  class GetFilterRules < Base
+    xml_name "mps:get_filter_rules"
+    xml_accessor :target_id
+    xml_accessor :direction
+    xml_accessor :filter_name
+  end
+
+end # of module

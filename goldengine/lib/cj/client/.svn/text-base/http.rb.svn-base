@@ -1,0 +1,39 @@
+require 'excon'
+
+module AnubisNetwork 
+
+  class HTTP
+    #include AppCara::Utils::Logging
+
+    def initialize(url, persistent=false)
+      @url = url
+      @excon = Excon.new(url)
+      @persistent = persistent
+    end
+
+    def persistent?
+      @persistent
+    end
+
+    def reset
+      @excon.reset
+    end
+
+    def request(params)
+      #applog "Connecting to #{@url}"
+      #applog params.inspect
+      final_url = @url+params[:path]
+      if params[:method]==:get
+        response = Excon.get(final_url, :headers => {'Cookie' => "session="+(params[:session]||"")})
+      else
+        response = Excon.post(final_url,
+                 :body => params[:body],
+                 :headers => { "Content-Type" => "text/xml", "Accept" => "text/xml","Cookie" => "session="+(params[:session]||"") })
+      end
+      #applog response.inspect
+    ensure
+      reset unless @persistent
+    end
+
+  end
+end

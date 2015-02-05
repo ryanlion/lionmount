@@ -1,0 +1,10 @@
+require_relative './base.rb'
+require_relative './domain_setting.rb'
+
+module AnubisNetwork::Model 
+
+  class Policy < Base
+  end
+
+
+end # of module

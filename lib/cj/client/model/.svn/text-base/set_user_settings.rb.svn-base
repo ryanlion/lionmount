@@ -1,0 +1,23 @@
+require_relative './base.rb'
+require_relative './user_settings.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful SetUserSettings
+  #
+  #  @example Sample XML structure
+  #<mps:set_user_settings xmlns:mps="http://mps">
+  #   <user_settings>
+  #      <mps_id>string</mps_id>
+  #      <real_name>string</real_name>
+  #      <role_name>string</role_name>
+  #      <user_name>string</user_name>
+  #   </user_settings>
+  #</mps:set_user_settings>
+  class SetUserSettings < Base
+
+    xml_name "mps:set_user_settings"
+    xml_accessor :user_settings, :as => AnubisNetwork::Model::UserSettings
+  end
+
+end # of module

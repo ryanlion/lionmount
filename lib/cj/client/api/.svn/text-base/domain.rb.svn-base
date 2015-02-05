@@ -1,0 +1,97 @@
+module AnubisNetwork 
+
+  # Domain (Restful API)
+  class Domain
+
+    # initialize a new instance of Authenticaiton
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Lists the domains configured at MPS platform..
+    def list_domains(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_domains/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_domainsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_domainsResponse).*?(?=\>)/,"list_domainsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Adds a new domain to the MPS platform.
+    #
+    # @param params [Hash]
+    # params sample: 
+    # params[:session]=session
+    # params[:allow_subdomains]=true
+    # params[:domain]="adddomain.com"
+    # params[:parent_domain_id] = "fff-fff-fffffff"
+    # params[:support_contact]="aaa@abc.com"
+    # params[:time_zone]=timezone
+    def add_domain(params)
+      d = AnubisNetwork::Model::Domain.new
+      ds = AnubisNetwork::Model::DomainSetting.new
+      ds.allow_subdomains = params[:allow_subdomains]
+      ds.domain = params[:domain]
+      ds.parent_domain_id = params[:parent_domain_id]
+      ds.support_contact = params[:support_contact]
+      ds.time_zone = params[:time_zone]
+      d.domain_settings = ds
+      payload = d.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/add_domain/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:add_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:add_domainResponse).*?(?=\>)/,"add_domainResponse")
+      return Hash.from_xml(xml).to_json
+
+    end
+
+    # Deletes a domain from the MPS platform.
+    def delete_domain(session,id)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/delete_domain/#{id}",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:delete_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:delete_domainResponse).*?(?=\>)/,"delete_domainResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Gets the settings associated with a domain.
+    def get_domain(session,id)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_domain/#{id}",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_domainResponse).*?(?=\>)/,"get_domainResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Activates or deactivates an SMTP domain.  Note there can only be one active SMTP domain with an unique name at a single time.
+    #
+    # @param session [String]
+    # @param id [String] Domain ID
+    # @param active [Boolean]
+    def activate_domain(session,id,active)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/activate_domain/#{id}/#{active}",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:activate_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:activate_domainResponse).*?(?=\>)/,"activate_domainResponse")
+      return Hash.from_xml(xml).to_json
+    end
+  end # of class
+end # of module

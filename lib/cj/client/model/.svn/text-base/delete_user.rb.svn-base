@@ -1,0 +1,19 @@
+require_relative './base.rb'
+require_relative './user.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful DeleteUser
+  #
+  #  @example Sample XML structure
+  #<mps:delete_user xmlns:mps="http://mps">
+  #   <!-- One or more repetitions of <user></user> elements -->
+  #   <user>string</user>
+  #</mps:delete_user
+  class DeleteUser < Base
+    xml_name "mps:delete_user"
+    xml_accessor :user, :as => [AnubisNetwork::Model::User]
+  end
+
+
+end # of module

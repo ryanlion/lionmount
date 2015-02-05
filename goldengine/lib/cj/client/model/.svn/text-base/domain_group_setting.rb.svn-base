@@ -1,0 +1,12 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model
+  class DomainGroupSetting < Base
+    xml_name "domain_group_settings"
+    xml_accessor :domain
+    xml_accessor :domain_type
+    xml_accessor :parent_domain_id
+    xml_accessor :support_contact
+    xml_accessor :time_zone
+  end
+end

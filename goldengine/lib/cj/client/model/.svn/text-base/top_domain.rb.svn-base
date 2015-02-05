@@ -1,0 +1,10 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  
+  class TopDomain < Base
+  end
+
+
+end # of module

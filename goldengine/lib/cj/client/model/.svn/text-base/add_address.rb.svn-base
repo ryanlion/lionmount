@@ -1,0 +1,24 @@
+require_relative './base.rb'
+require_relative './address.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful add address
+  #
+  #  @example Sample XML structure
+  #  <mps:add_address xmlns:mps="http://mps">
+  #   <domain_id>string</domain_id>
+  #   <!-- One or more repetitions of <address></address> elements -->
+  #   <address>string</address>
+  #   <import_type>string</import_type>
+  # </mps:add_address>
+  class AddAddress < Base
+
+    xml_name "mps:add_address"
+    xml_accessor :domain_id
+    xml_accessor :address, :as => [AnubisNetwork::Model::Address]#, :in => 'address'
+    xml_accessor :import_type
+  end
+
+
+end # of module

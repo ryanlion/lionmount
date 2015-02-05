@@ -1,0 +1,18 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful authentication
+  #
+  #  @example Sample XML structure
+  #<mps:list_other_users xmlns:mps="http://mps">
+  #   <domain_id>string</domain_id>
+  #   <recursive_domains>boolean</recursive_domains>
+  #</mps:list_other_users>
+  class ListOtherUsers < Base
+    xml_name "mps:list_other_users"
+    xml_accessor :domain_id
+    xml_accessor :recursive_domains
+  end
+
+end # of module

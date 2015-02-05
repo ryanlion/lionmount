@@ -1,0 +1,26 @@
+module AnubisNetwork 
+
+  # Timezone (Restful API)
+  class Timezone
+
+    # initialize a new instance of Timezone
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Retrieves the time zone locations list.
+    def list_time_zones(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_time_zones/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_time_zonesResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_time_zonesResponse).*?(?=\>)/,"list_time_zonesResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+  end # of class
+end # of module

@@ -1,0 +1,23 @@
+require_relative './base.rb'
+require_relative './external_settings.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful SetUserExternalSettings
+  #
+  #  @example Sample XML structure
+  #<mps:set_user_external_settings xmlns:mps="http://mps">
+  #   <user_external_settings>
+  #      <password_disabled>boolean</password_disabled>
+  #      <mps_id>string</mps_id>
+  #      <remote_user_id>string</remote_user_id>
+  #   </user_external_settings>
+  #</mps:set_user_external_settings>
+  class SetExternalUserSettings < Base
+
+    xml_name "mps:set_user_external_settings"
+    xml_accessor :external_settings, :as => AnubisNetwork::Model::ExternalSettings
+  end
+
+
+end # of module

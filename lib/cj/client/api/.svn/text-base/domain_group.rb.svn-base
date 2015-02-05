@@ -1,0 +1,46 @@
+module AnubisNetwork 
+
+  # DomainGroup (Restful API)
+  class DomainGroup
+
+    # initialize a new instance of Authenticaiton
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Adds a new group of domains (a GROUP of VSP) to the MPS platform.
+    #
+    # @param params [Hash]
+    # params sample: 
+    # params[:session]=session
+    # params[:domain]="adddomaingroup1.com"
+    # params[:domain_type]="GROUP"
+    # params[:parent_domain_id] = "fff-fff-fffffff"
+    # params[:support_contact]="aaa@abc.com"
+    # params[:time_zone]=timezone
+    def add_group(params)
+      dg = AnubisNetwork::Model::DomainGroup.new
+      dgs = AnubisNetwork::Model::DomainGroupSetting.new
+      dgs.domain = params[:domain]
+      dgs.domain_type = params[:domain_type]
+      dgs.parent_domain_id = params[:parent_domain_id]
+      dgs.support_contact = params[:support_contact]
+      dgs.time_zone = params[:time_zone]
+      dg.domain_group_settings = dgs
+      payload = dg.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/add_group/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:add_groupResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:add_groupResponse).*?(?=\>)/,"add_groupResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+
+  end # of class
+end # of module

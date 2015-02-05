@@ -1,0 +1,16 @@
+//= require bootstrap.3.0.0
+//= require bootstrap3-editable
+//= require bootstrap3-wysihtml5
+//= require bootstrap-datetimepicker
+//= require bootstrap-wysihtml5
+//= require jquery.bootstrap-growl
+//= require jquery.carouFredSel-6.2.1
+//= require jquery.dataTables.min
+//= require jquery.dlmenu
+//= require jquery.nivo.slider
+//= require jquery.timeago
+//= require jquery.timeago
+//= require jquery.timeago.zh-CN
+//= require jquery.timeago.zh-TW
+//= require jquery.validate.min
+//= require jquery.waterwheelCarousel

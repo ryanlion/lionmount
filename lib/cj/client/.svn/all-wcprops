@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/cloudengine/!svn/ver/14267/mps-client/lib/anubisnetwork/client
+END
+client.rb
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/cloudengine/!svn/ver/14101/mps-client/lib/anubisnetwork/client/client.rb
+END
+connection.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14267/mps-client/lib/anubisnetwork/client/connection.rb
+END
+http.rb
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/cloudengine/!svn/ver/14138/mps-client/lib/anubisnetwork/client/http.rb
+END
+model.rb
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model.rb
+END
+api.rb
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/api.rb
+END

@@ -1,0 +1,10 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  class User < Base
+    xml_name "removeme"
+    xml_accessor :user
+  end
+
+end # of module

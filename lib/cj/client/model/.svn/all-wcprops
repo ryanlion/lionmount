@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model
+END
+add_address.rb
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/add_address.rb
+END
+list_other_users.rb
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/list_other_users.rb
+END
+user_settings.rb
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/user_settings.rb
+END
+get_filter_rules.rb
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/get_filter_rules.rb
+END
+policy.rb
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/policy.rb
+END
+delete_user.rb
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/delete_user.rb
+END
+add_user_choosing_password.rb
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/add_user_choosing_password.rb
+END
+external_settings.rb
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/external_settings.rb
+END
+remove_address_from_policy.rb
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/remove_address_from_policy.rb
+END
+domain_setting.rb
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/cloudengine/!svn/ver/14139/mps-client/lib/anubisnetwork/client/model/domain_setting.rb
+END
+generate_and_send_password.rb
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/generate_and_send_password.rb
+END
+change_password.rb
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/change_password.rb
+END
+domain.rb
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/domain.rb
+END
+set_user_settings.rb
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/set_user_settings.rb
+END
+entries.rb
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/entries.rb
+END
+base.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/base.rb
+END
+add_user_generating_password.rb
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/add_user_generating_password.rb
+END
+set_user_external_settings.rb
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/set_user_external_settings.rb
+END
+add_address_to_policy.rb
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/add_address_to_policy.rb
+END
+user.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/user.rb
+END
+authentication.rb
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/cloudengine/!svn/ver/14101/mps-client/lib/anubisnetwork/client/model/authentication.rb
+END
+domain_group_setting.rb
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/cloudengine/!svn/ver/14101/mps-client/lib/anubisnetwork/client/model/domain_group_setting.rb
+END
+domain_group.rb
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/cloudengine/!svn/ver/14101/mps-client/lib/anubisnetwork/client/model/domain_group.rb
+END
+address.rb
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/model/address.rb
+END
+top_domain.rb
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/cloudengine/!svn/ver/14139/mps-client/lib/anubisnetwork/client/model/top_domain.rb
+END
+time_zone.rb
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/cloudengine/!svn/ver/14116/mps-client/lib/anubisnetwork/client/model/time_zone.rb
+END
+change_own_password.rb
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/cloudengine/!svn/ver/14176/mps-client/lib/anubisnetwork/client/model/change_own_password.rb
+END

@@ -1,0 +1,25 @@
+require_relative './base.rb'
+require_relative './domain_setting.rb'
+
+module AnubisNetwork::Model 
+
+  #  Add Domain for Mail Protection Service
+  #  @note This is used by RESTful Domain
+  #
+  #  @example Sample XML structure
+  #<mps:add_domain xmlns:mps="http://mps">
+  #   <domain_settings>
+  #      <allow_subdomains>boolean</allow_subdomains>
+  #      <domain>string</domain>
+  #      <parent_domain_id>string</parent_domain_id>
+  #      <support_contact>string</support_contact>
+  #      <time_zone>string</time_zone>
+  #   </domain_settings>
+  #</mps:add_domain>
+  class Domain < Base
+    xml_name "mps:add_domain"
+    xml_accessor :domain_settings, :as => AnubisNetwork::Model::DomainSetting
+  end
+
+
+end # of module

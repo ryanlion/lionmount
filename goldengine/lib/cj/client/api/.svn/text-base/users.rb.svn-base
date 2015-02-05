@@ -1,0 +1,500 @@
+module AnubisNetwork 
+
+  # User (Restful API)
+  class Users
+
+    # initialize a new instance of Users
+    #
+    # @param connection [Authentication::Connection]
+    def initialize(connection)
+      @connection = connection
+    end
+
+    # Lists the MPS platform users.
+    #
+    # @param session [String]
+    def list_users(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_users/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_usersResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_usersResponse).*?(?=\>)/,"list_usersResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists the MPS platform admin users.
+    #
+    # @param session [String]
+    def list_admins(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_admins/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_adminsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_adminsResponse).*?(?=\>)/,"list_adminsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists the MPS platform administrators, except the ones for organizational units.
+    #
+    # @param session [String]
+    def list_admins_except_ou(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_admins_except_ou/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_admins_except_ouResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_admins_except_ouResponse).*?(?=\>)/,"list_admins_except_ouResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists the MPS platform admins from the selected scope id.
+    #
+    # @param session [String]
+    # @param domain_id [String]
+    def list_admins_from_scope(session,domain_id)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_admins_from_scope/#{domain_id}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_admins_from_scopeResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_admins_from_scopeResponse).*?(?=\>)/,"list_admins_from_scopeResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists the MPS platform users from a specific domain.
+    #
+    # @param session [String]
+    # @param domain_id [String]
+    # @param recursive_domains [String]
+    def list_users_from_domain(session,domain_id,recursive_domains)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_users_from_domain/#{domain_id}/#{recursive_domains}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_users_from_domainResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_users_from_domainResponse).*?(?=\>)/,"list_users_from_domainResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists existing user names from a specific LDAP domain, whose names start with the filter specified.
+    #
+    # @param session [String]
+    # @param domain_id [String]
+    def list_ldap_domain_users(session,domain_id)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/list_ldap_domain_users/#{domain_id}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:list_ldap_domain_usersResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_ldap_domain_usersResponse).*?(?=\>)/,"list_ldap_domain_usersResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Gets the information associated with a user.
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def get_user_settings(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_user_settings/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_user_settingsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_user_settingsResponse).*?(?=\>)/,"get_user_settingsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Gets the external information associated with a user.
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def get_external_user_settings(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_user_external_settings/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_user_external_settingsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_user_external_settingsResponse).*?(?=\>)/,"get_user_external_settingsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Check if a user belongs to the domain provided, whether he exists already or can be created.
+    #
+    # @param session [String]
+    # @param domain_id [String]
+    # @param user_target [String]
+    def validate_user_target(session,domain_id,user_target)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/validate_user_target/#{domain_id}/#{user_target}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:validate_user_targetResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:validate_user_targetResponse).*?(?=\>)/,"validate_user_targetResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Retrieves user type from a session.
+    #
+    # @param session [String]
+    def get_user_type(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_user_type/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_user_typeResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_user_typeResponse).*?(?=\>)/,"get_user_typeResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Returns the possible user types for MPS platform.  This list is static.  If possible, client applications should call it only once and store it on client-side memory.
+    #
+    # @param session [String]
+    def get_user_types(session)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_user_types/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_user_typesResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_user_typesResponse).*?(?=\>)/,"get_user_typesResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Creates a new user and specify the user’s password.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:new_user_pass]="xxxxxxx"
+    # params[:parent_domain_id]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:mps_id]=""
+    # params[:real_name]="xxxxxxx"
+    # params[:role_name]="role name"
+    # params[:user_name]="xxxxxxx"
+    def add_user_choosing_password(params)
+      aucp = AnubisNetwork::Model::AddUserChoosingPassword.new
+      s = AnubisNetwork::Model::Settings.new
+      aucp.new_user_pass = params[:new_user_pass]
+      aucp.parent_domain_id = params[:parent_domain_id]
+      s.mps_id = params[:mps_id]
+      s.real_name = params[:real_name]
+      s.role_name = params[:role_name]
+      s.user_name = params[:user_name]
+      aucp.settings = s
+      payload = aucp.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/add_user_choosing_password/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:add_user_choosing_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:add_user_choosing_passwordResponse).*?(?=\>)/,"add_user_choosing_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Creates a new user and specify the user’s password.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:associated_email]="abc@abc.com"
+    # params[:parent_domain_id]="xxxxxxxxxxx-xxxx-xxxxx"
+    # params[:mps_id]=""
+    # params[:real_name]="xxxxxxx"
+    # params[:role_name]="role name"
+    # params[:user_name]="xxxxxxx"
+    def add_user_generating_password(params)
+      augp = AnubisNetwork::Model::AddUserGeneratingPassword.new
+      s = AnubisNetwork::Model::Settings.new
+      augp.associated_email = params[:associated_email]
+      augp.parent_domain_id = params[:parent_domain_id]
+      s.mps_id = params[:mps_id]
+      s.real_name = params[:real_name]
+      s.role_name = params[:role_name]
+      s.user_name = params[:user_name]
+      augp.settings = s
+      payload = augp.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/add_user_generating_password/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:add_user_generating_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:add_user_generating_passwordResponse).*?(?=\>)/,"add_user_generating_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Updates target’s user settings.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:mps_id]=""
+    # params[:real_name]="xxxxxxx"
+    # params[:role_name]="role name"
+    # params[:user_name]="xxxxxxx"
+    def set_user_settings(params)
+      sus = AnubisNetwork::Model::SetUserSettings.new
+      s = AnubisNetwork::Model::UserSettings.new
+      s.mps_id = params[:mps_id]
+      s.real_name = params[:real_name]
+      s.role_name = params[:role_name]
+      s.user_name = params[:user_name]
+      sus.user_settings = s
+      payload = sus.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/set_user_settings/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:set_user_settingsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:set_user_settingsResponse).*?(?=\>)/,"set_user_settingsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Updates target’s user external settings.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:password_disabled]=false
+    # params[:mps_id]="xxxxxxx"
+    # params[:remote_user_id]=""
+    def set_user_external_settings(params)
+      sus = AnubisNetwork::Model::SetExternalUserSettings.new
+      es = AnubisNetwork::Model::ExternalSettings.new
+      es.password_disabled = params[:password_disabled]
+      es.mps_id = params[:mps_id]
+      es.remote_user_id = params[:remote_user_id]
+      sus.external_settings = es
+      payload = sus.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/set_user_external_settings/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:set_user_external_settingsResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:set_user_external_settingsResponse).*?(?=\>)/,"set_user_external_settingsResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Sends a new MPS platform password to the target’s user associated email.
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def recover_user_password(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/recover_user_password/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:recover_user_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:recover_user_passwordResponse).*?(?=\>)/,"recover_user_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # This operation allows an admin to change another user’s password.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:user_name] = "xxxx"
+    # params[:invoker_password] = "xxxxxxxxx"
+    # params[:new_password] = "xxxxxxxx"
+    # params[:new_password_confirm] = "xxxxxxxx"
+    def change_password(params)
+      cs = AnubisNetwork::Model::ChangePassword.new
+      cs.user_name = params[:user_name]
+      cs.invoker_password = params[:invoker_password]
+      cs.new_password = params[:new_password]
+      cs.new_password_confirm= params[:new_password_confirm]
+      payload = cs.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/change_password/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:change_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:change_passwordResponse).*?(?=\>)/,"change_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Creates a new password for the specified user and send it to the supplied email address
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:user_name] = "xxxx"
+    # params[:invoker_password] = "xxxxxxxxx"
+    # params[:associated_email] = "abc@abc.com"
+    def generate_and_send_user_password(params)
+      cs = AnubisNetwork::Model::GenerateAndSendPassword.new
+      cs.user_name = params[:user_name]
+      cs.invoker_password = params[:invoker_password]
+      cs.associated_email= params[:associated_email]
+      payload = cs.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/generate_and_send_user_password/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:generate_and_send_user_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:generate_and_send_user_passwordResponse).*?(?=\>)/,"generate_and_send_user_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # This operation allows an user to change his own password.
+    # 
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:current_password] = "xxxxxxxx"
+    # params[:new_password] = "xxxxxxxx"
+    # params[:new_password_confirm] = "xxxxxxxx"
+    def change_own_password(params)
+      cop = AnubisNetwork::Model::ChangeOwnPassword.new
+      cop.user_name = params[:user_name]
+      cop.invoker_password = params[:invoker_password]
+      cop.associated_email= params[:associated_email]
+      payload = cop.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/change_own_password/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:change_own_passwordResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:change_own_passwordResponse).*?(?=\>)/,"change_own_passwordResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Deletes a user instance.
+    # 
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:users] = []
+    def delete_user(params)
+      du = AnubisNetwork::Model::DeleteUser.new
+      u_arr = Array.new
+      params[:users].each do |user|
+        u= AnubisNetwork::Model::User.new
+        u.user = user
+        u_arr.push(u)
+      end
+      du.user = u_arr
+      payload = du.to_xmldoc_r
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/delete_user/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:delete_userResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:delete_userResponse).*?(?=\>)/,"delete_userResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Returns a list of the user roles the requester can use when creating a new user at the target domain scope.
+    #
+    # @param session [String]
+    # @param domain_id [String]
+    def get_allowed_user_roles(session,domain_id)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/get_allowed_user_roles/#{domain_id}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:get_allowed_user_rolesResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:get_allowed_user_rolesResponse).*?(?=\>)/,"get_allowed_user_rolesResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Lists the MPS platform’s other users.
+    #
+    # @param params [Hash]
+    # @example params sample: 
+    # params[:session]=session
+    # params[:domain_id] = "xxxxxx-xxxxx-xxxxxx"
+    # params[:recursive_domains] = true
+    def list_other_users(params)
+      lou = AnubisNetwork::Model::ListOtherUsers.new
+      lou.domain_id = params[:domain_id]
+      lou.recursive_domains= params[:recursive_domains]
+      payload = lou.to_xmldoc
+      result = @connection.rest_request(
+        method: :post,
+        path: "/mps_setup/list_other_users/",
+        body: payload,
+        session: params[:session]
+      )
+      xml = result.body.sub(/(?<=\<n:list_other_usersResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:list_other_usersResponse).*?(?=\>)/,"list_other_usersResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Checks if the specified user was previously demoted
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def is_user_demoted(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/is_user_demoted/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:is_user_demotedResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:is_user_demotedResponse).*?(?=\>)/,"is_user_demotedResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Promotes a previously demoted user 
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def promote_user(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/promote_user/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:promote_userResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:promote_userResponse).*?(?=\>)/,"promote_userResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+    # Demotes a specific user 
+    #
+    # @param session [String]
+    # @param user_name [String]
+    def demote_user(session,user_name)
+      result = @connection.rest_request(
+        method: :get,
+        path: "/mps_setup/demote_user/#{user_name}/",
+        session: session
+      )
+      xml = result.body.sub(/(?<=\<n:demote_userResponse).*?(?=\>)/,"")
+      xml = xml.gsub(/(?=n:demote_userResponse).*?(?=\>)/,"demote_userResponse")
+      return Hash.from_xml(xml).to_json
+    end
+
+  end # of class
+end # of module

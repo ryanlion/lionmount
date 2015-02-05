@@ -1,0 +1,11 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  #  @note This is used by RESTful Timezone
+  #
+  class Timezone < Base
+
+  end
+
+end # of module

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/cloudengine/!svn/ver/14258/mps-client/lib/anubisnetwork/client/api
+END
+users.rb
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/cloudengine/!svn/ver/14180/mps-client/lib/anubisnetwork/client/api/users.rb
+END
+domain_group.rb
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/api/domain_group.rb
+END
+address.rb
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/api/address.rb
+END
+filter.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14258/mps-client/lib/anubisnetwork/client/api/filter.rb
+END
+domain.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/api/domain.rb
+END
+time_zone.rb
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/cloudengine/!svn/ver/14127/mps-client/lib/anubisnetwork/client/api/time_zone.rb
+END
+top_domain.rb
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/cloudengine/!svn/ver/14155/mps-client/lib/anubisnetwork/client/api/top_domain.rb
+END
+authentication.rb
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/cloudengine/!svn/ver/14127/mps-client/lib/anubisnetwork/client/api/authentication.rb
+END
+policy.rb
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/cloudengine/!svn/ver/14258/mps-client/lib/anubisnetwork/client/api/policy.rb
+END

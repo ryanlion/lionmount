@@ -1,0 +1,10 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model 
+
+  class Entries < Base
+    xml_name "removeme"
+    xml_accessor :entries
+  end
+
+end # of module

@@ -1,0 +1,12 @@
+require_relative './base.rb'
+
+module AnubisNetwork::Model
+  class DomainSetting < Base
+    xml_name "domain_settings"
+    xml_accessor :allow_subdomains
+    xml_accessor :domain
+    xml_accessor :parent_domain_id
+    xml_accessor :support_contact
+    xml_accessor :time_zone
+  end
+end
