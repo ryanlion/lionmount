@@ -22,5 +22,7 @@ module Goldengine
 
     config.autoload_paths += %W(#{config.root}/lib)
     config.autoload_paths += Dir["#{config.root}/lib/**/"]
+    config.generators.stylesheets = false
+    config.generators.javascripts = false
   end
 end

@@ -18,7 +18,7 @@
 				<div class="cbp-af-inner">
 					<h1>Fixed</h1>
 					<nav>
-            <%= link_to 'New Order', new_order_path %>
+            <%= link_to 'New Order', new_order_path , method: :get %>
 						<a href="#">Almonds</a>
               <%= form_tag product_search_path, id: "primary_search", class: "navbar-form navbar-right" do %>
               <div class="form-group">

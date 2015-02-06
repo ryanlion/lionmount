@@ -1,3 +1,4 @@
+//= require orders
 //= require bootstrap.3.0.0
 //= require bootstrap3-editable
 //= require bootstrap3-wysihtml5
@@ -14,3 +15,4 @@
 //= require jquery.timeago.zh-TW
 //= require jquery.validate.min
 //= require jquery.waterwheelCarousel
+//= require jquery.serializejson
