@@ -1,3 +1,4 @@
+//= require orders
 //= require bootstrap.3.0.0
 //= require bootstrap3-editable
 //= require bootstrap3-wysihtml5
