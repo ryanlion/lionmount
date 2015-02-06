@@ -15,3 +15,4 @@
 //= require jquery.timeago.zh-TW
 //= require jquery.validate.min
 //= require jquery.waterwheelCarousel
+//= require jquery.serializejson
