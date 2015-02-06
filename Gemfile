@@ -39,7 +39,7 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'debugger'
+gem 'byebug'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
