@@ -12,11 +12,13 @@
       </tr>
     </thead>
     <tbody>
+        <input type="hidden" value="<%= form_authenticity_token %>"/>
     </tbody>
   </table>
 </div>
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
 <a id="add_row" class="btn btn-default pull-left">Add Row</a>
 <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
-<a id='save_order' class="pull-right btn btn-info">Save</a>
+<a id='save_order' data-rc-url="<%= orders_path %>" class="pull-right btn btn-info">Save</a>
 </div>
 </form>

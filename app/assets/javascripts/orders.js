@@ -9,11 +9,26 @@ $(document).on('click','#add_row',function(){
 });
 $(document).on('click','#delete_row', function(){
   $('.row-selector:checkbox:checked').each(function () {
-    this.closest("tr").remove();
+                                           
+                                           $(this).closest("tr").remove();
   });
 });
 $(document).on('click','#save_order', function(){
-  $('.row-selector:checkbox:checked').each(function () {
-    this.closest("tr").remove();
-  });
+               $form = $("#order-form");
+               var jsondata = JSON.stringify($form.serializeJSON());
+               var $this = $(this);
+               var url = $this.data("rc-url");
+               alert(url);
+               $.ajax({
+                      url: url,
+                      type: 'POST',
+                      data: jsondata,
+                      success: function(html){
+                      alert(html);
+                      },
+                      error: function(resp){
+                      alert(resp);
+                      }
+                      
+                      });
 });
