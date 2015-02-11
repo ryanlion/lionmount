@@ -5,12 +5,12 @@ $(document).on('click','#add_row',function(){
       msecs: new Date().getTime(),
       nsecs: 5678
   });
-  var i=$('#new-order-table >tbody >tr').length;
-  $('#new-order-table > tbody:last').append('<tr id="addr'+(i+1)+'"></tr>');
+  var i=$('#edit-order-table >tbody >tr').length;
+  $('#edit-order-table > tbody:last').append('<tr id="addr'+(i+1)+'"></tr>');
   $('#addr'+(i+1)).html("<td><input class='row-selector' type='checkbox'/></td>"
     +"<td>"+ (i+1) +"<input name='order_items["+i+"].itemUUID' type='hidden' value='"+itemUUID+"' ></td>"
     + "<td><input name='order_items["+i+"].product_name' type='text' placeholder='Name' class='form-control input-md'  /> </td>"
-    + "<td><input  name='order_items["+i+"].picture' type='file' class='form-control input-md'></td>"
+    + "<td><input  name='order_items["+i+"].picture' type='file' class='form-control input-md file-upload'></td>"
     + "<td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>");
 });
 $(document).on('click','#delete_row', function(){
@@ -37,3 +37,10 @@ $(document).on('click','#save_order', function(){
                       
                       });
 });
+$('.file-upload').simpleUpload({
+        url: '',
+        change: function(files){
+            $.each(files, function(i, file){
+    alert(1);            });
+        }
+    });

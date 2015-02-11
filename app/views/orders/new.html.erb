@@ -1,24 +1,14 @@
-<form id="order-form" action="">
+<%= form_for :order, :html=> {:id => 'new-order-form'},url: orders_path do |f| %>
 <div class="row clearfix">
 <div class="col-md-12 column">
   <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
-    <thead>
       <tr>
-        <th></th>
-        <th>Item ID</th>
-        <th>Product Name</th>
-        <th>Picture</th>
-        <th>Item Price</th>
+        <td>Customer Name:</td><td><input name="order[customer_name]" type="text" class='form-control input-md' /></td>
+        <td>Supplier Name:</td><td><input name="order[supplier_name]" type="text" class='form-control input-md' /></td>
       </tr>
-    </thead>
-    <tbody>
-        <input type="hidden" value="<%= form_authenticity_token %>"/>
-    </tbody>
   </table>
 </div>
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-<a id="add_row" class="btn btn-default pull-left">Add Row</a>
-<a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
-<a id='save_order' data-rc-url="<%= orders_path %>" class="pull-right btn btn-info">Save</a>
+<button id='save_order' class="pull-right btn btn-info">Save</button>
 </div>
-</form>
+<% end %>
