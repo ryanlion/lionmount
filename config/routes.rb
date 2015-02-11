@@ -7,7 +7,13 @@ Rails.application.routes.draw do
     post '/product_search' => '/common/search#product_search', as: 'product_search'
   end
 
-  resources :orders
+  resources :orders do
+    member do
+    end
+    resources :order_items do
+        post :upload_pic
+    end
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
