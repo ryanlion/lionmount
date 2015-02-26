@@ -5,13 +5,30 @@ $(document).on('click','#add_row',function(){
       msecs: new Date().getTime(),
       nsecs: 5678
   });
-  var i=$('#edit-order-table >tbody >tr').length;
-  $('#edit-order-table > tbody:last').append('<tr id="addr'+(i+1)+'"></tr>');
-  $('#addr'+(i+1)).html("<td><input class='row-selector' type='checkbox'/></td>"
-    +"<td>"+ (i+1) +"<input name='order_items["+i+"].itemUUID' type='hidden' value='"+itemUUID+"' ></td>"
-    + "<td><input name='order_items["+i+"].product_name' type='text' placeholder='Name' class='form-control input-md'  /> </td>"
-    + "<td><input  name='order_items["+i+"].picture' type='file' class='form-control input-md file-upload'></td>"
-    + "<td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>");
+  var order_id = $('#order-id').val();
+  $.ajax({
+    url: 'orders/'+order_id+'/order_items',
+    type: 'post',
+    data: { 
+      "uuid" : itemUUID
+    },
+    success: function(resp){
+      var i=$('#edit-order-table >tbody >tr').length;
+      $('#edit-order-table > tbody:last').append('<tr id="addr'+(i+1)+'"></tr>');
+      $('#addr'+(i+1)).html("<td><input class='row-selector' type='checkbox'/></td>"
+        +"<td>"+ (i+1) +"<input name='order_items["+i+"].itemUUID' type='hidden' class='uuid' value='"+itemUUID+"' >"
+        +"<button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>"
+        +"<input name='order_items["+i+"].id' type='hidden' class='id' value='"+resp+"' ></td>"
+        + "<td><input name='order_items["+i+"].product_name' type='text' placeholder='Name' class='form-control input-md'  /> </td>"
+        + "<td><input  name='order_items["+i+"].picture' id='order_items["+i+"].picture' type='file' class='form-control input-md file-upload'></td>"
+        + "<td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>");
+    },
+    error: function(resp){
+      alert(resp);
+    }
+
+  });
+  
 });
 $(document).on('click','#delete_row', function(){
   $('.row-selector:checkbox:checked').each(function () {
@@ -20,27 +37,53 @@ $(document).on('click','#delete_row', function(){
   });
 });
 $(document).on('click','#save_order', function(){
-               var obj = form2js(document.getElementById('order-form'));
-               var jsondata = JSON.stringify(obj);
-               var $this = $(this);
-               var url = $this.data("rc-url");
-               $.ajax({
-                      url: url,
-                      type: 'POST',
-                      data: jsondata,
-                      success: function(html){
-                      alert(html);
-                      },
-                      error: function(resp){
-                      alert(resp);
-                      }
-                      
-                      });
+  var obj = form2js(document.getelementbyid('order-form'));
+  var jsondata = json.stringify(obj);
+  var $this = $(this);
+  var url = $this.data("rc-url");
+  $.ajax({
+    url: url,
+    type: 'post',
+    data: jsondata,
+    success: function(html){
+      alert(html);
+    },
+    error: function(resp){
+      alert(resp);
+    }
+
+  });
 });
-$('.file-upload').simpleUpload({
-        url: '',
-        change: function(files){
-            $.each(files, function(i, file){
-    alert(1);            });
-        }
-    });
+$(document).on("change", ".file-upload", function () {
+  var uuid = $(this).closest("tr").find(".uuid").val();
+  var order_item_id = $(this).closest("tr").find(".id").val();
+  var fileEleId = $(this).attr('id');
+  var file = document.getElementById(fileEleId);
+  var formData = new FormData();
+  formData.append("opmlFile", file);
+  formData.append("uuid",uuid);
+  var order_id = $('#order-id').val();
+  $.ajax({
+    url: "/orders/"+order_id+"/order_items/"+order_item_id+"/upload_pic",
+    type: "POST",
+    data: formData,
+    cache: false,
+    contentType: false,
+    processData: false
+  })
+  .error(function (xhr, status, error) {
+    $.notify(error, true);
+  })
+  .success(function (data, status, xhr) {
+    $.notify("Success");
+  });
+});
+$(document).on('click','.upload-icon', function(){
+  var uuid = $(this).closest("tr").find(".uuid").val();
+  var order_item_id = $(this).closest("tr").find(".id").val();
+  var order_id = $('#order-id').val();
+  $("#upload-form").attr("action", "/orders/"+order_id+"/order_items/"+order_item_id+"/upload_pic");
+  $('#myModal').modal({
+    keyboard: true
+  });
+}); 
