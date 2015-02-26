@@ -16,6 +16,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+gem 'remotipart'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -39,11 +40,12 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'byebug'
+gem 'debugger'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
 gem 'json-schema'                   # validating JSON objects against a JSON schema conforming to JSON Schema Draft 4
 gem 'excon'                         # used to send http request to remove rrd data in col01
-
+gem 'mysql'
+gem "uuidtools"
 
