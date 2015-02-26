@@ -11,7 +11,9 @@ Rails.application.routes.draw do
     member do
     end
     resources :order_items do
-        post :upload_pic
+        member do
+          post :upload_pic
+        end
     end
   end
   # Example of regular route:

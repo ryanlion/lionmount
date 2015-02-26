@@ -2,27 +2,17 @@ development:
     adapter: mysql
     encoding: utf8
     reconnect: false
-    database: **myapp_development**
+    database: 'mysql://root@localhost/lionmount'
     pool: 5
-    username: **root**
-    password: **supersecretpassword**
-    **socket: /opt/local/var/run/mysql5/mysqld.sock**
 test:
     adapter: mysql
     encoding: utf8
     reconnect: false
-    database: **myapp_test**
+    database: 'mysql://root@localhost/lionmount'
     pool: 5
-    username: **root**
-    password: **supersecretpassword**
-    socket: **/opt/local/var/run/mysql5/mysqld.sock**
-
 production:
     adapter: mysql
     encoding: utf8
     reconnect: false
-    database: **myapp_production**
+    database: 'mysql://root@localhost/lionmount'
     pool: 5
-    username: **root**
-    password: **supersecretpassword**
-    socket: **/opt/local/var/run/mysql5/mysqld.sock**
