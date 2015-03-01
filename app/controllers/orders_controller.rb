@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
       @order.save
       render :action => :edit
     end
-    def upload_pic
+    def index
       
     end
     def order_params

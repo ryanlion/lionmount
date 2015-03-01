@@ -2,7 +2,6 @@
 //= require jquery.carouFredSel-6.2.1
 //= require jquery.dataTables.min
 //= require jquery.dlmenu
-//= require jquery.ui.widget
 //= require jquery.iframe-transport
 //= require jquery.nivo.slider
 //= require jquery.timeago

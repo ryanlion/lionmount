@@ -13,10 +13,21 @@ class OrderItemsController < ApplicationController
       @orderitem.itemUUID = params["uuid"]
       @orderitem.order_id = params["order_id"]
       @orderitem.save
+      
       render :text => @orderitem.id
     end
     def upload_pic
-      debugger
-      render :text => "success"
+      respond_to do |format|
+          @orderitem = OrderItem.find_by(id: params["order_item_id"])
+      byebug
+          @orderitem.image = params[:picture]
+          @orderitem.save
+          format.html { redirect_to edit_order_order_item_path }
+          format.js
+      end
+    end
+    
+    def photo_params
+        params.require(:photo).permit(:image, :title)
     end
 end

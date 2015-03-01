@@ -40,7 +40,7 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'debugger'
+gem 'byebug'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
@@ -48,4 +48,9 @@ gem 'json-schema'                   # validating JSON objects against a JSON sch
 gem 'excon'                         # used to send http request to remove rrd data in col01
 gem 'mysql'
 gem "uuidtools"
-
+gem 'dragonfly'
+gem 'dragonfly-s3_data_store'
+gem 'spreadsheet'
+group :production do
+    gem 'rack-cache', :require => 'rack/cache'
+end
