@@ -18,12 +18,11 @@ class OrderItemsController < ApplicationController
     end
     def upload_pic
       respond_to do |format|
-          @orderitem = OrderItem.find_by(id: params["order_item_id"])
-      byebug
+          @orderitem = OrderItem.find_by(id: params[:id])
           @orderitem.image = params[:picture]
           @orderitem.save
-          format.html { redirect_to edit_order_order_item_path }
-          format.js
+          format.html { redirect_to "/orders/#{order_id}/edit" }
+          format.js {render layout: false}
       end
     end
     

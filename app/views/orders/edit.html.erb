@@ -39,8 +39,6 @@
                   <%= form_tag("/orders", id: "upload-form", remote: true, multipart: true) do %>
                     <div class="field">
                       <%= file_field_tag 'picture' %>
-                      <%= hidden_field_tag(:order_id, "5") %>
-                      <%= hidden_field_tag(:order_item_id, "5") %>
                     </div>
                     <div class="actions">
                       <%= submit_tag("upload") %>

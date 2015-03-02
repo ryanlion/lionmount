@@ -82,7 +82,7 @@ $(document).on('click','.upload-icon', function(){
   var uuid = $(this).closest("tr").find(".uuid").val();
   var order_item_id = $(this).closest("tr").find(".id").val();
   var order_id = $('#order-id').val();
-  $("#upload-form").attr("action", "/orders/"+order_id+"/order_items/"+order_item_id+"/upload_pic");
+  $("#upload-form").attr("action", "/orders/"+order_id+"/order_items/"+order_item_id+"/upload_pic.js");
   $('#myModal').modal({
     keyboard: true
   });

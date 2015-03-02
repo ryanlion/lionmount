@@ -1,9 +1,9 @@
-<% if @orderitem.image_uid %>
+<% if @orderitem.image_uid.nil? %>
 alert('The photo could not be uploaded: <%= j @orderitem.errors.full_messages.join(', ').html_safe %>');
 <% else %>
 $(".uuid").each(function( i ) {
-if ( this.val()== "<%= j render @photo.itemUUID %>" ) {
-    var uuid = $(this).closest("img-td").html('<img src="<%= j render @photo.image.thumb('180x180#').url %>" class="img-thumbnail" alt="Smiley face" height="30" width="30">');
+if ( this.val()== "<%= @orderitem.itemUUID %>" ) {
+    var uuid = $(this).closest("img-td").html('<img src="<%= @orderitem.image.thumb('180x180#').url %>" class="img-thumbnail" alt="Smiley face" height="30" width="30">');
     return;
 }
 });
