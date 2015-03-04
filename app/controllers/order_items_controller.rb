@@ -22,7 +22,6 @@ class OrderItemsController < ApplicationController
           @orderitem.image = params[:picture]
           @orderitem.save
           @order = Order.find_by(id: @orderitem.order_id)
-          debugger
           format.js
           format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
