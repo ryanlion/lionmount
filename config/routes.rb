@@ -9,10 +9,10 @@ Rails.application.routes.draw do
 
   resources :orders do
     member do
+      post :upload_pic
     end
     resources :order_items do
         member do
-          post :upload_pic
         end
     end
   end

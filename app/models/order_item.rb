@@ -1,4 +1,4 @@
-class OrderItem < ActiveRecord::Base.extend Dragonfly::Model
+class OrderItem < ActiveRecord::Base
     dragonfly_accessor :image
     
     validates_size_of :image, maximum: 500.kilobytes,

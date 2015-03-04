@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -40,7 +37,7 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'byebug'
+gem 'debugger'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library

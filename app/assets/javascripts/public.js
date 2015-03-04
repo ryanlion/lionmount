@@ -1,14 +1,9 @@
 //= require jquery.bootstrap-growl
-//= require jquery.carouFredSel-6.2.1
-//= require jquery.dataTables.min
-//= require jquery.dlmenu
 //= require jquery.iframe-transport
-//= require jquery.nivo.slider
 //= require jquery.timeago
 //= require jquery.timeago
 //= require jquery.timeago.zh-CN
 //= require jquery.timeago.zh-TW
-//= require jquery.validate.min
 //= require uuid
 //= require json2
 //= require orders

@@ -20,7 +20,7 @@ $(document).on('click','#add_row',function(){
         +"<button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>"
         +"<input name='order_items["+i+"].id' type='hidden' class='id' value='"+resp+"' ></td>"
         + "<td><input name='order_items["+i+"].product_name' type='text' placeholder='Name' class='form-control input-md'  /> </td>"
-        + "<td><input  name='order_items["+i+"].picture' id='order_items["+i+"].picture' type='file' class='form-control input-md file-upload'></td>"
+        + "<td class='img-td'></td>"
         + "<td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>");
     },
     error: function(resp){
@@ -32,8 +32,7 @@ $(document).on('click','#add_row',function(){
 });
 $(document).on('click','#delete_row', function(){
   $('.row-selector:checkbox:checked').each(function () {
-                                           
-                                           $(this).closest("tr").remove();
+    $(this).closest("tr").remove();
   });
 });
 $(document).on('click','#save_order', function(){
@@ -81,8 +80,7 @@ $(document).on("change", ".file-upload", function () {
 $(document).on('click','.upload-icon', function(){
   var uuid = $(this).closest("tr").find(".uuid").val();
   var order_item_id = $(this).closest("tr").find(".id").val();
-  var order_id = $('#order-id').val();
-  $("#upload-form").attr("action", "/orders/"+order_id+"/order_items/"+order_item_id+"/upload_pic");
+  $("#order_item_id").val(order_item_id);
   $('#myModal').modal({
     keyboard: true
   });

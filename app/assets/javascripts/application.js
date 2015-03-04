@@ -18,7 +18,7 @@
 //= require codrops
 //= require modernizr.custom
 //= require classie
-//= require jquery.remotipart
 //= require bootstrap
 //= require bootstrap/modal
 //= require public
+//= require jquery.remotipart

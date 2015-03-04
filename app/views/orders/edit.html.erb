@@ -1,7 +1,7 @@
 <form id="order-form" action="">
 <div class="row clearfix">
 <div class="col-md-12 column">
-  <table id="edit-order-table" class="table table-bordered table-hover" data-height="500">
+  <table id="edit-order-table" class="table table-bordered table-hover table-striped" data-height="500">
     <thead>
       <tr>
         <th></th>
@@ -11,8 +11,22 @@
         <th>Item Price</th>
       </tr>
     </thead>
+    
     <tbody>
-        <input type="hidden" value="<%= form_authenticity_token %>"/>
+      <% @orderitems.each_with_index do |orderitem, index| %>
+        <tr>
+          <td><input class='row-selector' type='checkbox'/></td>
+          <td>
+            <%= index+1 %><input name='order_items["<%= index %>"].itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
+            <button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
+            <input name='order_items["<%= index %>"].id' type='hidden' class='id' value='<%= orderitem.id %>' >
+          </td>
+          <td><input name='order_items["<%= index %>"].product_name' type='text' placeholder='Name' class='form-control input-md' /></td>
+          <td class='img-td'></td>
+          <td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>
+          <td><%= link_to 'Delete', [@order, orderitem],  class: "btn btn-danger", method: :delete %></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
@@ -24,9 +38,6 @@
 </form>
 <input type="hidden" id="order-id" value="<%= @order.id %>">
 <div class="bs-example">
-    <!-- Button HTML (to Trigger Modal) -->
-    <input type="button" class="btn btn-lg btn-primary launch-modal" value="Launch Demo Modal">
-    
     <!-- Modal HTML -->
     <div id="myModal" class="modal fade">
         <div class="modal-dialog">
@@ -36,14 +47,13 @@
                     <h4 class="modal-title">Upload File</h4>
                 </div>
                 <div class="modal-body">
-                  <%= form_tag("/orders", id: "upload-form", remote: true, multipart: true) do %>
+                  <%= form_for @order, :url => {:id => @order.id, :action => "upload_pic"}, :method => :post, :id => "upload-form", :remote => true do |f| %>
                     <div class="field">
-                      <%= file_field_tag 'picture' %>
-                      <%= hidden_field_tag(:order_id, "5") %>
-                      <%= hidden_field_tag(:order_item_id, "5") %>
+                      <%= f.file_field :picture %>
+                      <%= hidden_field_tag 'order_item_id', '',class: "order_item_id"  %>
                     </div>
                     <div class="actions">
-                      <%= submit_tag("upload") %>
+                      <%= f.submit "upload" , class: 'btn btn-primary btn-sm'%>
                     </div>
                   <% end %>
                 <div class="modal-footer">
