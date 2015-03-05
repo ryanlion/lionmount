@@ -7,3 +7,4 @@
 //= require uuid
 //= require json2
 //= require orders
+//= require shipment
