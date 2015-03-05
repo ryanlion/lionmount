@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         end
     end
   end
+  resources :shipments do
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
