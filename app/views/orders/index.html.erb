@@ -14,7 +14,7 @@
   <tbody>
     <% @orders.each_with_index do |order, index| %>
       <tr>
-        <td class="col-md-1"><input class='row-selector' type='checkbox'/><input name='selected_id[]' type='hidden' value='<%= order.id %>' class='order-id' ></td>
+        <td class="col-md-1"><input class='row-selector-shipment' type='checkbox'/><input name='not_selected[]order_id' type='hidden' value='<%= order.id %>' class='order-id' ><input name="not_selected[]shipment_uuid" class="shipment-uuid" value="" type='hidden' ></td>
         <td class="col-md-2"><%= order.customer_name %></td>
         <td class="col-md-2"><%= order.supplier_name %></td>
         <td class="col-md-2"><%= order.created_at %></td>
@@ -24,6 +24,7 @@
     <% end %>
   </tbody>
 </table>
-<button class="btn btn-md btn-info">Group Shipment</button>
+<input name="ship-uuid" class="ship-uuid" value="" type='hidden' >
+<button class="btn btn-md btn-info group-shipment">Group Shipment</button>
 </form>
 </div>
