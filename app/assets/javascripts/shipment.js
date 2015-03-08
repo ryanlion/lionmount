@@ -18,6 +18,5 @@ $(document).on('submit','#shipment-form',function(){
       msecs: new Date().getTime(),
       nsecs: 5678
   });
-  alert($(".ship-uuid").val());
   $(".ship-uuid").val(new_uuid);
 });

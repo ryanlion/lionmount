@@ -1,9 +1,13 @@
 class OrdersController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     def update
-        orders = JSON.parse(request.raw_post)
-        orders["order_items"].each do |order|
-          @order_item = OrderItem.new(order)
+        order_items = JSON.parse(request.raw_post)["order_items"]
+        order_items.each do |order_item|
+          byebug
+          @order_item = OrderItem.find_by(id: order_item["id"])
+          @order_item.product_name = order_item["product_name"]
+          @order_item.packing = order_item["packing"]
+          @order_item.itemUUID = order_item["itemUUID"]
           @order_item.save
         end
         render :text => "success"

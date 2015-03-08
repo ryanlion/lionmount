@@ -23,9 +23,9 @@
             <button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
             <input name='order_items["<%= index %>"].id' type='hidden' class='id' value='<%= orderitem.id %>' >
           </td>
-          <td><input name='order_items["<%= index %>"].product_name' type='text' placeholder='Name' class='form-control input-md' /></td>
+          <td><input name='order_items["<%= index %>"].product_name' type='text' placeholder='Name' class='form-control input-md' value='<%= orderitem.product_name%>'/></td>
           <td class='img-td'></td>
-          <td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>
+          <td><input  name='order_items["<%= index %>"].packing' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.packing %>'></td>
           <td><%= link_to 'Delete', [@order, orderitem],  class: "btn btn-danger", method: :delete %></td>
         </tr>
       <% end %>
@@ -36,7 +36,7 @@
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
 <a id="add_row" class="btn btn-default pull-left">Add Row</a>
 <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
-<a id='save_order' data-rc-url="<%= orders_path %>" class="pull-right btn btn-info">Save</a>
+<a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info">Save</a>
 </div>
 </form>
 <input type="hidden" id="order-id" value="<%= @order.id %>">

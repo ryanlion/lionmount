@@ -1,8 +1,4 @@
 class Shipment < ActiveRecord::Base
-  has_many :order, though: :relation_shipment_order
-  accepts_nested_attributes_for :order,
-    :allow_destroy => true
-  accepts_nested_attributes_for :ingredients,
-    :allow_destroy => true
-
+    has_many :shipment_order_relations
+    has_many :orders, through: :shipment_order_relations
 end

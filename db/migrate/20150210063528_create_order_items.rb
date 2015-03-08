@@ -1,6 +1,7 @@
 class CreateOrderItems < ActiveRecord::Migration
   def change
     create_table :order_items do |t|
+      t.belongs_to :ordr, index:true
       t.string :itemUUID
       t.string :order_id
       t.string :product_name

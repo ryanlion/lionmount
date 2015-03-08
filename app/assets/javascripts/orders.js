@@ -36,13 +36,13 @@ $(document).on('click','#delete_row', function(){
   });
 });
 $(document).on('click','#save_order', function(){
-  var obj = form2js(document.getelementbyid('order-form'));
-  var jsondata = json.stringify(obj);
+  var obj = form2js(document.getElementById('order-form'));
+  var jsondata = JSON.stringify(obj);
   var $this = $(this);
   var url = $this.data("rc-url");
   $.ajax({
     url: url,
-    type: 'post',
+    type: 'PUT',
     data: jsondata,
     success: function(html){
       alert(html);
