@@ -1,0 +1,32 @@
+<h1>All shipments</h1>
+<form action="/shipments/bill" method="post" enctype='application/json' id='shipment-form'>
+<div class="table-responsive">
+<table class="table table-striped table-hover table-bordered">
+<thead>
+<tr>
+<th>Shipment ID</th>
+<th>Custormer</th>
+<th>Shipment Description</th>
+<th>Create Date</th>
+<th>Last Upate Date</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<% @shipments.each_with_index do |shipment, index| %>
+<tr>
+<td class="col-md-1"><input class='row-selector-shipment' type='checkbox'/><input name='not_selected[]shipment_id' type='hidden' value='<%= shipment.id %>' class='order-id' ></td>
+<td class="col-md-2"><%= shipment.customer_name %></td>
+<td class="col-md-2"><%= shipment.description %></td>
+<td class="col-md-2"><%= shipment.status %></td>
+<td class="col-md-2"><%= shipment.created_at %></td>
+<td class="col-md-2"><%= shipment.updated_at %></td>
+<td class="col-md-4"><%= link_to 'Generate Packing List', packing_list_shipment_path(shipment.id) , class: "btn btn-sm btn-info", method: :post %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<input name="ship-uuid" class="ship-uuid" value="" type='hidden' >
+<button class="btn btn-md btn-info group-shipment">Group Shipment</button>
+</form>
+</div>
