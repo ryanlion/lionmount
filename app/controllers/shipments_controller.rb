@@ -26,12 +26,15 @@ class ShipmentsController < ApplicationController
         sheet_packing_list = book.create_worksheet
         sheet_packing_list.name = "Packing List"
         
-        @shipment.orders do |order|
-            order.order_items do |order_item|
-                row = [order_item.product_name,order_item.packing]
-                order_item
+        @shipment.orders.each do |order|
+            order.order_items.each_with_index do |order_item, index|
+                sheet_packing_list.row(index).replace [order_item.product_name, order_item.packing,'ssss']
             end
         end
-        render :text => "sucess"
+        
+        #book.write 'public/system/spreadsheet/spreadsheet.xls'
+        file_contents = StringIO.new
+        book.write file_contents
+        send_data file_contents.string.force_encoding('binary'), filename: "spreadsheet.xls"
     end
 end
