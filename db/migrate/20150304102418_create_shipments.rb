@@ -5,6 +5,11 @@ class CreateShipments < ActiveRecord::Migration
       t.string :description
       t.string :status
       t.string :customer_name
+      t.string :marks
+      t.string :port_dispatch
+      t.string :port_distination
+      t.string :doc_date
+      t.string :loading_date
       
       t.timestamps
     end

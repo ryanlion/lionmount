@@ -48,6 +48,7 @@ gem "uuidtools"
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 gem 'spreadsheet'
+gem 'axlsx'
 group :production do
     gem 'rack-cache', :require => 'rack/cache'
 end
