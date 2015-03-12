@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Shipment Details</div>
+  <div class="panel-body">
+    <%= form_for :shipment, :html=> {:id => 'edit-shipment-form'}, url: shipment_path(@shipment), method: :put do |f| %>
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
+            <tr>
+              <td>Client:</td><td><input name="shipment[customer_name]" type="text" class='form-control input-md' value="<%= @shipment.customer_name %>" /></td>
+              <td>Marks:</td><td><input name="shipment[marks]" type="text" class='form-control input-md' value="<%= @shipment.marks %>" /></td>
+            </tr>
+            <tr>
+              <td>Port Of Dispatch:</td><td><input name="shipment[port_dispatch]" type="text" class='form-control input-md' value="<%= @shipment.port_dispatch %>" /></td>
+              <td>Port Of Destination:</td><td><input name="shipment[port_distination]" type="text" class='form-control input-md' value="<%= @shipment.port_distination %>" /></td>
+            </tr>
+            <tr>
+              <td>Doc Date:</td><td><input name="shipment[doc_date]" type="text" class='form-control input-md' value="<%= @shipment.doc_date %>" /></td>
+              <td>Loading Date:</td><td><input name="shipment[loading_date]" type="text" class='form-control input-md' value="<%= @shipment.loading_date %>" /></td>
+            </tr>
+          </table>
+        </div>
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+        <button id='save_shipment' class="pull-right btn btn-info">Save</button>
+      </div>
+    <% end %>
+  </div>
+</div>
