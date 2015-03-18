@@ -34,7 +34,7 @@
   </table>
 </div>
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
-<a id="add_row" class="btn btn-default pull-left">Add Row</a>
+ <%= link_to "Add Row", class:"btn btn-default pull-left", order_items_path(@order.id),method: :post, remote: true %>
 <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
 <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info">Save</a>
 </div>

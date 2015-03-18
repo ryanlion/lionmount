@@ -9,12 +9,15 @@ class OrderItemsController < ApplicationController
         render :text => "success"
     end
     def create
-      @orderitem = OrderItem.new 
-      @orderitem.itemUUID = params["uuid"]
-      @orderitem.order_id = params["order_id"]
-      @orderitem.save
-      
-      render :text => @orderitem.id
+      respond_to do |format|
+        @orderitem = OrderItem.new 
+        @orderitem.itemUUID = params["uuid"]
+        @orderitem.order_id = params["order_id"]
+        @orderitem.save
+        
+        format.js
+        format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
+      end
     end
     def upload_pic
       respond_to do |format|

@@ -1,0 +1,12 @@
+	<tr>
+	  <td><input class='row-selector' type='checkbox'/></td>
+	  <td>
+	    <%= index+1 %><input name='order_items["<%= index %>"].itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
+	    <button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
+	    <input name='order_items["<%= index %>"].id' type='hidden' class='id' value='<%= orderitem.id %>' >
+	  </td>
+	  <td><input name='order_items["<%= index %>"].product_name' type='text' placeholder='Name' class='form-control input-md' value='<%= orderitem.product_name%>'/></td>
+	  <td class='img-td'></td>
+	  <td><input  name='order_items["<%= index %>"].packing' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.packing %>'></td>
+	  <td><%= link_to 'Delete', [@order, orderitem],  class: "btn btn-danger", method: :delete %></td>
+	</tr>
