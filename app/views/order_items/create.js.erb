@@ -1,5 +1,5 @@
 <% if @orderitem.id.nil? %>
-  alert('The row could not be added! ');
+ 	alert('The row could not be added! ');
 <% else %>
-$('#edit-order-table').append("<%= j (render 'order_item') %>");
+	$('#edit-order-table > tbody').append("<%= j (render 'order_item',orderitem: @orderitem) %>");
 <% end %>

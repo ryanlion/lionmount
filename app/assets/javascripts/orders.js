@@ -35,15 +35,14 @@ $(document).on('click','#delete_row', function(){
     $(this).closest("tr").remove();
   });
 });
+
 $(document).on('click','#save_order', function(){
-  var obj = form2js(document.getElementById('order-form'));
-  var jsondata = JSON.stringify(obj);
   var $this = $(this);
   var url = $this.data("rc-url");
   $.ajax({
     url: url,
     type: 'PUT',
-    data: jsondata,
+    data: $("#order-form").serialize(),
     success: function(html){
       alert(html);
     },
