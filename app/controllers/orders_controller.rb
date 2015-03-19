@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     def update
-        byebug
         order_items = params["order_items"]
         
         order_items.each do |order_item|
@@ -9,6 +8,17 @@ class OrdersController < ApplicationController
           @order_item.product_name = order_item["product_name"]
           @order_item.packing = order_item["packing"]
           @order_item.itemUUID = order_item["itemUUID"]
+          @order_item.weight_per_product = order_item["weight_per_product"]
+          @order_item.color = order_item["color"]
+          @order_item.quantity_per_unit = order_item["quantity_per_unit"]
+          @order_item.item_price = order_item["item_price"]
+          @order_item.unit = order_item["unit"]
+          @order_item.volume_per_unit = order_item["volume_per_unit"]
+          @order_item.item_total_weight = order_item["item_total_weight"]
+          @order_item.weight_per_unit = order_item["weight_per_unit"]
+          @order_item.item_total_price = order_item["item_total_price"]
+          @order_item.item_total_volume = order_item["item_total_volume"]
+          @order_item.remarks = order_item["remarks"]
           @order_item.save
         end
         render :text => "success"

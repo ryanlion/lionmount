@@ -59,7 +59,7 @@ class ShipmentsController < ApplicationController
 
             @shipment.orders.each do |order|
               order.order_items.each_with_index do |order_item, index|
-                sheet.add_row [order_item.product_name, order_item.packing,'ssss']
+                sheet.add_row [order_item.order_id, @shipment.marks, order_item.product_name, order_item., order_item.'ssss']
               end
             end
           end
