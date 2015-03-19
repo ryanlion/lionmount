@@ -1,7 +1,9 @@
 class OrdersController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     def update
-        order_items = JSON.parse(request.raw_post)["order_items"]
+        byebug
+        order_items = params["order_items"]
+        
         order_items.each do |order_item|
           @order_item = OrderItem.find_by(id: order_item["id"])
           @order_item.product_name = order_item["product_name"]
