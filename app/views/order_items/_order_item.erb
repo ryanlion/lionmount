@@ -1,0 +1,24 @@
+	<tr>
+	  <td><input class='row-selector' type='checkbox'/></td>
+	  <td>
+	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
+	    <button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
+	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
+	  </td>
+	  <td><input name='order_items[]product_name' type='text' placeholder='Name' class='form-control input-md' value='<%= orderitem.product_name%>'/></td>
+	  <td class='img-td'></td>
+	  <td><input  name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-md' value='<%= orderitem.weight_per_product %>'></td>
+	  <td><input  name='order_items[]color' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.color %>'></td>
+	  <td><input  name='order_items[]quantity_per_unit' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.quantity_per_unit %>'></td>
+	  <td><input  name='order_items[]item_price' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_price %>'></td>
+	  <td><input  name='order_items[]unit' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.unit %>'></td>
+	  <td><input  name='order_items[]no_of_unit' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.no_of_unit %>'></td>
+	  <td><input  name='order_items[]volume_per_unit' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.volume_per_unit %>'></td>
+	  <td><input  name='order_items[]item_total_weight' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_weight %>'></td>
+	  <td><input  name='order_items[]weight_per_unit' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.weight_per_unit %>'></td>
+	  <td><input  name='order_items[]item_total_price' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_price %>'></td>
+	  <td><input  name='order_items[]item_total_volume' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_volume %>'></td>
+	  <td><input  name='order_items[]remarks' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.remarks %>'></td>
+	  <td><%= link_to 'Delete', order_order_items_path(orderitem.order_id, orderitem),  class: "btn btn-danger", method: :delete %></td>
+
+	</tr>
