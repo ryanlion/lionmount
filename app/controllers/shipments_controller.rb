@@ -55,11 +55,11 @@ class ShipmentsController < ApplicationController
 
             sheet.add_row ["MARKS","",@shipment.marks,"","PORT OF DESTINATION","","",@shipment.port_distination,"","","LOADING DATE","","",@shipment.loading_date]
 
-            sheet.add_row ["IN NO.","MARKS","DESCRIPTION","ITEM NO.","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM"], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["IN NO.","MARKS","DESCRIPTION","ITEM NO.","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
 
             @shipment.orders.each do |order|
               order.order_items.each_with_index do |order_item, index|
-                sheet.add_row [order_item.order_id, @shipment.marks, order_item.product_name, order_item., order_item.'ssss']
+                sheet.add_row [order_item.order_id, @shipment.marks, order_item.product_name, order_item.id, order_item.color,order_item.quantity_per_unit,order_item.no_of_unit,order_item.item_total_volume,order_item.item_total_weight,order_item.item_price,order_item.item_total_price,order_item.weight_per_unit,order_item.item_total_weight,order_item.remarks]
               end
             end
           end
