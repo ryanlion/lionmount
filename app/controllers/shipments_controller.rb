@@ -43,12 +43,11 @@ class ShipmentsController < ApplicationController
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }
-          packing_list_book.add_worksheet(:name => "Packing List") do |sheet|
-            
-            sheet.add_row ["LION INTERNATIONAL TRADING  CO.,LTD"], :style => [horizontal_center_cell ]
+          packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
+            sheet.add_row ["LION INTERNATIONAL TRADING  CO.,LTD"], :style => [horizontal_center_cell ], :types => [:string]
             sheet.merge_cells("A1:S1")
             
-            sheet.add_row ["PACKING LIST"], :style => [horizontal_center_cell ]
+            sheet.add_row ["PACKING LIST"], :style => [horizontal_center_cell ], :types => [:string]
             sheet.merge_cells("A2:S2")
             
             sheet.add_row ["CLIENT","",@shipment.customer_name,"","PORT OF DISPATCH","","",@shipment.port_dispatch,"","","DATE","","",@shipment.doc_date]
@@ -59,7 +58,20 @@ class ShipmentsController < ApplicationController
 
             @shipment.orders.each do |order|
               order.order_items.each_with_index do |order_item, index|
-                sheet.add_row [order_item.order_id, @shipment.marks, order_item.product_name, order_item.id, order_item.color,order_item.quantity_per_unit,order_item.no_of_unit,order_item.item_total_volume,order_item.item_total_weight,order_item.item_price,order_item.item_total_price,order_item.weight_per_unit,order_item.item_total_weight,order_item.remarks]
+                sheet.add_row [order_item.order_id, @shipment.marks, 
+                  order_item.product_name, order_item.id, 
+                  order_item.color,order_item.quantity_per_unit,
+                  order_item.no_of_unit,order_item.item_total_volume,
+                  order_item.item_total_weight,order_item.item_price,
+                  order_item.item_total_price,order_item.weight_per_unit,
+                  order_item.item_total_weight,order_item.remarks]
+                  
+                  sheet.add_image(:image_src => img, :noSelect => true, :noMove => true) do |image|
+                    image.width=720
+                    image.height=666
+                    image.start_at 2, 2
+                  end
+
               end
             end
           end
