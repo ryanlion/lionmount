@@ -66,10 +66,12 @@ class ShipmentsController < ApplicationController
                   order_item.item_total_price,order_item.weight_per_unit,
                   order_item.item_total_weight,order_item.remarks]
                   
+                  img = File.expand_path("#{Rails.root}/public#{order_item.image.remote_url}", __FILE__)
                   sheet.add_image(:image_src => img, :noSelect => true, :noMove => true) do |image|
-                    image.width=720
-                    image.height=666
-                    image.start_at 2, 2
+                    
+                    image.width=100
+                    image.height=67
+                    image.start_at 0, 4
                   end
 
               end
