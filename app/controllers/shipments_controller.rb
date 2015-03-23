@@ -42,7 +42,7 @@ class ShipmentsController < ApplicationController
         packing_list_book = p.workbook
 
         packing_list_book.styles do |s|
-          horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }
+          horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
             sheet.add_row ["LION INTERNATIONAL TRADING  CO.,LTD"], :style => [horizontal_center_cell ], :types => [:string]
             sheet.merge_cells("A1:S1")
@@ -50,28 +50,31 @@ class ShipmentsController < ApplicationController
             sheet.add_row ["PACKING LIST"], :style => [horizontal_center_cell ], :types => [:string]
             sheet.merge_cells("A2:S2")
             
-            sheet.add_row ["CLIENT","",@shipment.customer_name,"","PORT OF DISPATCH","","",@shipment.port_dispatch,"","","DATE","","",@shipment.doc_date]
+            sheet.add_row ["CLIENT","",@shipment.customer_name,"","PORT OF DISPATCH","","",@shipment.port_dispatch,"","","DATE","","",@shipment.doc_date], :style => Axlsx::STYLE_THIN_BORDER
 
-            sheet.add_row ["MARKS","",@shipment.marks,"","PORT OF DESTINATION","","",@shipment.port_distination,"","","LOADING DATE","","",@shipment.loading_date]
+            sheet.add_row ["MARKS","",@shipment.marks,"","PORT OF DESTINATION","","",@shipment.port_distination,"","","LOADING DATE","","",@shipment.loading_date], :style => Axlsx::STYLE_THIN_BORDER
 
-            sheet.add_row ["IN NO.","MARKS","DESCRIPTION","ITEM NO.","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["IN NO.","MARKS","DESCRIPTION","","ITEM NO.","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("C5:D5")
 
             @shipment.orders.each do |order|
               order.order_items.each_with_index do |order_item, index|
-                sheet.add_row [order_item.order_id, @shipment.marks, 
+                sheet.add_row [order_item.order_id, @shipment.marks,"",
                   order_item.product_name, order_item.id, 
                   order_item.color,order_item.quantity_per_unit,
                   order_item.no_of_unit,order_item.item_total_volume,
                   order_item.item_total_weight,order_item.item_price,
                   order_item.item_total_price,order_item.weight_per_unit,
-                  order_item.item_total_weight,order_item.remarks]
+                  order_item.item_total_weight,order_item.remarks], :style => [horizontal_center_cell ]
+                  
+                  row_no = sheet.rows.length
                   
                   img = File.expand_path("#{Rails.root}/public#{order_item.image.remote_url}", __FILE__)
                   sheet.add_image(:image_src => img, :noSelect => true, :noMove => true) do |image|
                     
                     image.width=100
                     image.height=67
-                    image.start_at 0, 4
+                    image.start_at 2, row_no
                   end
 
               end
