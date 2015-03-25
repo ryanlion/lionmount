@@ -2,8 +2,9 @@
 alert('The photo could not be uploaded: <%= j @orderitem.errors.full_messages.join(', ').html_safe %>');
 <% else %>
 $(".uuid").each(function( i ) {
-if ( this.val()== "<%= @orderitem.itemUUID %>" ) {
-    var uuid = $(this).closest("img-td").html('<img src="<%= @orderitem.image.thumb('180x180#').url %>" class="img-thumbnail" alt="Smiley face" height="30" width="30">');
+if ( $(this).val()== "<%= @orderitem.itemUUID %>" ) {
+	alert($(this).closest("tr").find(".img-td").html());
+    $(this).closest("tr").find(".img-td").html('<img src="<%= @orderitem.image.thumb('180x180#').url %>" class="img-thumbnail" alt="Smiley face" height="30" width="30">');
     return;
 }
 });

@@ -1,3 +1,4 @@
+require "uuidtools"
 class OrderItemsController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     def update
@@ -11,7 +12,8 @@ class OrderItemsController < ApplicationController
     def create
       respond_to do |format|
         @orderitem = OrderItem.new 
-        @orderitem.itemUUID = params["uuid"]
+        
+        @orderitem.itemUUID = UUIDTools::UUID.timestamp_create.to_s
         @orderitem.order_id = params["order_id"]
         @orderitem.save
         
