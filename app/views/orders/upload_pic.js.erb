@@ -5,7 +5,7 @@ $(".uuid").each(function( i ) {
 $('#myModal').modal('hide');
 var uuid = "<%= @orderitem.itemUUID %>";
 if ( $(this).val()== uuid ) {
-   $(this).closest("tr").find(".img-td").html('<img src="<%=  @orderitem.image.thumb('180x180#').url %>" class="img-thumbnail" alt="Smiley face" height="30" width="30">');
+  $(this).closest("tr").find(".img-td").html('<a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img src="<%=  @orderitem.image.thumb('500x335#').url %>" class="img-thumbnail" alt="Smiley face" height="42" width="52"></a>');
    return;
 }
 });

@@ -1,3 +1,17 @@
+$(document).on('click','.show-pic',function(){
+  var img = $(this).find('img');
+  var tem_img = $('<img/>');
+  var src = img.attr('src');
+  tem_img.attr('src',src);
+  tem_img.attr('width','500');
+  tem_img.attr('height','335');
+
+  var div = $('<div></div>');
+  div.append(tem_img);
+  html = div.html();
+  $(this).popover({placement: 'bottom', content: html, html: true}) 
+})
+//not used anymore
 $(document).on('click','#add_row',function(){
   var itemUUID = uuid.v1({
       node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
