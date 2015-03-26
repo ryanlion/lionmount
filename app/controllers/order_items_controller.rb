@@ -21,6 +21,15 @@ class OrderItemsController < ApplicationController
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
     end
+    def destroy
+      respond_to do |format|
+        @orderitem = OrderItem.find(params[:id])
+        @orderitem.destroy
+     
+        format.js
+        format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
+      end
+    end
     def upload_pic
       respond_to do |format|
           @orderitem = OrderItem.find_by(id: params["order_item_id"])

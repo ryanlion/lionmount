@@ -1,4 +1,4 @@
-$(document).on('click','.show-pic',function(){
+$(document).on('mouseover','.show-pic',function(){
   var img = $(this).find('img');
   var tem_img = $('<img/>');
   var src = img.attr('src');
@@ -9,8 +9,8 @@ $(document).on('click','.show-pic',function(){
   var div = $('<div></div>');
   div.append(tem_img);
   html = div.html();
-  $(this).popover({placement: 'bottom', content: html, html: true}) 
-})
+  $(this).popover({placement: 'bottom', trigger: 'hover', content: html, html: true});
+});
 //not used anymore
 $(document).on('click','#add_row',function(){
   var itemUUID = uuid.v1({
