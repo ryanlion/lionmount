@@ -1,30 +1,26 @@
-$(document).on('mouseover','.show-pic',function(){
+$(document).on('click','.show-pic',function(){
   var img = $(this).find('img');
   var tem_img = $('<img/>');
   var src = img.attr('src');
   tem_img.attr('src',src);
-  tem_img.attr('width','500');
-  tem_img.attr('height','335');
+  tem_img.attr('width','250');
+  tem_img.attr('height','168');
 
   var div = $('<div></div>');
   div.append(tem_img);
   html = div.html();
-  $(this).popover({placement: 'bottom', trigger: 'hover', content: html, html: true});
+  $(this).popover({placement: 'right', trigger: 'click', content: html, html: true});
 });
-//not used anymore
-$(document).on('click','#add_row',function(){
-  var itemUUID = uuid.v1({
-      node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
-      clockseq: 0x1234,
-      msecs: new Date().getTime(),
-      nsecs: 5678
+$(document).on('click','#delete_row', function(){
+  $('.row-selector:checkbox:checked').each(function () {
+    $(this).closest("tr").remove();
   });
-  var order_id = $('#order-id').val();
+var order_id = $('#order-id').val();
   $.ajax({
-    url: 'orders/'+order_id+'/order_items',
-    type: 'post',
+    url: 'orders/'+order_id+'/order_items/delete_order_items',
+    type: 'delete',
     data: { 
-      "uuid" : itemUUID
+      "item_ids" : itemUUID
     },
     success: function(resp){
       var i=$('#edit-order-table >tbody >tr').length;
@@ -41,12 +37,6 @@ $(document).on('click','#add_row',function(){
       alert(resp);
     }
 
-  });
-  
-});
-$(document).on('click','#delete_row', function(){
-  $('.row-selector:checkbox:checked').each(function () {
-    $(this).closest("tr").remove();
   });
 });
 

@@ -35,9 +35,6 @@
   </table>
 </div>
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
- <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
-<a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
-<a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info">Save</a>
 </div>
 </form>
 <input type="hidden" id="order-id" value="<%= @order.id %>">
@@ -68,3 +65,12 @@
         </div>
     </div>
 </div>
+<nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:20px;">
+  <div class="container-fluid">
+    <div>
+          <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
+          <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
+          <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info">Save</a>
+    </div>
+  </div>
+</nav>

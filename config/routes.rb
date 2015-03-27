@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       post :upload_pic
     end
     resources :order_items do
+        collection do
+          delete :delete_order_items
+        end
         member do
         end
     end
