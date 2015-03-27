@@ -12,26 +12,24 @@ $(document).on('click','.show-pic',function(){
   $(this).popover({placement: 'right', trigger: 'click', content: html, html: true});
 });
 $(document).on('click','#delete_row', function(){
+  var ids = "";
   $('.row-selector:checkbox:checked').each(function () {
-    $(this).closest("tr").remove();
+    ids = ids + '"' +$(this).closest("tr").find(".id").val() + '"';
+   	//$(this).closest("tr").remove();
   });
-var order_id = $('#order-id').val();
+  ids = "["+ ids + "]";
+	var order_id = $('#order-id').val();
+	
   $.ajax({
-    url: 'orders/'+order_id+'/order_items/delete_order_items',
+    url: '/orders/'+order_id+'/order_items/delete_order_items',
     type: 'delete',
     data: { 
-      "item_ids" : itemUUID
+      "item_ids" : ids
     },
     success: function(resp){
-      var i=$('#edit-order-table >tbody >tr').length;
-      $('#edit-order-table > tbody:last').append('<tr id="addr'+(i+1)+'"></tr>');
-      $('#addr'+(i+1)).html("<td><input class='row-selector' type='checkbox'/></td>"
-        +"<td>"+ (i+1) +"<input name='order_items["+i+"].itemUUID' type='hidden' class='uuid' value='"+itemUUID+"' >"
-        +"<button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>"
-        +"<input name='order_items["+i+"].id' type='hidden' class='id' value='"+resp+"' ></td>"
-        + "<td><input name='order_items["+i+"].product_name' type='text' placeholder='Name' class='form-control input-md'  /> </td>"
-        + "<td class='img-td'></td>"
-        + "<td><input  name='order_items["+i+"].packing' type='text' placeholder='packing'  class='form-control input-md'></td>");
+	  $('.row-selector:checkbox:checked').each(function () {
+	   	$(this).closest("tr").remove();
+	  });    
     },
     error: function(resp){
       alert(resp);

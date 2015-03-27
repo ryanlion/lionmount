@@ -30,6 +30,10 @@ class OrderItemsController < ApplicationController
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
     end
+    def delete_order_items
+      byebug
+      render :text => "success"
+    end
     def upload_pic
       respond_to do |format|
           @orderitem = OrderItem.find_by(id: params["order_item_id"])
