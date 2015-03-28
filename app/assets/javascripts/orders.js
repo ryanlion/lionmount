@@ -14,10 +14,9 @@ $(document).on('click','.show-pic',function(){
 $(document).on('click','#delete_row', function(){
   var ids = "";
   $('.row-selector:checkbox:checked').each(function () {
-    ids = ids + '"' +$(this).closest("tr").find(".id").val() + '"';
-   	//$(this).closest("tr").remove();
+    ids = ids + '"' +$(this).closest("tr").find(".id").val() + '",';
   });
-  ids = "["+ ids + "]";
+  ids = '{"idarr":['+ ids.substring(0,ids.length-1) + ']}';
 	var order_id = $('#order-id').val();
 	
   $.ajax({
@@ -32,7 +31,7 @@ $(document).on('click','#delete_row', function(){
 	  });    
     },
     error: function(resp){
-      alert(resp);
+      alert('error');
     }
 
   });

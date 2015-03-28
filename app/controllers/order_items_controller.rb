@@ -1,4 +1,5 @@
 require "uuidtools"
+require 'json'
 class OrderItemsController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     def update
@@ -30,8 +31,12 @@ class OrderItemsController < ApplicationController
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
     end
-    def delete_order_items
-      byebug
+    def delete_order_items      
+      items = JSON.parse(params["item_ids"])
+      items["idarr"].each do |id|
+        @orderitem = OrderItem.find(id)
+        @orderitem.destroy
+      end
       render :text => "success"
     end
     def upload_pic
