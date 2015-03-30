@@ -70,6 +70,7 @@
     <div>
           <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
           <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
+          <%= link_to "Move Rows to",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
           <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info">Save</a>
     </div>
   </div>

@@ -28,13 +28,21 @@ $(document).on('click','#delete_row', function(){
     success: function(resp){
 	  $('.row-selector:checkbox:checked').each(function () {
 	   	$(this).closest("tr").remove();
-	  });    
+	  });
     },
     error: function(resp){
       alert('error');
     }
 
   });
+});
+$(document).on('click','#edit-order-table tr', function(){
+  $checkbox = $(this).find('.row-selector');
+  if($checkbox.prop("checked")){
+  	$checkbox.prop("checked",false);
+  }else{
+  	$checkbox.prop("checked",true);
+  }
 });
 
 $(document).on('click','#save_order', function(){
