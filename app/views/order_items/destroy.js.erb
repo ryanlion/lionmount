@@ -1,0 +1,11 @@
+<% if @orderitem.destroyed? %>
+ 	var uuid = "<%= @orderitem.itemUUID %>";
+ 	$(".uuid").each(function( i ) {
+		if ( $(this).val()== uuid ) {
+			  $(this).closest("tr").remove();
+			   return;
+			}
+	});
+<% else %>
+	alert('The row could not be deleted! ');
+<% end %>
