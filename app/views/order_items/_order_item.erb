@@ -2,7 +2,6 @@
 	  <td><input class='row-selector' readonly="true" type='checkbox'/></td>
 	  <td>
 	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
-	    <button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
 	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
 	  </td>
 	  <td><input name='order_items[]product_name' type='text' placeholder='Name' class='form-control input-md' value='<%= orderitem.product_name%>'/></td>
@@ -23,6 +22,7 @@
 	  <td><input  name='order_items[]item_total_price' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_price %>'></td>
 	  <td><input  name='order_items[]item_total_volume' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_volume %>'></td>
 	  <td><input  name='order_items[]remarks' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.remarks %>'></td>
-	  <td><%= link_to 'Delete', order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger", method: :delete, remote: true %></td>
+	  <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
+	  	<%= link_to 'Delete', order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger btn-xs", method: :delete, remote: true %></td>
 
 	</tr>
