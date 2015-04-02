@@ -1,7 +1,8 @@
 	<tr>
 	  <td><input class='row-selector' readonly="true" type='checkbox'/></td>
 	  <td>
-	  	<% unless index.nil? %>
+	  	<%byebug%>
+	  	<% unless defined?(index).nil? %>
 	  		<p><%= index %></p>
 	  	<% end %>
 	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
@@ -28,5 +29,4 @@
 	  <td><input  name='order_items[]remarks' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.remarks %>'></td>
 	  <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
 	  	<%= link_to 'Delete', order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger btn-xs", method: :delete, remote: true %></td>
-
 	</tr>

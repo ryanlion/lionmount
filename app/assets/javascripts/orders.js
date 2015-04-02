@@ -44,7 +44,14 @@ $(document).on('click','#edit-order-table tr', function(){
   	$checkbox.prop("checked",true);
   }
 });
-
+$(document).on('click','#moverow', function(){
+  $checkbox = $(this).find('.row-selector');
+  if($checkbox.prop("checked")){
+  	$checkbox.prop("checked",false);
+  }else{
+  	$checkbox.prop("checked",true);
+  }
+});
 $(document).on('click','#save_order', function(){
   var $this = $(this);
   var url = $this.data("rc-url");
