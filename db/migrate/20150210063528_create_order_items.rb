@@ -5,7 +5,7 @@ class CreateOrderItems < ActiveRecord::Migration
       t.string :itemUUID
       t.string :order_id
       t.string :product_name
-      t.string :packing
+      t.string :sorting
       t.string :image_uid
       t.string :title
       t.string :weight_per_product

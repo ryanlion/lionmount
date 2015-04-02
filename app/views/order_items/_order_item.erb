@@ -1,8 +1,12 @@
 	<tr>
 	  <td><input class='row-selector' readonly="true" type='checkbox'/></td>
 	  <td>
+	  	<% unless index.nil? %>
+	  		<p><%= index %></p>
+	  	<% end %>
 	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
 	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
+	    <input name='order_items[]sorting' type='hidden' class='sorting' >
 	  </td>
 	  <td><input name='order_items[]product_name' type='text' placeholder='Name' class='form-control input-md' value='<%= orderitem.product_name%>'/></td>
 	  <td class='img-td'>
