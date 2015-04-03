@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
         order_items.each do |order_item|
           @order_item = OrderItem.find_by(id: order_item["id"])
           @order_item.product_name = order_item["product_name"]
-          @order_item.packing = order_item["packing"]
+          @order_item.sorting = order_item["sorting"]
           @order_item.itemUUID = order_item["itemUUID"]
           @order_item.weight_per_product = order_item["weight_per_product"]
           @order_item.color = order_item["color"]

@@ -71,7 +71,7 @@
           <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
           <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
           <form class="navbar-form navbar-left" style="margin: 0">
-	        <%= link_to "Move Rows to",  order_order_items_path(@order.id), class: "btn btn-default pull-left moverow",method: :post, remote: true %>
+            <a class="btn btn-default pull-left moverow">Move Row After</a>
 	        <div class="form-group">
     	      <input id='rowno' type='text' placeholder='rowno' style="width: 60px" class='form-control input-md' />
 	        </div>	        

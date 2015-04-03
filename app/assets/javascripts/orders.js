@@ -44,13 +44,12 @@ $(document).on('click','#edit-order-table tr', function(){
   	$checkbox.prop("checked",true);
   }
 });
-$(document).on('click','#moverow', function(){
-  $checkbox = $(this).find('.row-selector');
-  if($checkbox.prop("checked")){
-  	$checkbox.prop("checked",false);
-  }else{
-  	$checkbox.prop("checked",true);
-  }
+$(document).on('click','.moverow', function(){
+  var rowno = $('#rowno').val();
+  $('.row-selector:checkbox:checked').each(function () {
+    var row=$('tr:eq('+ parseInt(rowno) +2 +')', $('#edit-order-table'));
+    row.insertBefore($(this).closest("tr"));
+  });
 });
 $(document).on('click','#save_order', function(){
   var $this = $(this);

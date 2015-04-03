@@ -1,9 +1,10 @@
 	<tr>
 	  <td><input class='row-selector' readonly="true" type='checkbox'/></td>
 	  <td>
-	  	<%byebug%>
 	  	<% unless defined?(index).nil? %>
-	  		<p><%= index %></p>
+	  		<p id='sorting_text'><%= index %></p>
+      <% else %>
+	  		<p id='sorting_text'></p>
 	  	<% end %>
 	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
 	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
