@@ -22,10 +22,8 @@
         <th>Remarks</th>
         <th>Actions</th>
       </tr>
-    </thead>
-    
+    </thead>    
     <tbody>
-
         <% unless @orderitems.nil? %>
       <% @orderitems.each_with_index do |orderitem, index| %>
         <%= render 'order_items/order_item',orderitem: orderitem,index: index %>
