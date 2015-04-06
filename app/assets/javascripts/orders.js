@@ -48,10 +48,9 @@ $(document).on('click','.moverow', function(){
   var rowno = $('#rowno').val();
   $('.row-selector:checkbox:checked').each(function () {
     rowno = parseInt(rowno) + 1;
-    var row=$('#edit-order-table tr:eq('+ rowno +')');
-    alert($(this).closest("tr").html());
-    row.insertBefore($(this).closest("tr"));
-    $(this).remove();
+    var rowtomove=$('#edit-order-table tr:eq('+ rowno +')');
+    var row = $(this).closest("tr");
+    row.insertAfter(rowtomove);
   });
 });
 $(document).on('click','#save_order', function(){
