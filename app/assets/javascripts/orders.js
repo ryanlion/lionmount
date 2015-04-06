@@ -47,8 +47,11 @@ $(document).on('click','#edit-order-table tr', function(){
 $(document).on('click','.moverow', function(){
   var rowno = $('#rowno').val();
   $('.row-selector:checkbox:checked').each(function () {
-    var row=$('tr:eq('+ parseInt(rowno) +2 +')', $('#edit-order-table'));
+    rowno = parseInt(rowno) + 1;
+    var row=$('#edit-order-table tr:eq('+ rowno +')');
+    alert($(this).closest("tr").html());
     row.insertBefore($(this).closest("tr"));
+    $(this).remove();
   });
 });
 $(document).on('click','#save_order', function(){
