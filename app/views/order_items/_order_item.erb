@@ -29,5 +29,6 @@
 	  <td><input  name='order_items[]item_total_volume' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.item_total_volume %>'></td>
 	  <td><input  name='order_items[]remarks' type='text' placeholder='packing'  class='form-control input-md' value='<%= orderitem.remarks %>'></td>
 	  <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
-	  	<%= link_to 'Delete', order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger btn-xs", method: :delete, remote: true %></td>
+      <%= link_to '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'.html_safe, order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger btn-xs", method: :delete, remote: true %>
+      <%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe, order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-default btn-xs", method: :delete, remote: true %></td>
 	</tr>
