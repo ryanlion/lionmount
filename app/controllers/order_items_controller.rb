@@ -18,6 +18,9 @@ class OrderItemsController < ApplicationController
         @orderitem.order_id = params["order_id"]
         @orderitem.save
         
+        unless params[:rowno].nil?
+          @rowno = params[:rowno]
+        end
         format.js
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end

@@ -54,7 +54,7 @@ $(document).on('click','.moverow', function(){
   });
   $('.sorting').each(function(index) {
     $(this).val(index);
-    $(this).closest('tr').find('.sorting_text').html(index)
+    $(this).closest('tr').find('.sorting_text').html(index);
   });
 });
 $(document).on('click','#save_order', function(){
