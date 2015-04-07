@@ -25,7 +25,7 @@ class OrdersController < ApplicationController
     end
     def edit
       @order = Order.find_by(id: params["id"])
-      @orderitems = OrderItem.where(order_id: params["id"])
+      @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
     end
     def create
       @order = Order.new order_params

@@ -52,6 +52,10 @@ $(document).on('click','.moverow', function(){
     var row = $(this).closest("tr");
     row.insertAfter(rowtomove);
   });
+  $('.sorting').each(function(index) {
+    $(this).val(index);
+    $(this).closest('tr').find('.sorting_text').html(index)
+  });
 });
 $(document).on('click','#save_order', function(){
   var $this = $(this);
@@ -66,7 +70,6 @@ $(document).on('click','#save_order', function(){
     error: function(resp){
       alert(resp);
     }
-
   });
 });
 $(document).on("change", ".file-upload", function () {
