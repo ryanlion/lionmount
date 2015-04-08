@@ -15,9 +15,8 @@ class OrderItemsController < ApplicationController
         @orderitem = OrderItem.new 
         @orderitem.itemUUID = UUIDTools::UUID.timestamp_create.to_s
         @orderitem.order_id = params["order_id"]
-        debugger
         unless params[:rowno].nil?
-          @rowno = OrderItem.find(params[:rowno]).sorting.to_i+1
+          @rowno = OrderItem.find(params[:rowno]).sorting.to_i
         else
           @rowno = 1
         end

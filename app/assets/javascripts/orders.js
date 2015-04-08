@@ -72,6 +72,20 @@ $(document).on('click','#save_order', function(){
     }
   });
 });
+$(document).on('click','#save_order_invisible', function(){
+  var $this = $(this);
+  var url = $this.data("rc-url");
+  $.ajax({
+    url: url,
+    type: 'PUT',
+    data: $("#order-form").serialize(),
+    success: function(html){
+    },
+    error: function(resp){
+      alert(resp);
+    }
+  });
+});
 $(document).on("change", ".file-upload", function () {
   var uuid = $(this).closest("tr").find(".uuid").val();
   var order_item_id = $(this).closest("tr").find(".id").val();
