@@ -36,13 +36,16 @@ $(document).on('click','#delete_row', function(){
 
   });
 });
-$(document).on('click','#edit-order-table tr', function(){
+$(document).on('click','#edit-order-table tr td', function(){
   $checkbox = $(this).find('.row-selector');
   if($checkbox.prop("checked")){
   	$checkbox.prop("checked",false);
   }else{
   	$checkbox.prop("checked",true);
   }
+});
+$(document).on('click','.row-selector', function(event){
+  event.preventDefault();
 });
 $(document).on('click','.moverow', function(){
   var rowno = $('#rowno').val();
@@ -56,6 +59,7 @@ $(document).on('click','.moverow', function(){
     $(this).val(index);
     $(this).closest('tr').find('.sorting_text').html(index);
   });
+  $('#save_order_invisible').click();
 });
 $(document).on('click','#save_order', function(){
   var $this = $(this);
