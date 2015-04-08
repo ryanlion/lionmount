@@ -1,7 +1,21 @@
 <% if @orderitem.id.nil? %>
   alert('The row could not be added! ');
 <% else %>
-  $('#edit-order-table > tbody').append("<%= j (render 'order_item',orderitem: @orderitem) %>");
-  $('#edit-order-table > tbody >tr:last').find('.sorting_text').html($('#edit-order-table > tbody >tr').length-1);
-  $('#edit-order-table > tbody >tr:last').find('.sorting').val($('#edit-order-table > tbody >tr').length-1);
+  <% if @rowno.nil? %>
+    $('#edit-order-table > tbody').append("<%= j (render 'order_item',orderitem: @orderitem) %>");
+    $('#edit-order-table > tbody >tr:last').find('.sorting_text').html($('#edit-order-table > tbody >tr').length);
+    $('#edit-order-table > tbody >tr:last').find('.sorting').val($('#edit-order-table > tbody >tr').length);
+  <% else %>
+    $('#edit-order-table > tbody').append("<%= j (render 'order_item',orderitem: @orderitem) %>");
+    var rowno = '<%= @rowno %>';
+    var rownoInt = parseInt(rowno);
+    var row=$('#edit-order-table tr:eq('+ rownoInt +')');
+    var rowtomove = $('#edit-order-table  tbody tr:last');
+    row.insertAfter(rowtomove);
+    $('.sorting').each(function(index) {
+      $(this).val(index+1);
+      $(this).closest('tr').find('.sorting_text').html(index+1);
+    });
+    $("#save_order").click();
+  <% end %>
 <% end %>

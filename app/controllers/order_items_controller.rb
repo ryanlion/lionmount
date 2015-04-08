@@ -13,14 +13,16 @@ class OrderItemsController < ApplicationController
     def create
       respond_to do |format|
         @orderitem = OrderItem.new 
-        
         @orderitem.itemUUID = UUIDTools::UUID.timestamp_create.to_s
         @orderitem.order_id = params["order_id"]
+        debugger
+        unless params[:rowno].nil?
+          @rowno = OrderItem.find(params[:rowno]).sorting.to_i+1
+        else
+          @rowno = 1
+        end
         @orderitem.save
         
-        unless params[:rowno].nil?
-          @rowno = params[:rowno]
-        end
         format.js
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
