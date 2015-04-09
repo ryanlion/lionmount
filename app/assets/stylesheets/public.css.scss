@@ -1,2 +1,18 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+// public.css.scss
+
+text-no-padding {
+    font-size: 15px !important;
+    padding: 1px !important;
+}
+input.form-fixer {
+    padding: 1px;
+    font-size: 11px;
+}
+
+.form-horizontal .form-group input, 
+.form-horizontal .form-group select,
+.form-horizontal .form-group label
+ { 
+    height: 14px;
+    line-height: 14px;
+}
