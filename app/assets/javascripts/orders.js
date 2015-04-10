@@ -1,4 +1,41 @@
-$(document).on('ready page:load', function () {
+//item total weight
+$(document).on('change','.product_weight', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
+	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
+});
+$(document).on('change','.quantity_per_unit', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
+	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
+});
+
+//item toal price 
+$(document).on('change','.quantity_per_unit', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var item_price = $(this).closest("tr").find(".item_price").val();
+	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
+	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+});
+$(document).on('change','.item_price', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var item_price = $(this).closest("tr").find(".item_price").val();
+	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
+	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+});
+$(document).on('change','.no_of_unit', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var item_price = $(this).closest("tr").find(".item_price").val();
+	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
+	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+});
+
+
+
+$(document).on('change','.quantity_per_unit', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
+	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
 });
 $(document).on('click','.show-pic',function(){
   var img = $(this).find('img');
