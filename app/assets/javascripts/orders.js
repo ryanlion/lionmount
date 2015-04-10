@@ -1,42 +1,84 @@
-//item total weight
+//weight per unit
 $(document).on('change','.product_weight', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
 	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
-	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
+	$(this).closest("tr").find(".weight_per_unit").val(precise_round(weight_per_unit,2));
 });
 $(document).on('change','.quantity_per_unit', function () {
-	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
-	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
-	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
+	var product_weight = $(this).closest("tr").find(".product_weight").val();
+	var weight_per_unit = parseFloat($(this).val())*parseFloat(product_weight);
+	$(this).closest("tr").find(".weight_per_unit").val(precise_round(weight_per_unit,2));
 });
 
-//item toal price 
+//item total price 
 $(document).on('change','.quantity_per_unit', function () {
-	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
 	var item_price = $(this).closest("tr").find(".item_price").val();
-	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
-	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+	var item_total_price = parseFloat($(this).val())*parseFloat(no_of_unit)*parseFloat(item_price);
+	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 $(document).on('change','.item_price', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
-	var item_price = $(this).closest("tr").find(".item_price").val();
-	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
-	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
+	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(no_of_unit);
+	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 $(document).on('change','.no_of_unit', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
 	var item_price = $(this).closest("tr").find(".item_price").val();
 	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
-	$(this).closest("tr").find(".item_total_price").val(item_total_price);
+	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 
-
-
+//item total weight
 $(document).on('change','.quantity_per_unit', function () {
-	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
-	var weight_per_unit = parseFloat($(this).val())*parseFloat(quantity_per_unit);
-	$(this).closest("tr").find(".weight_per_unit").val(weight_per_unit);
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
+	var product_weight = $(this).closest("tr").find(".product_weight").val();
+	var item_total_weight = parseFloat($(this).val())*parseFloat(no_of_unit)*parseFloat(product_weight);
+	$(this).closest("tr").find(".item_total_weight").val(precise_round(item_total_weight,2));
 });
+$(document).on('change','.product_weight', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
+	var item_total_weight = parseFloat($(this).val())*parseFloat(no_of_unit)*parseFloat(quantity_per_unit);
+	$(this).closest("tr").find(".item_total_weight").val(precise_round(item_total_weight,2));
+});
+$(document).on('change','.no_of_unit', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var product_weight = $(this).closest("tr").find(".product_weight").val();
+	var item_total_weight = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(product_weight);
+  alert(precise_round(item_total_weight,2));
+	$(this).closest("tr").find(".item_total_weight").val(precise_round(item_total_weight,2));
+});
+//volume per item
+$(document).on('change','.volume_per_unit', function () {
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
+	var item_total_volume = parseFloat($(this).val())*parseFloat(no_of_unit);
+	$(this).closest("tr").find(".item_total_volume").val(precise_round(item_total_volume,2));
+});
+$(document).on('change','.no_of_unit', function () {
+	var volume_per_unit = $(this).closest("tr").find(".volume_per_unit").val();
+	var item_total_volume = parseFloat($(this).val())*parseFloat(volume_per_unit);
+	$(this).closest("tr").find(".item_total_volume").val(precise_round(item_total_volume,2));
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).on('click','.show-pic',function(){
   var img = $(this).find('img');
   var tem_img = $('<img/>');
@@ -165,3 +207,8 @@ $(document).on('click','.upload-icon', function(){
     keyboard: true
   });
 }); 
+
+
+function precise_round(num,decimals){
+return Math.round(num*Math.pow(10,decimals))/Math.pow(10,decimals);
+}
