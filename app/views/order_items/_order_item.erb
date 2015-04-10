@@ -16,7 +16,7 @@
         <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="42" width="52" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
 	  	<% end %>
 	  </td>
-	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer' value='<%= orderitem.weight_per_product %>'></td>
+	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>
 	  <td><input name='order_items[]color' type='text' placeholder=''  class='form-control input-sm form-fixer' value='<%= orderitem.color %>'></td>
 	  <td><input name='order_items[]quantity_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer' value='<%= orderitem.quantity_per_unit %>'></td>
 	  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer' value='<%= orderitem.item_price %>'></td>

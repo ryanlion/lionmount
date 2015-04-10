@@ -1,3 +1,5 @@
+$(document).on('ready page:load', function () {
+});
 $(document).on('click','.show-pic',function(){
   var img = $(this).find('img');
   var tem_img = $('<img/>');
@@ -44,8 +46,12 @@ $(document).on('click','#edit-order-table tr td', function(){
   	$checkbox.prop("checked",true);
   }
 });
-$(document).on('click','.row-selector', function(event){
-  event.preventDefault();
+$(document).on('load','#edit-order-table', function(){
+  alert(1);
+  $('.row-selector').unbind('click');
+});
+$(document).on('click','.row-selector', function(e){
+  e.preventDefault();
 });
 $(document).on('click','.moverow', function(){
   var rowno = $('#rowno').val();

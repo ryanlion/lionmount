@@ -22,3 +22,6 @@
 //= require bootstrap/modal
 //= require public
 //= require jquery.remotipart
+//= require jquery.validate.min
+//= require parsley-2.0.0.remote
+//= require parsley-2.0.0
