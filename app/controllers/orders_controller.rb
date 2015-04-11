@@ -13,6 +13,7 @@ class OrdersController < ApplicationController
           @order_item.quantity_per_unit = order_item["quantity_per_unit"]
           @order_item.item_price = order_item["item_price"]
           @order_item.unit = order_item["unit"]
+          @order_item.no_of_unit = order_item["no_of_unit"]
           @order_item.volume_per_unit = order_item["volume_per_unit"]
           @order_item.item_total_weight = order_item["item_total_weight"]
           @order_item.weight_per_unit = order_item["weight_per_unit"]
@@ -21,6 +22,12 @@ class OrdersController < ApplicationController
           @order_item.remarks = order_item["remarks"]
           @order_item.save
         end
+        @order = Order.find_by(id: params["id"])
+        @order.total_price = params["order_total_price"]
+        @order.total_weight = params["order_total_weight"]
+        @order.total_volume = params["order_total_volume"]
+        @order.save
+
         render :text => "success"
     end
     def edit

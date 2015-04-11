@@ -33,6 +33,9 @@
   </table>
 </div>
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+<input type="hidden" name="order_total_weight" id="order_total_weight" value="<%= @order.total_weight %>"/>
+<input type="hidden" name="order_total_volume" id="order_total_volume" value="<%= @order.total_volume %>"/>
+<input type="hidden" name="order_total_price" id="order_total_price" value="<%= @order.total_price %>"/>
 </div>
 </form>
 <input type="hidden" id="order-id" value="<%= @order.id %>">
@@ -76,9 +79,9 @@
 	      </form>
           <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="navbar-right btn btn-info">Save</a>
           <a id='save_order_invisible' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info" style="display: none;">#</a>
-          <p class="navbar-text navbar-right small" style="margin: 5px">Total Price: <span class="badge alert-info order_total_price">&nbsp;&nbsp;</span></p>
-          <p class="navbar-text navbar-right small" style="margin: 5px">Total Weight: <span class="badge alert-info order_total_weight">&nbsp;&nbsp;</span></p>
-          <p class="navbar-text navbar-right small" style="margin: 5px">Total Volume: <span class="badge alert-info order_total_volume">&nbsp;&nbsp;</span></p>
+          <p class="navbar-text navbar-right small" style="margin: 5px">Total Price: <span class="badge alert-info order_total_price"><%= @order.total_price.nil? ? "&nbsp;&nbsp;".html_safe : @order.total_price %></span></p>
+          <p class="navbar-text navbar-right small" style="margin: 5px">Total Weight: <span class="badge alert-info order_total_weight"><%= @order.total_weight.nil? ? "&nbsp;&nbsp;".html_safe : @order.total_weight %></span></p>
+          <p class="navbar-text navbar-right small" style="margin: 5px">Total Volume: <span class="badge alert-info order_total_volume"><%= @order.total_volume.nil? ? "&nbsp;&nbsp;".html_safe : @order.total_volume %></span></p>
     </div>
   </div>
 </nav>

@@ -87,6 +87,9 @@ $(document).on('change','body', function () {
   $('.order_total_price').html(precise_round(total_price,2));
   $('.order_total_weight').html(precise_round(total_weight,2));
   $('.order_total_volume').html(precise_round(total_volume,2));
+  $('#order_total_price').val(precise_round(total_price,2));
+  $('#order_total_weight').val(precise_round(total_weight,2));
+  $('#order_total_volume').val(precise_round(total_volume,2));
 });
 
 
