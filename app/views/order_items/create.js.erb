@@ -10,10 +10,8 @@
     var rowno = '<%= @rowno %>';
     var rownoInt = parseInt(rowno);
     var rowtomove=$('#edit-order-table tr:eq('+ rownoInt +')');
-        alert(rowtomove.html());
     var row = $('#edit-order-table  tbody tr:last');
     row.insertAfter(rowtomove);
-    alert(row.html());
     $('.sorting').each(function(index) {
       $(this).val(index+1);
       $(this).closest('tr').find('.sorting_text').html(index+1);
