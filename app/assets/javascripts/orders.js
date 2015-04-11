@@ -47,7 +47,6 @@ $(document).on('change','.no_of_unit', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
 	var product_weight = $(this).closest("tr").find(".product_weight").val();
 	var item_total_weight = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(product_weight);
-  alert(precise_round(item_total_weight,2));
 	$(this).closest("tr").find(".item_total_weight").val(precise_round(item_total_weight,2));
 });
 //volume per item
@@ -62,15 +61,33 @@ $(document).on('change','.no_of_unit', function () {
 	$(this).closest("tr").find(".item_total_volume").val(precise_round(item_total_volume,2));
 });
 
-
-
-
-
-
-
-
-
-
+//calculate sum
+$(document).on('change','body', function () {
+  var total_price = 0.0;
+  var total_weight = 0.0;
+  var total_volume = 0.0;
+	$('.item_total_price').each(function () {
+    if($(this).val() != ''){
+      var item_total_price = parseFloat($(this).val());
+      total_price = total_price + item_total_price;
+    }
+  });
+	$('.item_total_weight').each(function () {
+    if($(this).val() != ''){
+      var item_total_weight = parseFloat($(this).val());
+      total_weight = total_weight + item_total_weight;
+    }
+  });
+	$('.item_total_volume').each(function () {
+    if($(this).val() != ''){
+      var item_total_volume = parseFloat($(this).val());
+      total_volume = total_volume + item_total_volume;
+    }
+  });
+  $('.order_total_price').html(precise_round(total_price,2));
+  $('.order_total_weight').html(precise_round(total_weight,2));
+  $('.order_total_volume').html(precise_round(total_volume,2));
+});
 
 
 
@@ -126,7 +143,6 @@ $(document).on('click','#edit-order-table tr td', function(){
   }
 });
 $(document).on('load','#edit-order-table', function(){
-  alert(1);
   $('.row-selector').unbind('click');
 });
 $(document).on('click','.row-selector', function(e){
