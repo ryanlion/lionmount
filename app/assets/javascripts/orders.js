@@ -153,15 +153,15 @@ $(document).on('click','.row-selector', function(e){
 });
 $(document).on('click','.moverow', function(){
   var rowno = $('#rowno').val();
+  rowno = parseInt(rowno);
+  var rowtomove=$('#edit-order-table tr:eq('+ rowno +')');
   $('.row-selector:checkbox:checked').each(function () {
-    rowno = parseInt(rowno) + 1;
-    var rowtomove=$('#edit-order-table tr:eq('+ rowno +')');
     var row = $(this).closest("tr");
     row.insertAfter(rowtomove);
   });
   $('.sorting').each(function(index) {
-    $(this).val(index);
-    $(this).closest('tr').find('.sorting_text').html(index);
+    $(this).val(index+1);
+    $(this).closest('tr').find('.sorting_text').html(index+1);
   });
   $('#save_order_invisible').click();
 });
