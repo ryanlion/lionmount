@@ -94,7 +94,10 @@ $(document).on('change','body', function () {
 
 
 
-
+$(document).on('ready page:load', function () {
+	$('td').addClass( "nopadding" );
+	$('.parsley-errors-list').addClass( "nopadding" );
+});
 
 
 
@@ -129,6 +132,11 @@ $(document).on('click','#delete_row', function(){
     success: function(resp){
 	  $('.row-selector:checkbox:checked').each(function () {
 	   	$(this).closest("tr").remove();
+	   	$('.sorting').each(function(index) {
+	      $(this).val(index+1);
+	      $(this).closest('tr').find('.sorting_text').html(index+1);
+	    });
+	  	$("#save_order_invisible").click();
 	  });
     },
     error: function(resp){

@@ -17,8 +17,6 @@ class OrderItemsController < ApplicationController
         @orderitem.order_id = params["order_id"]
         unless params[:rowno].nil?
           @rowno = OrderItem.find(params[:rowno]).sorting.to_i
-        else
-          @rowno = 1
         end
         @orderitem.save
         

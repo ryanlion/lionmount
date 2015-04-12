@@ -6,6 +6,11 @@
 			   return;
 			}
 	});
+	$('.sorting').each(function(index) {
+      $(this).val(index+1);
+      $(this).closest('tr').find('.sorting_text').html(index+1);
+    });
+  	$("#save_order_invisible").click();
 <% else %>
 	alert('The row could not be deleted! ');
 <% end %>
