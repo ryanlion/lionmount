@@ -6,6 +6,11 @@ class CreateOrders < ActiveRecord::Migration
       t.string :total_weight
       t.string :total_volume
       t.string :total_price
+      t.string :supplier_english_name
+      t.string :supplier_address
+      t.string :supplier_contact_person
+      t.string :supplier_contact_no
+      t.string :supplier_email
 
       t.timestamps
     end

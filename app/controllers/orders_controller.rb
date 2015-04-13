@@ -43,7 +43,8 @@ class OrdersController < ApplicationController
       @orders = Order.all 
     end
     def order_params
-      params.require(:order).permit(:customer_name, :supplier_name)
+      params.require(:order).permit(:customer_name, :supplier_name,:supplier_english_name,
+        :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email)
     end
     def order_xlsx
       @order = Order.find_by(id: params[:id])
