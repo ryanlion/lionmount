@@ -21,7 +21,8 @@
 <td class="col-md-2"><%= shipment.status %></td>
 <td class="col-md-2"><%= shipment.created_at %></td>
 <td class="col-md-2"><%= shipment.updated_at %></td>
-<td class="col-md-4"><%= link_to 'Generate Packing List', packing_list_shipment_path(shipment.id) , class: "btn btn-sm btn-info", method: :post %><%= link_to 'Shipment Details', edit_shipment_path(shipment.id) , class: "btn btn-sm btn-info", method: :get %></td>
+<td class="col-md-4"><%= link_to 'Generate Packing List', packing_list_shipment_path(shipment.id) , class: "btn btn-sm btn-info", method: :post %>
+	<%= link_to 'Shipment Details', edit_shipment_path(shipment.id) , class: "btn btn-sm btn-info", method: :get %></td>
 </tr>
 <% end %>
 </tbody>

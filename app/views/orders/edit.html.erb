@@ -77,7 +77,8 @@
     	      <input id='rowno' type='text' placeholder='rowno' style="width: 60px" class='form-control input-md' />
 	        </div>	        
 	      </form>
-          <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="navbar-right btn btn-info">Save</a>
+          <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="navbar-right btn btn-info">Save</a>          
+          <%= link_to 'XLSX', order_xlsx_order_path(@order.id)  , class: "navbar-right btn btn-info", method: :post %>
           <a id='save_order_invisible' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info" style="display: none;">#</a>
           <p class="navbar-text navbar-right small" style="margin: 5px">Total Price: <span class="badge alert-info order_total_price"><%= @order.total_price.nil? ? "&nbsp;&nbsp;".html_safe : @order.total_price %></span></p>
           <p class="navbar-text navbar-right small" style="margin: 5px">Total Weight: <span class="badge alert-info order_total_weight"><%= @order.total_weight.nil? ? "&nbsp;&nbsp;".html_safe : @order.total_weight %></span></p>
