@@ -82,21 +82,21 @@ class OrdersController < ApplicationController
             sheet.merge_cells("F5:J5")
             sheet.merge_cells("L5:N5")
 
-            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","",@order.email,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","",@order.supplier_email,"",""], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("B6:D6")
             sheet.merge_cells("F4:J6")
             sheet.merge_cells("F6:J6")
 
-            sheet.add_row ["PICTURE","CUSTOMER ITEM NO.","DESCRIPTION","","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["PICTURE","PRODUCT NAME","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("C7:D7")
-            @order.order_items.each_with_index do |order_item, index|
-              sheet.add_row [order_item.order_id, @shipment.marks,"",
-                             order_item.product_name, order_item.id, 
-                             order_item.color,order_item.quantity_per_unit,
-                             order_item.no_of_unit,order_item.item_total_volume,
-                             order_item.item_total_weight,order_item.item_price,
-                             order_item.item_total_price,order_item.weight_per_unit,
-                             order_item.item_total_weight,order_item.remarks], 
+            @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
+            @orderitems.each_with_index do |order_item, index|
+              sheet.add_row ["", order_item.product_name,order_item.color,
+                              order_item.weight_per_unit,order_item.quantity_per_unit, 
+                             order_item.unit,order_item.no_of_unit,
+                             order_item.item_price,order_item.item_total_price,
+                             order_item.item_total_weight,order_item.item_total_weight,
+                             order_item.remarks],
                              :style => horizontal_center_cell,:height => 55
 
               row_no = sheet.rows.length
