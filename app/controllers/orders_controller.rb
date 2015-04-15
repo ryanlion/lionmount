@@ -57,49 +57,53 @@ class OrdersController < ApplicationController
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
-          defaults =  { :style => :thin, :color => "000000" }
-          borders = Hash.new do |hash, key|
-            hash[key] = s.add_style :border => defaults.merge( { :edges => key.to_s.split('_').map(&:to_sym) } )
-          end
-          top_row =  [0, borders[:top_left], borders[:top], borders[:top], borders[:top_right]]
-          middle_row = [0, borders[:left], nil,nil,nil,nil, borders[:right]]
-          bottom_row = [0, borders[:bottom_left], borders[:bottom], borders[:bottom], borders[:bottom_right]]
+          top_border = s.add_style({:border => { :style => :thin, :color => 'FFFFFFFF',  :name => :top, :edges => [:top] }})
+          right_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :right, :edges => [:right] }})
+          bottom_border = s.add_style({:border => { :style => :thin, :color => 'FFFF0000', :name => :bottom, :edges => [:bottom] }})
+          left_border = s.add_style({:border => { :style => :thin, :color => 'FFFF0000', :name => :left, :edges => [:left] }})
 
           packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
             sheet.add_row ["Purchase Contract"], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A1:L1")
             
             
-            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""], :style => middle_row
+            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""]
             sheet.merge_cells("A2:B2")
             sheet.merge_cells("C2:D2")
             sheet.merge_cells("E2:F2")
             sheet.merge_cells("G2:L2")
 
-            sheet.add_row ["Address:","", "","","Supplier Address:","","","","",@order.supplier_address,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Address:","", "","","Supplier Address:","","","","",@order.supplier_address,"",""]
             sheet.merge_cells("A3:B3")
             sheet.merge_cells("C3:D3")
             sheet.merge_cells("E3:F3")
             sheet.merge_cells("G3:L3")
 
-            sheet.add_row ["Buyer Contact","","","","Supplier Contact","","","","",@order.supplier_contact_person,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Buyer Contact","","","","Supplier Contact","","","","",@order.supplier_contact_person,"",""]
             sheet.merge_cells("A4:B4")
             sheet.merge_cells("C4:D4")
             sheet.merge_cells("E4:F4")
             sheet.merge_cells("G4:L4")
 
-            sheet.add_row ["Buyer Contact No","","","","Supplier Contact No","","","","",@order.supplier_contact_no,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Buyer Contact No","","","","Supplier Contact No","","","","",@order.supplier_contact_no,"",""]
             sheet.merge_cells("A5:B5")
             sheet.merge_cells("C5:D5")
             sheet.merge_cells("E5:F5")
             sheet.merge_cells("G5:L5")
 
-            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","","","",@order.supplier_email,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","","","",@order.supplier_email,"",""]
             sheet.merge_cells("A6:B6")
             sheet.merge_cells("C6:D6")
             sheet.merge_cells("E6:F6")
             sheet.merge_cells("G6:L6")
-
+            
+            sheet['A1:A6'].each do |cell|
+              cell.style = left_border
+            end
+            sheet['L2:L6'].each do |cell|
+              cell.style = right_border
+            end
+            
             sheet.add_row ["PICTURE","PRODUCT NAME","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("C7:D7")
             @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
