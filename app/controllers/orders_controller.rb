@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
     def create
       @order = Order.new order_params
       @order.save
-      render :action => :edit
+      redirect_to edit_order_path(@order.id)
     end
     def index
       @orders = Order.all 
@@ -57,15 +57,19 @@ class OrdersController < ApplicationController
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
-          top_border = s.add_style({:border => { :style => :thin, :color => 'FFFFFFFF',  :name => :top, :edges => [:top] }})
+          top_border = s.add_style({:border => { :style => :thin, :color => 'FF000000',  :name => :top, :edges => [:top] }})
+          top_left_right_border = s.add_style({:alignment => { :horizontal=> :center },:border => { :style => :thin, :color => 'FF000000',  :name => :top_left_right, :edges => [:top,:left,:right] }})
+          top_right_border = s.add_style({:border => { :style => :thin, :color => 'FF000000',  :name => :top_right, :edges => [:top,:right] }})
           right_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :right, :edges => [:right] }})
-          bottom_border = s.add_style({:border => { :style => :thin, :color => 'FFFF0000', :name => :bottom, :edges => [:bottom] }})
-          left_border = s.add_style({:border => { :style => :thin, :color => 'FFFF0000', :name => :left, :edges => [:left] }})
+          bottom_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :bottom, :edges => [:bottom] }})
+          left_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :left, :edges => [:left] }})
 
           packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
-            sheet.add_row ["Purchase Contract"], :style => horizontal_center_cell, :types => [:string]
+            sheet.add_row ["Purchase Contract","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            sheet.rows.first.cells.each do |cell|
+              cell.style = top_left_right_border
+            end
             sheet.merge_cells("A1:L1")
-            
             
             sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""]
             sheet.merge_cells("A2:B2")
@@ -79,13 +83,13 @@ class OrdersController < ApplicationController
             sheet.merge_cells("E3:F3")
             sheet.merge_cells("G3:L3")
 
-            sheet.add_row ["Buyer Contact","","","","Supplier Contact","","","","",@order.supplier_contact_person,"",""]
+            sheet.add_row ["Buyer Contact:","","","","Supplier Contact:","","","","",@order.supplier_contact_person,"",""]
             sheet.merge_cells("A4:B4")
             sheet.merge_cells("C4:D4")
             sheet.merge_cells("E4:F4")
             sheet.merge_cells("G4:L4")
 
-            sheet.add_row ["Buyer Contact No","","","","Supplier Contact No","","","","",@order.supplier_contact_no,"",""]
+            sheet.add_row ["Buyer Contact No:","","","","Supplier Contact No:","","","","",@order.supplier_contact_no,"",""]
             sheet.merge_cells("A5:B5")
             sheet.merge_cells("C5:D5")
             sheet.merge_cells("E5:F5")
@@ -96,8 +100,9 @@ class OrdersController < ApplicationController
             sheet.merge_cells("C6:D6")
             sheet.merge_cells("E6:F6")
             sheet.merge_cells("G6:L6")
+
             
-            sheet['A1:A6'].each do |cell|
+            sheet['A2:A6'].each do |cell|
               cell.style = left_border
             end
             sheet['L2:L6'].each do |cell|
@@ -105,7 +110,6 @@ class OrdersController < ApplicationController
             end
             
             sheet.add_row ["PICTURE","PRODUCT NAME","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("C7:D7")
             @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
             @orderitems.each_with_index do |order_item, index|
               sheet.add_row ["", order_item.product_name,order_item.color,
@@ -131,6 +135,7 @@ class OrdersController < ApplicationController
               end
 
             end
+            sheet.add_row ["TOTAL","","","","","","=SUM(G8:G#{sheet.rows.length})","","=SUM(I8:I#{sheet.rows.length})","=SUM(J8:J#{sheet.rows.length})","=SUM(K8:K#{sheet.rows.length})",""], :style => horizontal_center_cell 
          end
         end
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
