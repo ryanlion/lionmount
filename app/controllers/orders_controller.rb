@@ -57,12 +57,20 @@ class OrdersController < ApplicationController
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
+          defaults =  { :style => :thin, :color => "000000" }
+          borders = Hash.new do |hash, key|
+            hash[key] = s.add_style :border => defaults.merge( { :edges => key.to_s.split('_').map(&:to_sym) } )
+          end
+          top_row =  [0, borders[:top_left], borders[:top], borders[:top], borders[:top_right]]
+          middle_row = [0, borders[:left], nil,nil,nil,nil, borders[:right]]
+          bottom_row = [0, borders[:bottom_left], borders[:bottom], borders[:bottom], borders[:bottom_right]]
+
           packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
             sheet.add_row ["Purchase Contract"], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A1:L1")
             
             
-            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""], :style => middle_row
             sheet.merge_cells("A2:B2")
             sheet.merge_cells("C2:D2")
             sheet.merge_cells("E2:F2")
