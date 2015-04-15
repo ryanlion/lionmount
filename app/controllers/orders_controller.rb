@@ -59,33 +59,38 @@ class OrdersController < ApplicationController
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
             sheet.add_row ["Purchase Contract"], :style => horizontal_center_cell, :types => [:string]
-            sheet.merge_cells("A1:S1")
+            sheet.merge_cells("A1:L1")
             
             
-            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","",@order.supplier_name,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B2:D2")
-            sheet.merge_cells("F2:J2")
-            sheet.merge_cells("L2:N2")
+            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("A2:B2")
+            sheet.merge_cells("C2:D2")
+            sheet.merge_cells("E2:F2")
+            sheet.merge_cells("G2:L2")
 
-            sheet.add_row ["Address:","", "","","Supplier Address:","","",@order.supplier_address,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B3:D3")
-            sheet.merge_cells("F3:J3")
-            sheet.merge_cells("L3:N3")
+            sheet.add_row ["Address:","", "","","Supplier Address:","","","","",@order.supplier_address,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("A3:B3")
+            sheet.merge_cells("C3:D3")
+            sheet.merge_cells("E3:F3")
+            sheet.merge_cells("G3:L3")
 
-            sheet.add_row ["Buyer Contact","","","","Supplier Contact","","",@order.supplier_contact_person,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B4:D4")
-            sheet.merge_cells("F4:J4")
-            sheet.merge_cells("L4:N4")
+            sheet.add_row ["Buyer Contact","","","","Supplier Contact","","","","",@order.supplier_contact_person,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("A4:B4")
+            sheet.merge_cells("C4:D4")
+            sheet.merge_cells("E4:F4")
+            sheet.merge_cells("G4:L4")
 
-            sheet.add_row ["Buyer Contact No","","","","Supplier Contact No","","",@order.supplier_contact_no,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B5:D5")
-            sheet.merge_cells("F5:J5")
-            sheet.merge_cells("L5:N5")
+            sheet.add_row ["Buyer Contact No","","","","Supplier Contact No","","","","",@order.supplier_contact_no,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("A5:B5")
+            sheet.merge_cells("C5:D5")
+            sheet.merge_cells("E5:F5")
+            sheet.merge_cells("G5:L5")
 
-            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","",@order.supplier_email,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B6:D6")
-            sheet.merge_cells("F4:J6")
-            sheet.merge_cells("F6:J6")
+            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","","","",@order.supplier_email,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("A6:B6")
+            sheet.merge_cells("C6:D6")
+            sheet.merge_cells("E6:F6")
+            sheet.merge_cells("G6:L6")
 
             sheet.add_row ["PICTURE","PRODUCT NAME","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("C7:D7")
@@ -107,10 +112,10 @@ class OrdersController < ApplicationController
 
                   image.width=100
                   image.height=66
-                  image.start_at 2, row_no-1
+                  image.start_at 0, row_no-1
                 end
               else
-                sheet.merge_cells("C#{row_no}:C#{row_no-1}")
+                sheet.merge_cells("A#{row_no}:A#{row_no-1}")
               end
 
             end
