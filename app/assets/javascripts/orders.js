@@ -234,7 +234,24 @@ $(document).on('click','.upload-icon', function(){
     keyboard: true
   });
 }); 
+$(document).on('change','#deposit', function(){
+	var order_id = $('#order-id').val();
+  var deposit = $(this).val();
+  $.ajax({
+    url: '/orders/'+order_id+'/deposit',
+    type: 'post',
+    data: { 
+      "deposit" : deposit
+    },
+    success: function(resp){
 
+    },
+    error: function(resp){
+      alert('error');
+    }
+
+  });
+});
 
 function precise_round(num,decimals){
 return Math.round(num*Math.pow(10,decimals))/Math.pow(10,decimals);

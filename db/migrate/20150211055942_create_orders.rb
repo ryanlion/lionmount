@@ -11,6 +11,7 @@ class CreateOrders < ActiveRecord::Migration
       t.string :supplier_contact_person
       t.string :supplier_contact_no
       t.string :supplier_email
+      t.string :deposit
 
       t.timestamps
     end

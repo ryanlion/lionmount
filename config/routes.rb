@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :orders do
     member do
       post :upload_pic
+      post :deposit
       post :order_xlsx
     end
     resources :order_items do

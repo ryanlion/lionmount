@@ -34,6 +34,12 @@ class OrdersController < ApplicationController
       @order = Order.find_by(id: params["id"])
       @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
     end
+    def deposit
+      @order = Order.find_by(id: params["id"])
+      @order.deposit = params["deposit"]
+      @order.save
+      render :text => "success"
+    end
     def create
       @order = Order.new order_params
       @order.save
