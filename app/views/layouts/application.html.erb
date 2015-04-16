@@ -15,7 +15,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Orders</a>
+        <a class="navbar-brand" href="#">Lion's Home</a>
       </div>
       <div>
         <ul class="nav navbar-nav">
@@ -24,7 +24,7 @@
             <%= link_to 'New Order', new_order_path , class: "navbar-link navbar-right", method: :get %>
           </li>
           <li><%= link_to 'List Orders', orders_path , class: "navbar-link navbar-right", method: :get %></li>
-          <li><a href="#">Page 3</a></li>
+          <li><%= link_to 'List Shipments', shipments_path , class: "navbar-link navbar-right", method: :get %></li>
         </ul>
       </div>
     </div>

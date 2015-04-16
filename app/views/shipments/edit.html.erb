@@ -17,6 +17,10 @@
               <td>Doc Date:</td><td><input name="shipment[doc_date]" type="text" class='form-control input-md' value="<%= @shipment.doc_date %>" /></td>
               <td>Loading Date:</td><td><input name="shipment[loading_date]" type="text" class='form-control input-md' value="<%= @shipment.loading_date %>" /></td>
             </tr>
+            <tr>
+              <td>Status:</td><td><input name="shipment[status]" type="text" class='form-control input-md' value="<%= @shipment.status %>" /></td>
+              <td>Description:</td><td><input name="shipment[description]" type="text" class='form-control input-md' value="<%= @shipment.description %>" /></td>
+            </tr>
           </table>
         </div>
         <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
