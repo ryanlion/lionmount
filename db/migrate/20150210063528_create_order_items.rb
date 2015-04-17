@@ -10,6 +10,7 @@ class CreateOrderItems < ActiveRecord::Migration
       t.string :title
       t.string :weight_per_product
       t.string :color
+      t.string :spec
       t.string :quantity_per_unit
       t.string :item_price
       t.string :unit

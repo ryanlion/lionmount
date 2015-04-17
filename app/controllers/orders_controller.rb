@@ -9,7 +9,7 @@ class OrdersController < ApplicationController
           @order_item.sorting = order_item["sorting"]
           @order_item.itemUUID = order_item["itemUUID"]
           @order_item.weight_per_product = order_item["weight_per_product"]
-          @order_item.color = order_item["color"]
+          @order_item.spec = order_item["spec"]
           @order_item.quantity_per_unit = order_item["quantity_per_unit"]
           @order_item.item_price = order_item["item_price"]
           @order_item.unit = order_item["unit"]
@@ -118,7 +118,7 @@ class OrdersController < ApplicationController
             sheet.add_row ["PICTURE","PRODUCT NAME","SPECIFICATION","WEIGHT","QTY PER UNIT","UNIT","UNIT QTY","ITEM PRICE","PRICE SUB TOTAL","WEIGHT SUB TOTAL","CBM SUB TOTAL","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
             @orderitems.each_with_index do |order_item, index|
-              sheet.add_row ["", order_item.product_name,order_item.color,
+              sheet.add_row ["", order_item.product_name,order_item.spec,
                               order_item.weight_per_unit,order_item.quantity_per_unit, 
                              order_item.unit,order_item.no_of_unit,
                              order_item.item_price,order_item.item_total_price,

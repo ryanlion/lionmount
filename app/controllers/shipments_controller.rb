@@ -70,7 +70,7 @@ class ShipmentsController < ApplicationController
               orderitems.each_with_index do |order_item, index|
                 sheet.add_row [sheet.rows.length-4, @shipment.marks,"    ",
                   order_item.product_name,
-                  order_item.color,order_item.quantity_per_unit,
+                  order_item.spec,order_item.quantity_per_unit,
                   order_item.no_of_unit,order_item.item_total_volume,
                   order_item.item_total_weight,order_item.item_price,
                   order_item.item_total_price,order_item.weight_per_unit,
