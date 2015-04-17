@@ -43,11 +43,66 @@ class ShipmentsController < ApplicationController
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
+          #packing_list sheet
           packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
             sheet.add_row ["LION INTERNATIONAL TRADING  CO.,LTD","","","","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A1:N1")
             
             sheet.add_row ["PACKING LIST","","","","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            sheet.merge_cells("A2:N2")
+            
+            sheet.add_row ["CLIENT",@shipment.customer_name,"","","PORT OF DISPATCH",@shipment.port_dispatch,"","","","","DATE",@shipment.doc_date,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("B3:D3")
+            sheet.merge_cells("F3:J3")
+            sheet.merge_cells("L3:N3")
+
+            sheet.add_row ["MARKS",@shipment.marks,"","","PORT OF DESTINATION",@shipment.port_distination,"","","","","LOADING DATE",@shipment.loading_date,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("B4:D4")
+            sheet.merge_cells("F4:J4")
+            sheet.merge_cells("L4:N4")
+             
+            sheet.column_widths 8,8,15,6,30,nil,nil,nil,nil,nil,7,8,8,8
+
+            sheet.add_row ["IN NO.","MARKS","PICTURE","","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("C5:D5")
+
+            @shipment.orders.each do |order|
+              orderitems = OrderItem.where(order_id: order.id).order(:sorting)
+              orderitems.each_with_index do |order_item, index|
+                sheet.add_row [sheet.rows.length-4, @shipment.marks,"    ",
+                  order_item.product_name,
+                  order_item.spec,order_item.quantity_per_unit,
+                  order_item.no_of_unit,order_item.item_total_volume,
+                  order_item.item_total_weight,order_item.item_price,
+                  order_item.item_total_price,order_item.weight_per_unit,
+                  order_item.item_total_weight,order_item.remarks], 
+                  :style => horizontal_center_cell,:height => 55
+                  
+                  row_no = sheet.rows.length
+                  
+                  unless order_item.image_uid.nil? then
+                    img = File.expand_path("#{Rails.root}/public#{order_item.image.remote_url}", __FILE__)
+                    sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
+
+                      image.width=100
+                      image.height=66
+                      image.start_at 2, row_no-1
+                    end
+                  else
+                    sheet.merge_cells("C#{row_no}:C#{row_no-1}")
+                  end
+
+              end
+            end
+             sheet.add_row ["TOTAL","","","","","","=SUM(G5:G#{sheet.rows.length})","=SUM(H5:H#{sheet.rows.length})","=SUM(I5:I#{sheet.rows.length})",
+                "","=SUM(K5:K#{sheet.rows.length})","","",""], :style => horizontal_center_cell
+          end
+          #customs clearance invoice
+          packing_list_book.add_worksheet(:name => "Invoice") do |sheet|          
+            sheet.add_row ["","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            sheet.merge_cells("A1:N1")
+            
+            sheet.add_row ["INVOICE","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A2:N2")
             
             sheet.add_row ["CLIENT",@shipment.customer_name,"","","PORT OF DISPATCH",@shipment.port_dispatch,"","","","","DATE",@shipment.doc_date,"",""], :style => Axlsx::STYLE_THIN_BORDER

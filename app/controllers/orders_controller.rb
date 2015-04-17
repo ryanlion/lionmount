@@ -141,7 +141,8 @@ class OrdersController < ApplicationController
               end
 
             end
-            sheet.add_row ["TOTAL","","","","","","=SUM(G8:G#{sheet.rows.length})","","=SUM(I8:I#{sheet.rows.length})","=SUM(J8:J#{sheet.rows.length})","=SUM(K8:K#{sheet.rows.length})",""], :style => horizontal_center_cell 
+            sheet.add_row ["TOTAL","","","","","","=SUM(G8:G#{sheet.rows.length})","","=SUM(I8:I#{sheet.rows.length})","=SUM(J8:J#{sheet.rows.length})","=SUM(K8:K#{sheet.rows.length})",""], :style => horizontal_center_cell
+            sheet.add_row ["","","","","","","","","","","Deposit Paid",@order.deposit], :style => horizontal_center_cell 
          end
         end
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
