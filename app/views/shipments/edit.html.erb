@@ -7,7 +7,7 @@
           <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
             <tr>
               <td>Client:</td><td><input name="shipment[customer_name]" type="text" class='form-control input-md' value="<%= @shipment.customer_name %>" /></td>
-              <td>Marks:</td><td><input name="shipment[marks]" type="text" class='form-control input-md' value="<%= @shipment.marks %>" /></td>
+              <td>Description:</td><td><input name="shipment[description]" type="text" class='form-control input-md' value="<%= @shipment.description %>" /></td>
             </tr>
             <tr>
               <td>Port Of Dispatch:</td><td><input name="shipment[port_dispatch]" type="text" class='form-control input-md' value="<%= @shipment.port_dispatch %>" /></td>
@@ -19,7 +19,6 @@
             </tr>
             <tr>
               <td>Status:</td><td><input name="shipment[status]" type="text" class='form-control input-md' value="<%= @shipment.status %>" /></td>
-              <td>Description:</td><td><input name="shipment[description]" type="text" class='form-control input-md' value="<%= @shipment.description %>" /></td>
             </tr>
           </table>
         </div>

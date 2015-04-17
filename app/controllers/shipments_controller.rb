@@ -69,7 +69,7 @@ class ShipmentsController < ApplicationController
             @shipment.orders.each do |order|
               orderitems = OrderItem.where(order_id: order.id).order(:sorting)
               orderitems.each_with_index do |order_item, index|
-                sheet.add_row [sheet.rows.length-4, @shipment.marks,"    ",
+                sheet.add_row [order.id, @shipment.marks,"    ",
                   order_item.product_name,
                   order_item.spec,order_item.quantity_per_unit,
                   order_item.no_of_unit,order_item.item_total_volume,
@@ -105,27 +105,37 @@ class ShipmentsController < ApplicationController
             sheet.add_row ["INVOICE","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A2:N2")
             
-            sheet.add_row ["CLIENT",@shipment.customer_name,"","","PORT OF DISPATCH",@shipment.port_dispatch,"","","","","DATE",@shipment.doc_date,"",""], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.add_row ["TO:",@order.customer_name,"","","","","",""]
             sheet.merge_cells("B3:D3")
             sheet.merge_cells("F3:J3")
-            sheet.merge_cells("L3:N3")
 
-            sheet.add_row ["MARKS",@shipment.marks,"","","PORT OF DESTINATION",@shipment.port_distination,"","","","","LOADING DATE",@shipment.loading_date,"",""], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("B4:D4")
-            sheet.merge_cells("F4:J4")
-            sheet.merge_cells("L4:N4")
+            sheet.add_row ["TEL:","","","","","INVOICE NO.:","",""]
+            sheet.merge_cells("B4:C4")
+            sheet.merge_cells("F4:G4")
              
-            sheet.column_widths 8,8,15,6,30,nil,nil,nil,nil,nil,7,8,8,8
+            sheet.add_row ["FAX:","","","","","DATE:","",""]
+            sheet.merge_cells("B5:C5")
+            sheet.merge_cells("F5:G5")
 
-            sheet.add_row ["IN NO.","MARKS","PICTURE","","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("C5:D5")
+            sheet.add_row ["C. NO.:","","","","","SEAL NO.:","",""]
+            sheet.merge_cells("B6:C6")
+            sheet.merge_cells("F6:G6")
+
+            sheet.add_row ["FROM:","","","TO:","","","BY:","SEA"]
+            sheet.merge_cells("B7:C7")
+            sheet.merge_cells("E7:F7")
+
+            sheet.column_widths nil,nil,nil,nil,nil,nil,nil,8
+
+            sheet.add_row ["MARKS","ITEM CODE","DESCRIPTION","QTY/CTN","","CTNS","U.PRICE","AMOUNT",], :style => Axlsx::STYLE_THIN_BORDER
+            sheet.merge_cells("D8:E8")
 
             @shipment.orders.each do |order|
               orderitems = OrderItem.where(order_id: order.id).order(:sorting)
               orderitems.each_with_index do |order_item, index|
-                sheet.add_row [sheet.rows.length-4, @shipment.marks,"    ",
+                sheet.add_row [
+                  order.marks, order_item.product_code,
                   order_item.product_name,
-                  order_item.spec,order_item.quantity_per_unit,
                   order_item.no_of_unit,order_item.item_total_volume,
                   order_item.item_total_weight,order_item.item_price,
                   order_item.item_total_price,order_item.weight_per_unit,
@@ -137,7 +147,6 @@ class ShipmentsController < ApplicationController
                   unless order_item.image_uid.nil? then
                     img = File.expand_path("#{Rails.root}/public#{order_item.image.remote_url}", __FILE__)
                     sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
-
                       image.width=100
                       image.height=66
                       image.start_at 2, row_no-1

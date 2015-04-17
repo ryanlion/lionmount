@@ -10,7 +10,8 @@
 	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
 	    <input name='order_items[]sorting' type='hidden' class='sorting' value='<%= orderitem.sorting %>' >
 	  </td>
-	  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name%>'/></td>
+	  <td><input name='order_items[]product_code' type='text' placeholder='' class='form-control input-sm form-fixer product_code' value='<%= orderitem.product_code %>'/></td>
+	  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/></td>
 	  <td class='img-td'>
 	  	<% unless orderitem.image.nil? %>
         <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="42" width="52" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>

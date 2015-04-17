@@ -4,6 +4,7 @@ class CreateOrderItems < ActiveRecord::Migration
       t.belongs_to :order, index:true
       t.string :itemUUID
       t.string :order_id
+      t.string :product_code
       t.string :product_name
       t.string :sorting
       t.string :image_uid

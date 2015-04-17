@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
         
         order_items.each do |order_item|
           @order_item = OrderItem.find_by(id: order_item["id"])
+          @order_item.product_code = order_item["product_code"]
           @order_item.product_name = order_item["product_name"]
           @order_item.sorting = order_item["sorting"]
           @order_item.itemUUID = order_item["itemUUID"]
