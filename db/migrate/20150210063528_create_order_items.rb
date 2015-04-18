@@ -14,6 +14,7 @@ class CreateOrderItems < ActiveRecord::Migration
       t.string :spec
       t.string :quantity_per_unit
       t.string :item_price
+      t.string :single_unit
       t.string :unit
       t.string :no_of_unit
       t.string :volume_per_unit

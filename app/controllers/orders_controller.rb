@@ -12,6 +12,7 @@ class OrdersController < ApplicationController
           @order_item.weight_per_product = order_item["weight_per_product"]
           @order_item.spec = order_item["spec"]
           @order_item.quantity_per_unit = order_item["quantity_per_unit"]
+          @order_item.single_unit = order_item["single_unit"]
           @order_item.item_price = order_item["item_price"]
           @order_item.unit = order_item["unit"]
           @order_item.no_of_unit = order_item["no_of_unit"]
