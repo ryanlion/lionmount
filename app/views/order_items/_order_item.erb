@@ -19,10 +19,9 @@
 	  </td>
 	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer product_weight' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>
 	  <td><input name='order_items[]spec' type='text' placeholder=''  class='form-control input-sm form-fixer product_spec' value='<%= orderitem.spec %>'></td>
-    <td style="white-space: nowrap"><table>
-    		<tr><td width="30%"><input name='order_items[]quantity_per_unit' type='text' placeholder=''  
+    <td><input name='order_items[]quantity_per_unit' type='text' placeholder=''  
     		class='form-control input-sm form-fixer quantity_per_unit' value='<%= orderitem.quantity_per_unit %>'></td>
-	<td width="70%"><select name='order_items[]single_unit' class="form-control input-sm nopadding single_unit">
+	<td><select name='order_items[]single_unit'  class="form-control input-sm nopadding selectwidthauto single_unit">
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PC") ? "selected":"" %> value="PC">PC</option>
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PAIR") ? "selected":"" %> value="PAIR">PAIR</option>
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "KG") ? "selected":"" %> value="KG" >KG</option>
@@ -30,8 +29,7 @@
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "TON") ? "selected":"" %> value="TON">TON</option>
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PACK") ? "selected":"" %> value="PACK">PACK</option>
         <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "BOX") ? "selected":"" %> value="BOX">BOX</option>
-    </select></td></tr></table>
-    
+    </select>
     </td>
 	  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_price' value='<%= orderitem.item_price %>'></td>
 	  <td><input name='order_items[]unit' type='text' placeholder=''  class='form-control input-sm form-fixer unit' value='<%= orderitem.unit %>'></td>
