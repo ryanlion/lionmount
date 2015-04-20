@@ -14,19 +14,34 @@ $(document).on('change','.quantity_per_unit', function () {
 $(document).on('change','.quantity_per_unit', function () {
 	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
 	var item_price = $(this).closest("tr").find(".item_price").val();
-	var item_total_price = parseFloat($(this).val())*parseFloat(no_of_unit)*parseFloat(item_price);
+	var discount = $(this).closest("tr").find(".discount").val();
+	var discount_float = discount == "" ? 0 : parseFloat(discount);
+	var item_total_price = parseFloat($(this).val())*parseFloat(no_of_unit)*(parseFloat(item_price)-discount_float);
 	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 $(document).on('change','.item_price', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
 	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
-	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(no_of_unit);
+	var discount = $(this).closest("tr").find(".discount").val();
+	var discount_float = discount == "" ? 0 : parseFloat(discount);
+	var item_total_price = (parseFloat($(this).val())-discount_float)*parseFloat(quantity_per_unit)*parseFloat(no_of_unit);
 	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 $(document).on('change','.no_of_unit', function () {
 	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
 	var item_price = $(this).closest("tr").find(".item_price").val();
-	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*parseFloat(item_price);
+	var discount = $(this).closest("tr").find(".discount").val();
+	var discount_float = discount == "" ? 0 : parseFloat(discount);
+	var item_total_price = parseFloat($(this).val())*parseFloat(quantity_per_unit)*(parseFloat(item_price)-discount_float);
+	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
+});
+$(document).on('change','.discount', function () {
+	var quantity_per_unit = $(this).closest("tr").find(".quantity_per_unit").val();
+	var item_price = $(this).closest("tr").find(".item_price").val();
+	var no_of_unit = $(this).closest("tr").find(".no_of_unit").val();
+	var discount = $(this).val();
+	var discount_float = discount == "" ? 0 : parseFloat(discount);
+	var item_total_price = parseFloat(no_of_unit)*parseFloat(quantity_per_unit)*(parseFloat(item_price)-discount_float);
 	$(this).closest("tr").find(".item_total_price").val(precise_round(item_total_price,2));
 });
 

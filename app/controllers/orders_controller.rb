@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
           @order_item.quantity_per_unit = order_item["quantity_per_unit"]
           @order_item.single_unit = order_item["single_unit"]
           @order_item.item_price = order_item["item_price"]
+          @order_item.discount = order_item["discount"]
           @order_item.unit = order_item["unit"]
           @order_item.no_of_unit = order_item["no_of_unit"]
           @order_item.volume_per_unit = order_item["volume_per_unit"]
