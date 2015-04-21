@@ -11,7 +11,7 @@
       </script>
     <![endif]-->
   </head>
-  <body style="padding-bottom: 70px;">
+  <bod style="padding-bottom: 70px;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -26,10 +26,27 @@
           <li><%= link_to 'List Orders', orders_path , class: "navbar-link navbar-right", method: :get %></li>
           <li><%= link_to 'List Shipments', shipments_path , class: "navbar-link navbar-right", method: :get %></li>
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            Logged in as <strong><%= current_user.email %></strong>.
+            <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+          <% else %>
+            <li><%= link_to '<span class="glyphicon glyphicon-user"></span> Sign Up'.html_safe, new_user_registration_path, :class => 'navbar-link'  %></li>
+            <li><%= link_to '<span class="glyphicon glyphicon-log-in"></span> Login'.html_safe, new_user_session_path, :class => 'navbar-link'  %></li>
+          <% end %>
+        </ul>
+        
       </div>
     </div>
     </nav>
     <div class="container" style="margin-top: 80px">
+      <% if notice %>
+        <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
       <%= yield %>
     </div>
   </body>
