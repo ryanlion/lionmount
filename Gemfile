@@ -37,7 +37,7 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'debugger'
+gem 'byebug'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
@@ -49,6 +49,7 @@ gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 gem 'spreadsheet'
 gem 'axlsx'
+gem 'devise'
 group :production do
     gem 'rack-cache', :require => 'rack/cache'
 end
