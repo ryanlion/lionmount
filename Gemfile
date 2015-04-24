@@ -50,6 +50,7 @@ gem 'dragonfly-s3_data_store'
 gem 'spreadsheet'
 gem 'axlsx'
 gem 'devise'
+gem 'devise_invitable'
 group :production do
     gem 'rack-cache', :require => 'rack/cache'
 end
