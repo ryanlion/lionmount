@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
+  resources :users
   root to: 'public#index'
   scope module: 'common' do
     post '/product_search' => '/common/search#product_search', as: 'product_search'

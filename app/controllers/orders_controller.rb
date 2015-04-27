@@ -47,6 +47,7 @@ class OrdersController < ApplicationController
     def create
       @order = Order.new order_params
       @order.save
+      @users = User.all
       redirect_to edit_order_path(@order.id)
     end
     def index
