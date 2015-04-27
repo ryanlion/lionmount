@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+    before_filter :admin_only, :except => [:index, :packing_list]
     def update
         order_items = params["order_items"]
         
@@ -161,4 +162,10 @@ class OrdersController < ApplicationController
         format.html { redirect_to "/orders/#{@orderitem.order_id}/edit" }
       end
     end
+private
+  def admin_only
+    unless current_user.admin?
+      redirect_to :back, :alert => "Access denied."
+    end
+  end
 end

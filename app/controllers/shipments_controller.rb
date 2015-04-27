@@ -2,6 +2,7 @@ require 'spreadsheet'
 require 'axlsx'
 class ShipmentsController < ApplicationController
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
+    before_filter :admin_only, :except => [:index, :packing_list]
     def create
         orders = params["selected"]
         uuid = params["ship-uuid"]
@@ -243,5 +244,10 @@ class ShipmentsController < ApplicationController
 private
   def shipment_params
     params.require(:shipment).permit(:shipment_uuid,:description,:status,:customer_name,:marks,:port_dispatch,:port_distination,:doc_date,:loading_date)
+  end
+  def admin_only
+    unless current_user.admin?
+      redirect_to :back, :alert => "Access denied."
+    end
   end
 end
