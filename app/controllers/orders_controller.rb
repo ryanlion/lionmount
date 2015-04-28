@@ -34,7 +34,11 @@ class OrdersController < ApplicationController
 
         render :text => "success"
     end
+    def new
+      @users = User.all
+    end
     def edit
+      byebug
       @order = Order.find_by(id: params["id"])
       @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
     end

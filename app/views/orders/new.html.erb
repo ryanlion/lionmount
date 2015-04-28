@@ -3,7 +3,12 @@
 <div class="col-md-12 column">
   <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
       <tr>
-        <td>Customer Name:</td><td><input name="order[customer_name]" type="text" class='form-control input-md' /></td>
+        <td>Customer Name:</td><td>
+          <select name='order[customer_name]'  class="form-control input-md">
+            <% @users.each_with_index do |user, index| %>
+              <option value="<% user.id %>">user.name</option>
+            <% end %>
+          </select>
         <td>Supplier Name:</td><td><input name="order[supplier_name]" type="text" class='form-control input-md' /></td>
       </tr>
       <tr>
