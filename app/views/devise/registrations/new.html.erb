@@ -2,28 +2,50 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
+<table class="table-bordered" width="100%">
+<tr>
+  <td>Name:</td>
+  <td><%= f.text_field :name, autofocus: true %></td>
+  <td>Company Name:</td>
+  <td><%= f.text_field :company_name, autofocus: true %></td>
+</tr>
+<tr>
+  <td>Address:</td>
+  <td><%= f.text_field :address, autofocus: true %></td>
+  <td>Email:</td>
+  <td><%= f.email_field :email, autofocus: true %></td>
+</tr>
+<tr>
+  <td>Fax:</td>
+  <td><%= f.text_field :fax, autofocus: true %></td>
+  <td>Contact No:</td>
+  <td><%= f.text_field :contact_no, autofocus: true %></td>
+</tr>
+<tr>  
+  <td>Password:</td>
+  <td colspan="3">
     <% if @validatable %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
+    <% end %>
     <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
+  </td>
+</tr>
+<tr>
+  <td>
+    Confirm Password:
+  </td>
+  <td colspan="3">
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
+  </td>
+</tr>
+<tr>
+	<td colspan="4">
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit "Create Cumstomer" %>
   </div>
+  </td>
+  </tr>
+</table>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<!--<%= render "devise/shared/links" %>-->

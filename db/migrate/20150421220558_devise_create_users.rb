@@ -34,7 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :address
       t.string :fax
-      t.string :supplier_contact_no
+      t.string :contact_no
       t.string :company_name
 
       t.timestamps
