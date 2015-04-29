@@ -52,5 +52,6 @@ gem 'axlsx'
 gem 'devise'
 gem 'devise_invitable'
 group :production do
-    gem 'rack-cache', :require => 'rack/cache'
+  gem 'rails_12factor'
+  gem 'rack-cache', :require => 'rack/cache'
 end
