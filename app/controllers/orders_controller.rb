@@ -38,11 +38,7 @@ class OrdersController < ApplicationController
       @users = User.all
     end
     def edit
-      if current_user.admin?
-        @order = Order.find_by(id: params["id"])
-      else
-        @order = Order.find_by(id: params["id"], customer_id: current_user.id)
-      end
+      @order = Order.find_by(id: params["id"])
       @orderitems = OrderItem.where(order_id: params["id"]).order(:sorting)
     end
     def deposit
@@ -58,11 +54,14 @@ class OrdersController < ApplicationController
       redirect_to edit_order_path(@order.id)
     end
     def index
-      byebug
-      @orders = Order.all 
+      if current_user.admin?
+        @orders = Order.all 
+      else
+        @orders = Order.where("customer_id = ?", current_user.id)
+      end
     end
     def order_params
-      params.require(:order).permit(:customer_name, :supplier_name,:supplier_english_name,
+      params.require(:order).permit(:customer_id, :supplier_name,:supplier_english_name,
         :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email)
     end
     def order_xlsx
