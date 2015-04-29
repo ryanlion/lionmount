@@ -14,7 +14,7 @@
 	  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/></td>
 	  <td class='img-td'>
 	  	<% unless orderitem.image.nil? %>
-        <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="42" width="52" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
+        <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="23" width="33" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
 	  	<% end %>
 	  </td>
 	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer product_weight' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>
