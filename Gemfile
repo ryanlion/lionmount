@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.2.1"
+ruby "2.1.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
@@ -20,10 +20,8 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-gem 'spring',        group: :development
 gem 'execjs'
 gem 'therubyracer'
 # Use ActiveModel has_secure_password
@@ -38,13 +36,12 @@ gem 'therubyracer'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'byebug'
 gem 'nokogiri'                      # XML library used by roxml
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
 gem 'json-schema'                   # validating JSON objects against a JSON schema conforming to JSON Schema Draft 4
 gem 'excon'                         # used to send http request to remove rrd data in col01
-gem 'mysql'
+gem 'pg'
 gem "uuidtools"
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
@@ -55,4 +52,9 @@ gem 'devise_invitable'
 group :production do
   gem 'rails_12factor'
   gem 'rack-cache', :require => 'rack/cache'
+end
+group :development do
+  gem 'spring'
+  gem 'byebug'
+  gem 'mysql'
 end

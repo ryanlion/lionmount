@@ -1,15 +1,19 @@
 development:
-    adapter: mysql
-    encoding: utf8
-    reconnect: false
-    database: 'mysql://root@localhost/lionmount'
-    pool: 5
+  adapter: postgresql
+  encoding: unicode
+  database: lionmount
+  host: localhost
+  pool: 5
+  username: lionmount
+  password: ryan1983
 test:
-    adapter: mysql
-    encoding: utf8
-    reconnect: false
-    database: 'mysql://root@localhost/lionmount'
-    pool: 5
+  adapter: postgresql
+  encoding: unicode
+  database: lionmount
+  host: localhost
+  pool: 5
+  username: lionmount
+  password: ryan1983
 production:
     adapter: mysql
     encoding: utf8
