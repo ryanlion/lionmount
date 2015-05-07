@@ -12,14 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap
+//= require bootstrap/modal
 //= require moment.min
 //= require turbolinks
 //= require_tree .
 //= require codrops
 //= require modernizr.custom
 //= require classie
-//= require bootstrap
-//= require bootstrap/modal
 //= require public
 //= require jquery.remotipart
 //= require jquery.validate.min
