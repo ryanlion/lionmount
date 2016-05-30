@@ -26,10 +26,10 @@
           <li><%= link_to 'List Orders', orders_path , class: "navbar-link navbar-right", method: :get %></li>
           <li><%= link_to 'List Shipments', shipments_path , class: "navbar-link navbar-right", method: :get %></li>
           <% if user_signed_in? %>
-			  	<% if current_user.admin? %>
-				    <li><%= link_to 'Users', users_path %></li>
-				<% end %>
-			<% end %>
+		<% if current_user.admin? %>
+		    <li><%= link_to 'Users', users_path %></li>
+		<% end %>
+	  <% end %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
