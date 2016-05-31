@@ -57,11 +57,11 @@ class OrdersController < ApplicationController
       if current_user.admin?
         @orders = Order.all 
       else
-        @orders = Order.where("customer_id = ?", current_user.id)
+        @orders = Order.where("user_id = ?", current_user.id)
       end
     end
     def order_params
-      params.require(:order).permit(:customer_id, :supplier_name,:supplier_english_name,
+      params.require(:order).permit(:user_id, :supplier_name,:supplier_english_name,
         :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email)
     end
     def order_xlsx

@@ -1,8 +1,7 @@
 class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
-      t.belongs_to :users, index:true
-      t.string :user_id
+      t.belongs_to :user, index:true
       t.string :supplier_name
       t.string :total_weight
       t.string :total_volume

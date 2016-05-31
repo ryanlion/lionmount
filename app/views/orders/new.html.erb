@@ -4,7 +4,7 @@
   <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
       <tr>
         <td>Customer Name:</td><td>
-          <select name='order[customer_id]'  class="form-control input-md">
+          <select name='order[user_id]'  class="form-control input-md">
             <% @users.each_with_index do |user, index| %>
               <% unless user.role == "admin" %>
                 <option value="<%= user.id %>"><%= user.name%></option>
