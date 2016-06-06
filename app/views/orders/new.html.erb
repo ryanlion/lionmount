@@ -11,20 +11,26 @@
               <% end %>
             <% end %>
           </select>
-        <td>Supplier Name:</td><td><input name="order[supplier_name]" type="text" class='form-control input-md' /></td>
+        <td>Supplier:</td><td><input name="order[supplier_name]" type="text" class='form-control input-md' /></td>
       </tr>
       <tr>
-      	<td>Supplier English Name:</td><td><input name="order[supplier_english_name]" type="text" class='form-control input-md' /></td>
-        <td>Supplier Address:</td><td><input name="order[supplier_address]" type="text" class='form-control input-md' /></td>
-      </tr>
-      <tr>
-      	<td>Supplier Contact Person:</td><td><input name="order[supplier_contact_person]" type="text" class='form-control input-md' /></td>
-        <td>Supplier Contact No:</td><td><input name="order[supplier_contact_no]" type="text" class='form-control input-md' /></td>
-      </tr>
-      <tr>
-       <td>Supplier Email:</td><td><input name="order[supplier_email]" type="text" class='form-control input-md' /></td>
        <td>Marks:</td><td><input name="order[marks]" type="text" class='form-control input-md' /></td>
       </tr>
+  </table>
+  <table class="table table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+          <th>Supplier Name</th>
+          <th>Supplier Detail Name</th>
+          <th>Contact Person</th>
+          <th>Contact No</th>
+          <th>Address</th>
+          <th>Fax</th>
+      </tr>
+    </thead>
+    <tbody>
+ 
+    </tbody>
   </table>
 </div>
 <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>

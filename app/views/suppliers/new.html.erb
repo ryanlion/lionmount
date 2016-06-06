@@ -1,0 +1,22 @@
+<%= form_for :supplier, :html=> {:id => 'new-suppier-form'}, url: orders_path do |f| %>
+<div class="row clearfix">
+<div class="col-md-12 column">
+  <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
+      <tr>
+        <td>Supplier Name:</td><td><input name="supplier[supplier_name]" type="text" class='form-control input-md' /></td>
+      	<td>Supplier Detail Name:</td><td><input name="supplier[supplier_detail_name]" type="text" class='form-control input-md' /></td>
+      </tr>
+      <tr>
+        <td>Supplier Address:</td><td><input name="supplier[supplier_address]" type="text" class='form-control input-md' /></td>
+       <td>Supplier Email:</td><td><input name="supplier[supplier_email]" type="text" class='form-control input-md' /></td>
+      </tr>
+      <tr>
+      	<td>Supplier Contact Person:</td><td><input name="supplier[supplier_contact_person]" type="text" class='form-control input-md' /></td>
+        <td>Supplier Contact No:</td><td><input name="supplier[supplier_contact_no]" type="text" class='form-control input-md' /></td>
+      </tr>
+  </table>
+</div>
+<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+<button id='create_supplier' class="pull-right btn btn-info">Save</button>
+</div>
+<% end %>

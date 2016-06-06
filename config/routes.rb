@@ -27,6 +27,11 @@ Rails.application.routes.draw do
         post :packing_list
     end
   end
+  resources :suppliers do
+    member do
+        post :find_suppliers
+    end
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
