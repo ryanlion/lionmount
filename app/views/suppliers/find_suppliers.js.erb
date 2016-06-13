@@ -1,0 +1,8 @@
+  $('.supplier-table > tbody').html("");
+<% unless @suppliers.size  %>
+  $('.supplier-table > tbody').append("<tr><td>No Supplier found!</td></tr>");
+<% else %>
+  <% @suppliers.each { |supplier|  %>
+  $('.supplier-table > tbody').append("<%= j (render 'supplier',supplier: supplier) %>");
+  <% } %>
+<% end %>
