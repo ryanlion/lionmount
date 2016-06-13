@@ -33,10 +33,13 @@ gem 'therubyracer'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+  gem 'byebug'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
 gem 'nokogiri'                      # XML library used by roxml
+gem 'redis-rails'
+gem 'redis-namespace'
 gem 'roxml'                         # converts ruby objects into XML and vice versa
 gem 'json'                          # standard json library
 gem 'json-schema'                   # validating JSON objects against a JSON schema conforming to JSON Schema Draft 4
@@ -55,6 +58,5 @@ group :production do
 end
 group :development do
   gem 'spring'
-  gem 'byebug'
   gem 'mysql'
 end

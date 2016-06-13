@@ -28,8 +28,10 @@ Rails.application.routes.draw do
     end
   end
   resources :suppliers do
+    collection do
+      get :find_suppliers
+    end
     member do
-        post :find_suppliers
     end
   end
   # Example of regular route:
