@@ -1,47 +1,48 @@
-	<tr>
-	  <td><input class='row-selector' type='checkbox'/></td>
-	  <td>
-	  	<% unless defined?(index).nil? %>
-	  		<p class='sorting_text'><%= index+1 %></p>
+<tr>
+  <td><input class='row-selector' type='checkbox'/></td>
+  <td>
+      <% unless defined?(index).nil? %>
+        <p class='sorting_text'><%= index+1 %></p>
       <% else %>
-	  		<p class='sorting_text'></p>
-	  	<% end %>
-	    <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
-	    <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
-	    <input name='order_items[]sorting' type='hidden' class='sorting' value='<%= orderitem.sorting %>' >
-	  </td>
-	  <td><input name='order_items[]product_code' type='text' placeholder='' class='form-control input-sm form-fixer product_code' value='<%= orderitem.product_code %>'/></td>
-	  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/></td>
-	  <td class='img-td'>
-	  	<% unless orderitem.image.nil? %>
-        <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="23" width="33" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
-	  	<% end %>
-	  </td>
-	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer product_weight' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>
-	  <td><textarea rows="1" name='order_items[]spec' class='form-control input-sm form-fixer product_spec'><%= orderitem.spec %></textarea></td>
-    <td><input name='order_items[]quantity_per_unit' type='text' placeholder=''  
-    		class='form-control input-sm form-fixer quantity_per_unit' value='<%= orderitem.quantity_per_unit %>'></td>
-	<td><select name='order_items[]single_unit'  class="form-control input-sm nopadding selectwidthauto single_unit">
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PC") ? "selected":"" %> value="PC">PC</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PAIR") ? "selected":"" %> value="PAIR">PAIR</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "KG") ? "selected":"" %> value="KG" >KG</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "SET") ? "selected":"" %> value="SET">SET</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "TON") ? "selected":"" %> value="TON">TON</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PACK") ? "selected":"" %> value="PACK">PACK</option>
-        <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "BOX") ? "selected":"" %> value="BOX">BOX</option>
+        <p class='sorting_text'></p>
+      <% end %>
+     <input name='order_items[]itemUUID' type='hidden' class='uuid' value='<%= orderitem.itemUUID %>' >
+     <input name='order_items[]id' type='hidden' class='id' value='<%= orderitem.id %>' >
+     <input name='order_items[]sorting' type='hidden' class='sorting' value='<%= orderitem.sorting %>' >
+  </td>
+  <td><input name='order_items[]product_code' type='text' placeholder='' class='form-control input-sm form-fixer product_code' value='<%= orderitem.product_code %>'/></td>
+  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/></td>
+  <td><textarea rows="1" name='order_items[]spec' class='form-control input-sm form-fixer product_spec'><%= orderitem.spec %></textarea></td>
+  <td class='img-td'>
+     <% unless orderitem.image.nil? %>
+       <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="23" width="33" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
+     <% end %>
+  </td>
+  <!--<td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer product_weight' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>-->
+  <td><input name='order_items[]quantity_per_unit' type='text' placeholder=''  
+        class='form-control input-sm form-fixer quantity_per_unit' value='<%= orderitem.quantity_per_unit %>'></td>
+  <td>
+    <select name='order_items[]single_unit'  class="form-control input-sm nopadding selectwidthauto single_unit">
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PC") ? "selected":"" %> value="PC">PC</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PAIR") ? "selected":"" %> value="PAIR">PAIR</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "KG") ? "selected":"" %> value="KG" >KG</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "SET") ? "selected":"" %> value="SET">SET</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "TON") ? "selected":"" %> value="TON">TON</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "PACK") ? "selected":"" %> value="PACK">PACK</option>
+      <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "BOX") ? "selected":"" %> value="BOX">BOX</option>
     </select>
-    </td>
-	  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_price' value='<%= orderitem.item_price %>'></td>
-	  <td><input name='order_items[]discount' type='text' placeholder=''  class='form-control input-sm form-fixer discount' value='<%= orderitem.discount %>'></td>
-	  <td><input name='order_items[]unit' type='text' placeholder=''  class='form-control input-sm form-fixer unit' value='<%= orderitem.unit %>'></td>
-	  <td><input name='order_items[]no_of_unit' type='text' placeholder=''  class='form-control input-sm form-fixer no_of_unit' value='<%= orderitem.no_of_unit %>'></td>
-	  <td><input name='order_items[]volume_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer volume_per_unit' value='<%= orderitem.volume_per_unit %>'></td>
-	  <td><input name='order_items[]item_total_weight' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_weight' value='<%= orderitem.item_total_weight %>'></td>
-	  <td><input name='order_items[]weight_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer weight_per_unit' value='<%= orderitem.weight_per_unit %>'></td>
-	  <td><input name='order_items[]item_total_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_price' value='<%= orderitem.item_total_price %>'></td>
-	  <td><input name='order_items[]item_total_volume' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_volume' value='<%= orderitem.item_total_volume %>'></td>
-	  <td><input name='order_items[]remarks' type='text' placeholder=''  class='form-control input-sm form-fixer remarks' value='<%= orderitem.remarks %>'></td>
-	  <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
+  </td>
+  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_price' value='<%= orderitem.item_price %>'></td>
+  <!--<td><input name='order_items[]discount' type='text' placeholder=''  class='form-control input-sm form-fixer discount' value='<%= orderitem.discount %>'></td>-->
+  <!--<td><input name='order_items[]unit' type='text' placeholder=''  class='form-control input-sm form-fixer unit' value='<%= orderitem.unit %>'></td>-->
+  <td><input name='order_items[]no_of_unit' type='text' placeholder=''  class='form-control input-sm form-fixer no_of_unit' value='<%= orderitem.no_of_unit %>'></td>
+  <td><input name='order_items[]weight_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer weight_per_unit' value='<%= orderitem.weight_per_unit %>'></td>
+  <td><input name='order_items[]item_total_weight' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_weight' value='<%= orderitem.item_total_weight %>'></td>
+  <td><input name='order_items[]volume_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer volume_per_unit' value='<%= orderitem.volume_per_unit %>'></td>
+  <td><input name='order_items[]item_total_volume' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_volume' value='<%= orderitem.item_total_volume %>'></td>
+  <td><input name='order_items[]item_total_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_price' value='<%= orderitem.item_total_price %>'></td>
+  <!--<td><input name='order_items[]remarks' type='text' placeholder=''  class='form-control input-sm form-fixer remarks' value='<%= orderitem.remarks %>'></td>-->
+  <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
       <%= link_to '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>'.html_safe, order_order_item_path(orderitem.order_id, orderitem),  class: "btn btn-danger btn-xs", method: :delete, remote: true %>
       <%= link_to '<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>'.html_safe, order_order_items_path(orderitem.order_id, :rowno => orderitem.id),  class: "btn btn-default btn-xs", method: :post, remote: true %></td>
-	</tr>
+</tr>
