@@ -48,7 +48,8 @@ class OrdersController < ApplicationController
       render :text => "success"
     end
     def create
-      @order = Order.new order_params
+      new_order_params=order_params.except("supplier_name")
+      @order = Order.new new_order_params
       @order.save
       @users = User.all
       redirect_to edit_order_path(@order.id)
@@ -62,7 +63,7 @@ class OrdersController < ApplicationController
     end
     def order_params
       params.require(:order).permit(:user_id, :supplier_name,:supplier_english_name,
-        :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email)
+        :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email, :marks, :supplier_id)
     end
     def order_xlsx
       @order = Order.find_by(id: params[:id])

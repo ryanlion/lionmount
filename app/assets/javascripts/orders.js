@@ -160,6 +160,18 @@ $(document).on('click','#delete_row', function(){
 
   });
 });
+$(document).on('click','.supplier-table tr td', function(){
+  $checkbox = $(this).find('.row-selector');
+  if($checkbox.prop("checked")){
+  	$checkbox.prop("checked",false);
+        $("#supplier_id").val("");
+        $("#create_order").prop("disabled", false);
+  }else{
+  	$checkbox.prop("checked",true);
+        $("#supplier_id").val($(this).find(".supplier_id").val());
+        $("#create_order").removeAttr('disabled');;
+  }
+});
 $(document).on('click','#edit-order-table tr td', function(){
   $checkbox = $(this).find('.row-selector');
   if($checkbox.prop("checked")){
@@ -169,6 +181,9 @@ $(document).on('click','#edit-order-table tr td', function(){
   }
 });
 $(document).on('load','#edit-order-table', function(){
+  $('.row-selector').unbind('click');
+});
+$(document).on('load','#supplier-table', function(){
   $('.row-selector').unbind('click');
 });
 $(document).on('click','.row-selector', function(e){
@@ -239,6 +254,12 @@ $(document).on("change", ".file-upload", function () {
   })
   .success(function (data, status, xhr) {
     $.notify("Success");
+  });
+});
+$(document).on("keyup", ".supplier_code", function () {
+  $.ajax({
+    url: "/suppliers/find_suppliers?supplier_code="+$(this).val(),
+    type: "GET"
   });
 });
 $(document).on('click','.upload-icon', function(){

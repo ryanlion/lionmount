@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Goldengine
+module LionMount
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -25,5 +25,9 @@ module Goldengine
     config.autoload_paths << "#{config.root}/lib"
     config.generators.stylesheets = false
     config.generators.javascripts = false
+    # Configure Redis
+    config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 90.minutes }
+    # config/initializers/session_store.rb
+    LionMount::Application.config.session_store :redis_store, servers: "redis://localhost:6379/0/session"
   end
 end

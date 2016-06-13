@@ -18,7 +18,7 @@
 	  	<% end %>
 	  </td>
 	  <td><input name='order_items[]weight_per_product' type='text' placeholder='0.0'  class='form-control input-sm form-fixer product_weight' data-decimal="true" value='<%= orderitem.weight_per_product %>'></td>
-	  <td><input name='order_items[]spec' type='text' placeholder=''  class='form-control input-sm form-fixer product_spec' value='<%= orderitem.spec %>'></td>
+	  <td><textarea rows="1" name='order_items[]spec' class='form-control input-sm form-fixer product_spec'><%= orderitem.spec %></textarea></td>
     <td><input name='order_items[]quantity_per_unit' type='text' placeholder=''  
     		class='form-control input-sm form-fixer quantity_per_unit' value='<%= orderitem.quantity_per_unit %>'></td>
 	<td><select name='order_items[]single_unit'  class="form-control input-sm nopadding selectwidthauto single_unit">
