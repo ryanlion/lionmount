@@ -6,12 +6,14 @@ class CreateOrderItems < ActiveRecord::Migration
       t.string :order_id
       t.string :product_code
       t.string :product_name
+      t.string :product_name_eng
       t.string :sorting
       t.string :image_uid
       t.string :title
       t.string :weight_per_product
       t.string :color
       t.string :spec
+      t.string :spec_eng
       t.string :discount
       t.string :quantity_per_unit
       t.string :item_price

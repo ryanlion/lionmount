@@ -76,15 +76,29 @@ $(document).on('change','body', function () {
   $('#order_total_volume').val(precise_round(total_volume,2));
 });
 
-
+var baidu_appid = "20160614000023334";
+var baidu_key = "uQbKAdDCOjqyclN3hRRf";
 
 $(document).on('ready page:load', function () {
 	$('td').addClass( "nopadding" );
 	$('.parsley-errors-list').addClass( "nopadding" );
 });
 
+$(document).on('change','.product_spec', function () {
+  translate($(this),$(this).closest("tr").find(".product_spec_eng")) 
+});
+function translate(source_obj, target_obj){
+  var random = Math.floor((Math.random() * 100000000000) + 1);
+  var sign = baidu_appid + $(source_obj).val() + random + baidu_key; 
+  var sign_md5 = $.md5(sign);
+  var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+$(this).val()+ "&from=zh&to=cn&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
+  $.get( "url", function( data ) {
+    $( ".result" ).html( data );
+    alert( "Load was performed." );
+  });
 
 
+}
 
 $(document).on('click','.show-pic',function(){
   var img = $(this).find('img');

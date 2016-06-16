@@ -8,10 +8,12 @@ class OrdersController < ApplicationController
           @order_item = OrderItem.find_by(id: order_item["id"])
           @order_item.product_code = order_item["product_code"]
           @order_item.product_name = order_item["product_name"]
+          @order_item.product_name_eng = order_item["product_name_eng"]
           @order_item.sorting = order_item["sorting"]
           @order_item.itemUUID = order_item["itemUUID"]
           @order_item.weight_per_product = order_item["weight_per_product"]
           @order_item.spec = order_item["spec"]
+          @order_item.spec_eng = order_item["spec_eng"]
           @order_item.quantity_per_unit = order_item["quantity_per_unit"]
           @order_item.single_unit = order_item["single_unit"]
           @order_item.item_price = order_item["item_price"]

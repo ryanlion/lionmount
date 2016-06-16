@@ -11,8 +11,10 @@
      <input name='order_items[]sorting' type='hidden' class='sorting' value='<%= orderitem.sorting %>' >
   </td>
   <td><input name='order_items[]product_code' type='text' placeholder='' class='form-control input-sm form-fixer product_code' value='<%= orderitem.product_code %>'/></td>
-  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/></td>
-  <td><textarea rows="1" name='order_items[]spec' class='form-control input-sm form-fixer product_spec'><%= orderitem.spec %></textarea></td>
+  <td><input name='order_items[]product_name' type='text' placeholder='' class='form-control input-sm form-fixer product_name' value='<%= orderitem.product_name %>'/>
+      <input name='order_items[]product_name_eng' type='text' placeholder='' class='form-control input-sm form-fixer product_name_eng' value='<%= orderitem.product_name_eng %>'/></td>
+  <td><textarea rows="1" name='order_items[]spec' class='form-control input-sm form-fixer product_spec'><%= orderitem.spec %></textarea>
+      <textarea rows="1" name='order_items[]spec_eng' class='form-control input-sm form-fixer product_spec_eng'><%= orderitem.spec_eng %></textarea></td>
   <td class='img-td'>
      <% unless orderitem.image.nil? %>
        <a class="img-thumbnail show-pic" rel="popover" data-original-title="" data-content="" ><img height="23" width="33" src="<%= orderitem.image.thumb('500x335#').url %>" /></a>
