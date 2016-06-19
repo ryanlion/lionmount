@@ -85,18 +85,28 @@ $(document).on('ready page:load', function () {
 });
 
 $(document).on('change','.product_spec', function () {
-  translate($(this),$(this).closest("tr").find(".product_spec_eng")) 
+  translate($(this),$(this).closest("tr").find(".product_spec_eng"));
 });
 function translate(source_obj, target_obj){
   var random = Math.floor((Math.random() * 100000000000) + 1);
   var sign = baidu_appid + $(source_obj).val() + random + baidu_key; 
   var sign_md5 = $.md5(sign);
-  var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+$(this).val()+ "&from=zh&to=cn&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
-  $.get( "url", function( data ) {
-    $( ".result" ).html( data );
-    alert( "Load was performed." );
-  });
+  var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+$(source_obj).val()+ "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
 
+  $.ajax({
+    url: url,
+    type: 'GET',
+    crossDomain: true,
+    dataType: 'jsonp',
+    headers: {"Access-Control-Allow-Origin": "*"},
+    success: function(resp){
+	  alert(resp.html());
+    },
+    error: function(resp){
+      alert('error');
+    }
+
+  });
 
 }
 
