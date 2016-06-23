@@ -100,7 +100,7 @@ function translate(source_obj, target_obj){
     dataType: 'jsonp',
     headers: {"Access-Control-Allow-Origin": "*"},
     success: function(resp){
-	  alert(resp.html());
+      $(target_obj).val(resp.trans_result[0].dst);
     },
     error: function(resp){
       alert('error');
