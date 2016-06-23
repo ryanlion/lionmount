@@ -89,10 +89,10 @@ $(document).on('change','.product_spec', function () {
 });
 function translate(source_obj, target_obj){
   var random = Math.floor((Math.random() * 100000000000) + 1);
-  var sign = baidu_appid + $(source_obj).val() + random + baidu_key; 
+  var source = $(source_obj).val().replace(/\n/g,"<br>");
+  var sign = baidu_appid + source + random + baidu_key; 
   var sign_md5 = $.md5(sign);
-  var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+$(source_obj).val()+ "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
-
+  var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+ source + "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
   $.ajax({
     url: url,
     type: 'GET',
@@ -100,7 +100,7 @@ function translate(source_obj, target_obj){
     dataType: 'jsonp',
     headers: {"Access-Control-Allow-Origin": "*"},
     success: function(resp){
-      $(target_obj).val(resp.trans_result[0].dst);
+      $(target_obj).val(resp.trans_result[0].dst.replace(/\<br\>/g,"\n"));
     },
     error: function(resp){
       alert('error');
