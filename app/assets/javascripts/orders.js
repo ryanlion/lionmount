@@ -39,7 +39,7 @@ function calculateAmount(obj){
   if(!$(obj).closest("tr").find(".item_price").val() || $(obj).closest("tr").find(".item_price").val()=="")  return; 
   if(!$(obj).closest("tr").find(".quantity_per_unit").val() || $(obj).closest("tr").find(".quantity_per_unit").val()=="")  return; 
   var no_of_unit = $(obj).closest("tr").find(".no_of_unit").val();
-  var item_price = $(obj).closest("tr").find(".volume_per_unit").val();
+  var item_price = $(obj).closest("tr").find(".item_price").val();
   var quantity_per_unit = $(obj).closest("tr").find(".quantity_per_unit").val();
   var amount = parseFloat(item_price)*parseFloat(quantity_per_unit)*parseFloat(no_of_unit);
   $(obj).closest("tr").find(".item_total_price").val(precise_round(amount,2)); 
@@ -110,6 +110,17 @@ function translate(source_obj, target_obj){
 
 }
 
+$(document).on('click','#language',function(){
+  if($(this).html() == "Show English"){
+    $('.product_name_eng').show();
+    $('.product_spec_eng').show();
+    $(this).html("Hide English");
+  } else {
+    $('.product_name_eng').hide();
+    $('.product_spec_eng').hide();
+    $(this).html("Show English");
+  }
+});
 $(document).on('click','.show-pic',function(){
   var img = $(this).find('img');
   var tem_img = $('<img/>');
