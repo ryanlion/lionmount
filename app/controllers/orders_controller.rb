@@ -92,31 +92,31 @@ class OrdersController < ApplicationController
             end
             sheet.merge_cells("A1:L1")
             
-            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier_name,"",""]
+            sheet.add_row ["Buyer:","", "LION INTERNATIONAL TRADING  CO.,LTD","","Supplier:","","","","",@order.supplier.supplier_name,"",""]
             sheet.merge_cells("A2:B2")
             sheet.merge_cells("C2:D2")
             sheet.merge_cells("E2:F2")
             sheet.merge_cells("G2:L2")
 
-            sheet.add_row ["Address:","", "","","Supplier Address:","","","","",@order.supplier_address,"",""]
+            sheet.add_row ["Address:","", "","","Supplier Address:","","","","",@order.supplier.supplier_address,"",""]
             sheet.merge_cells("A3:B3")
             sheet.merge_cells("C3:D3")
             sheet.merge_cells("E3:F3")
             sheet.merge_cells("G3:L3")
 
-            sheet.add_row ["Buyer Contact:","","","","Supplier Contact:","","","","",@order.supplier_contact_person,"",""]
+            sheet.add_row ["Buyer Contact:","","","","Supplier Contact:","","","","",@order.supplier.supplier_contact_person,"",""]
             sheet.merge_cells("A4:B4")
             sheet.merge_cells("C4:D4")
             sheet.merge_cells("E4:F4")
             sheet.merge_cells("G4:L4")
 
-            sheet.add_row ["Buyer Contact No:","","","","Supplier Contact No:","","","","",@order.supplier_contact_no,"",""]
+            sheet.add_row ["Buyer Contact No:","","","","Supplier Contact No:","","","","",@order.supplier.supplier_contact_no,"",""]
             sheet.merge_cells("A5:B5")
             sheet.merge_cells("C5:D5")
             sheet.merge_cells("E5:F5")
             sheet.merge_cells("G5:L5")
 
-            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","","","",@order.supplier_email,"",""]
+            sheet.add_row ["Buyer Contact Email:","","","","Supplier Contact Email:","","","","",@order.supplier.supplier_email,"",""]
             sheet.merge_cells("A6:B6")
             sheet.merge_cells("C6:D6")
             sheet.merge_cells("E6:F6")
