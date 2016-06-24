@@ -20,11 +20,9 @@ class ShipmentsController < ApplicationController
     def update
       @shipment = Shipment.find_by(id: params[:id])
       if @shipment.update(shipment_params)
-        flash[:success] = "Shipment Saved!"
-        render 'edit'
+        redirect_to shipments_path, :flash => { :success => "Shipment Saved!" }
       else
-        flash[:error] = "Shipment not Saved!"
-        render 'edit'
+        redirect_to shipments_path, :flash => { :error => "Shipment not Saved!" }
       end
     end
     def edit
@@ -35,39 +33,38 @@ class ShipmentsController < ApplicationController
     end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
-        #template_book = Spreadsheet.open 'public/system/spreadsheet/template/real_packing_amount_template.xls'
+        template_book = Spreadsheet.open 'public/system/spreadsheet/packing_template.xlsx'
 
-        #template_sheet = template_book.worksheet 0
+        template_sheet = template_book.worksheet 0
 
         p = Axlsx::Package.new
         packing_list_book = p.workbook
-
+        shipment = JSON.parse(@shipment.to_json)
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           horizontal_center_cell_noborder =  s.add_style  :alignment => { :horizontal=> :center }
           #packing_list sheet
           packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
-            sheet.add_row ["LION INTERNATIONAL TRADING  CO.,LTD","","","","","","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
-            sheet.merge_cells("A1:P1")
-            
+            sheet.add_row template_sheet.rows.first#["LION INTERNATIONAL TRADING  CO.,LTD","","","","","","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            #sheet.merge_cells("A1:P1")
             sheet.add_row ["PACKING LIST","","","","","","","","","","","","","","",""], :style => horizontal_center_cell_noborder, :types => [:string]
             sheet.merge_cells("A2:P2")
-            
-            sheet.add_row ["CLIENT",@shipment.customer_name,"","","PORT OF DISPATCH","",@shipment.port_dispatch,"","","","DATE",@shipment.doc_date,"",""], :style => horizontal_center_cell_noborder
+           
+            sheet.add_row ["CLIENT",shipment["customer_name"],"","","PORT OF DISPATCH","",shipment["port_dispatch"],"","","","DATE",shipment["doc_date"],"",""], :style => horizontal_center_cell_noborder
             sheet.merge_cells("B3:D3")
             sheet.merge_cells("E3:F3")
             sheet.merge_cells("G3:J3")
             sheet.merge_cells("K3:L3")
             sheet.merge_cells("M3:P3")
 
-            sheet.add_row ["MARKS",@shipment.marks,"","","PORT OF DESTINATION","",@shipment.port_distination,"","","","LOADING DATE",@shipment.loading_date,"",""], :style => horizontal_center_cell_noborder
+            sheet.add_row ["MARKS",shipment["marks"],"","","PORT OF DESTINATION","",shipment["port_distination"],"","","","LOADING DATE",shipment["loading_date"],"",""], :style => horizontal_center_cell_noborder
             sheet.merge_cells("B4:D4")
             sheet.merge_cells("E4:F4")
             sheet.merge_cells("G4:J4")
             sheet.merge_cells("K4:L4")
             sheet.merge_cells("M4:P4")
             
-            sheet.add_row ["C. No",@shipment.marks,"","","SEAL NO.","",@shipment.port_distination,"","","","BL NO","",""], :style => horizontal_center_cell_noborder
+            sheet.add_row ["C. No",shipment["marks"],"","","SEAL NO.","",shipment["port_distination"],"","","","BL NO","",""], :style => horizontal_center_cell_noborder
             sheet.merge_cells("B5:D5")
             sheet.merge_cells("E5:F5")
             sheet.merge_cells("G5:J5")
@@ -83,7 +80,8 @@ class ShipmentsController < ApplicationController
             @shipment.orders.each do |order|
               orderitems = OrderItem.where(order_id: order.id).order(:sorting)
               orderitems.each_with_index do |order_item, index|
-                sheet.add_row [order.id, @shipment.marks,"","    ",
+require "byebug"; byebug
+                sheet.add_row [order.id, shipment["marks"],"","    ",
                   order_item.product_name,order_item.product_code,
                   order_item.spec,order_item.quantity_per_unit,
                   order_item.no_of_unit,order_item.item_total_volume,
@@ -120,7 +118,7 @@ class ShipmentsController < ApplicationController
             sheet.add_row ["INVOICE","","","","","","",""], :types => [:string], :style => horizontal_center_cell_noborder
             sheet.merge_cells("A2:H2")
             
-            sheet.add_row ["TO:",@shipment.customer_name,"","","","","",""]
+            sheet.add_row ["TO:",shipment["customer_name"],"","","","","",""]
             sheet.merge_cells("B3:D3")
             sheet.merge_cells("F3:J3")
 
@@ -169,7 +167,7 @@ class ShipmentsController < ApplicationController
             sheet.add_row ["INVOICE","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.merge_cells("A2:N2")
             
-            sheet.add_row ["TO:",@shipment.customer_name,"","","","","","",""]
+            sheet.add_row ["TO:",shipment["customer_name"],"","","","","","",""]
             sheet.merge_cells("B3:D3")
             sheet.merge_cells("F3:J3")
 
