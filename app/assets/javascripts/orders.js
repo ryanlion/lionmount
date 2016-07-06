@@ -83,7 +83,9 @@ $(document).on('ready page:load', function () {
 	$('td').addClass( "nopadding" );
 	$('.parsley-errors-list').addClass( "nopadding" );
 });
-
+$(document).on('change','.product_name', function () {
+  translate($(this),$(this).closest("tr").find(".product_name_eng"));
+});
 $(document).on('change','.product_spec', function () {
   translate($(this),$(this).closest("tr").find(".product_spec_eng"));
 });

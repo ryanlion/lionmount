@@ -34,6 +34,8 @@ gem 'therubyracer'
 # gem 'capistrano-rails', group: :development
 
   gem 'byebug'
+gem 'mysql2', '~> 0.3.18'
+gem 'activesupport'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
@@ -45,7 +47,7 @@ gem 'json'                          # standard json library
 gem 'json-schema'                   # validating JSON objects against a JSON schema conforming to JSON Schema Draft 4
 gem 'excon'                         # used to send http request to remove rrd data in col01
 gem 'pg'
-gem "uuidtools"
+gem 'uuidtools'
 gem 'dragonfly'
 gem 'dragonfly-s3_data_store'
 gem 'spreadsheet'
@@ -58,5 +60,4 @@ group :production do
 end
 group :development do
   gem 'spring'
-  gem 'mysql'
 end
