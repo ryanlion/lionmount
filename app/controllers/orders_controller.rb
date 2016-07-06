@@ -86,7 +86,7 @@ class OrdersController < ApplicationController
           left_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :left, :edges => [:left] }})
 
           packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
-            sheet.add_row ["Purchase Contract","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            sheet.add_row ["利恩国际贸易有限公司","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.rows.first.cells.each do |cell|
               cell.style = top_left_right_border
             end

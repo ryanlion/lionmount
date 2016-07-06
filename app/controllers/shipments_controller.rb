@@ -33,8 +33,8 @@ class ShipmentsController < ApplicationController
     end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
-        template_book = Spreadsheet.open 'public/system/spreadsheet/packing_template.xlsx'
-
+        #template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
+        template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
         template_sheet = template_book.worksheet 0
 
         p = Axlsx::Package.new
@@ -77,10 +77,10 @@ class ShipmentsController < ApplicationController
             sheet.add_row ["IN NO.","MARKS","CTN NO","DESCRIPTION","","ITEM CODE","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("D6:E6")
 
+require "byebug"; byebug
             @shipment.orders.each do |order|
               orderitems = OrderItem.where(order_id: order.id).order(:sorting)
               orderitems.each_with_index do |order_item, index|
-require "byebug"; byebug
                 sheet.add_row [order.id, shipment["marks"],"","    ",
                   order_item.product_name,order_item.product_code,
                   order_item.spec,order_item.quantity_per_unit,
