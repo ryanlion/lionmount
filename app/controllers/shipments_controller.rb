@@ -33,19 +33,50 @@ class ShipmentsController < ApplicationController
     end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
-        #template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
+        template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
         template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
         template_sheet = template_book.worksheet 0
 
+require "byebug"; byebug
         p = Axlsx::Package.new
         packing_list_book = p.workbook
         shipment = JSON.parse(@shipment.to_json)
+        sheet = packing_list_book.add_worksheet(:name => "Packing List test")
+        template_sheet.rows.each{ |row|
+            values = JSON.parse(row.to_json)
+            styles = []
+            values.each_with_index{ |v,i|
+              format = row.formats[i]
+              horizontal = :center
+              if format.horizontal_align == :default
+                horizontal = :left
+              else
+              end
+              unless v.nil? || v == ""
+                style_hash = {
+                  :bg_color => Color::CSS[format.pattern_fg_color.to_s].html.swapcase.gsub(/\#/,"FF"),
+                  :fg_color=> Color::CSS[format.font.color .to_s].html.swapcase.gsub(/\#/,"FF"),
+                  :sz=>format.font.size, 
+                  :font_name => format.font.name, 
+                  :border=> {:style => format.top, :color => "FF000000"},
+                  :alignment => { :horizontal=> horizontal, :vertical => format.vertical_align }
+                }
+                n_style = packing_list_book.styles.add_style (style_hash)
+                styles << n_style
+              else
+                styles << nil
+              end
+            }
+            sheet.add_row values, :style => styles, :types => [:string]
+          }
         packing_list_book.styles do |s|
+          
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           horizontal_center_cell_noborder =  s.add_style  :alignment => { :horizontal=> :center }
           #packing_list sheet
           packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
-            sheet.add_row template_sheet.rows.first#["LION INTERNATIONAL TRADING  CO.,LTD","","","","","","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
+            sheet.add_row 
+            sheet.add_row template_sheet.rows.first
             #sheet.merge_cells("A1:P1")
             sheet.add_row ["PACKING LIST","","","","","","","","","","","","","","",""], :style => horizontal_center_cell_noborder, :types => [:string]
             sheet.merge_cells("A2:P2")
