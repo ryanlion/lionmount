@@ -57,6 +57,7 @@ gem 'spreadsheet'
 gem 'axlsx'
 gem 'devise'
 gem 'devise_invitable'
+gem 'color'
 group :production do
   gem 'rails_12factor'
   gem 'rack-cache', :require => 'rack/cache'

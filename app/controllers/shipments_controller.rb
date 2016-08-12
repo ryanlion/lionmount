@@ -31,17 +31,36 @@ class ShipmentsController < ApplicationController
     def index
         @shipments = Shipment.all
     end
+    def check_style(styles,style_h) 
+      
+    end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
         template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
         template_sheet = template_book.worksheet 0
-
-require "byebug"; byebug
         p = Axlsx::Package.new
         packing_list_book = p.workbook
         shipment = JSON.parse(@shipment.to_json)
         sheet = packing_list_book.add_worksheet(:name => "Packing List test")
+        styles = []
+        template.first.each {|row|
+          row.cells.each{ |cell|
+            style_h = {
+              :fg_color => cell.font_color,
+              :sz => cell.font_size.round,
+              :font_name => cell.font_name,
+              :border => { :color => 'FF000000', :style => :thin },
+              :alignment => { :horizontal => cell.horizontal_alignment.to_sym, :vertical => cell.vertical_alignment.to_sym },
+              :b => cell.is_bolded.nil? ? false : cell.is_bolded
+            }
+            n_style = packing_list_book.styles.add_style (style_h)
+require "byebug"; byebug
+          }
+        }
+        
+
+        header_rows = 0
         template_sheet.rows.each{ |row|
             values = JSON.parse(row.to_json)
             styles = []
@@ -75,40 +94,12 @@ require "byebug"; byebug
           horizontal_center_cell_noborder =  s.add_style  :alignment => { :horizontal=> :center }
           #packing_list sheet
           packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
-            sheet.add_row 
-            sheet.add_row template_sheet.rows.first
-            #sheet.merge_cells("A1:P1")
-            sheet.add_row ["PACKING LIST","","","","","","","","","","","","","","",""], :style => horizontal_center_cell_noborder, :types => [:string]
-            sheet.merge_cells("A2:P2")
-           
-            sheet.add_row ["CLIENT",shipment["customer_name"],"","","PORT OF DISPATCH","",shipment["port_dispatch"],"","","","DATE",shipment["doc_date"],"",""], :style => horizontal_center_cell_noborder
-            sheet.merge_cells("B3:D3")
-            sheet.merge_cells("E3:F3")
-            sheet.merge_cells("G3:J3")
-            sheet.merge_cells("K3:L3")
-            sheet.merge_cells("M3:P3")
-
-            sheet.add_row ["MARKS",shipment["marks"],"","","PORT OF DESTINATION","",shipment["port_distination"],"","","","LOADING DATE",shipment["loading_date"],"",""], :style => horizontal_center_cell_noborder
-            sheet.merge_cells("B4:D4")
-            sheet.merge_cells("E4:F4")
-            sheet.merge_cells("G4:J4")
-            sheet.merge_cells("K4:L4")
-            sheet.merge_cells("M4:P4")
             
-            sheet.add_row ["C. No",shipment["marks"],"","","SEAL NO.","",shipment["port_distination"],"","","","BL NO","",""], :style => horizontal_center_cell_noborder
-            sheet.merge_cells("B5:D5")
-            sheet.merge_cells("E5:F5")
-            sheet.merge_cells("G5:J5")
-            sheet.merge_cells("K5:L5")
-            sheet.merge_cells("M5:P5")
-            
-             
             sheet.column_widths 8,8,8,6,10,nil,20,nil,nil,nil,7,8,8,8
 
             sheet.add_row ["IN NO.","MARKS","CTN NO","DESCRIPTION","","ITEM CODE","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("D6:E6")
 
-require "byebug"; byebug
             @shipment.orders.each do |order|
               orderitems = OrderItem.where(order_id: order.id).order(:sorting)
               orderitems.each_with_index do |order_item, index|
