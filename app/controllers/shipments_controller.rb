@@ -54,8 +54,8 @@ class ShipmentsController < ApplicationController
               :alignment => { :horizontal => cell.horizontal_alignment.to_sym, :vertical => cell.vertical_alignment.to_sym },
               :b => cell.is_bolded.nil? ? false : cell.is_bolded
             }
-            n_style = packing_list_book.styles.add_style (style_h)
-require "byebug"; byebug
+            styles << packing_list_book.styles.add_style (style_h)
+require "bybug"; byebug
           }
         }
         
