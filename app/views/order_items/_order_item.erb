@@ -34,7 +34,6 @@
       <option <%= (!orderitem.single_unit.nil? && orderitem.single_unit == "BOX") ? "selected":"" %> value="BOX">BOX</option>
     </select>
   </td>
-  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_price' value='<%= orderitem.item_price %>'></td>
   <!--<td><input name='order_items[]discount' type='text' placeholder=''  class='form-control input-sm form-fixer discount' value='<%= orderitem.discount %>'></td>-->
   <!--<td><input name='order_items[]unit' type='text' placeholder=''  class='form-control input-sm form-fixer unit' value='<%= orderitem.unit %>'></td>-->
   <td><input name='order_items[]no_of_unit' type='text' placeholder=''  class='form-control input-sm form-fixer no_of_unit' value='<%= orderitem.no_of_unit %>'></td>
@@ -42,6 +41,7 @@
   <td><input name='order_items[]item_total_weight' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_weight' value='<%= orderitem.item_total_weight %>'></td>
   <td><input name='order_items[]volume_per_unit' type='text' placeholder=''  class='form-control input-sm form-fixer volume_per_unit' value='<%= orderitem.volume_per_unit %>'></td>
   <td><input name='order_items[]item_total_volume' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_volume' value='<%= orderitem.item_total_volume %>'></td>
+  <td><input name='order_items[]item_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_price' value='<%= orderitem.item_price %>'></td>
   <td><input name='order_items[]item_total_price' type='text' placeholder=''  class='form-control input-sm form-fixer item_total_price' value='<%= orderitem.item_total_price %>'></td>
   <!--<td><input name='order_items[]remarks' type='text' placeholder=''  class='form-control input-sm form-fixer remarks' value='<%= orderitem.remarks %>'></td>-->
   <td style="white-space: nowrap;"><button type='button' class='btn btn-default btn-xs upload-icon' aria-label='Left Align'><span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span></button>
