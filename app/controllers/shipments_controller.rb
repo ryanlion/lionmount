@@ -34,60 +34,126 @@ class ShipmentsController < ApplicationController
     def check_style(styles,style_h) 
       
     end
+    def load_header_values(shipment,user)
+      {
+        "customer" => user.name,
+        "shipment_port_of_dispatch" => shipment.port_dispatch,
+        "shipment_order_date" => shipment.doc_date,
+        "shipment_loading_date" => shipment.loading_date,
+        "shipment_marks" => shipment.marks,
+        "shipment_port_of_destination" => shipment.port_destination,
+        "shipment_container_no" => shipment.container_no,
+        "shipment_seal_no" => shipment.seal_no,
+        "shipment_bl_no" => shipment.bl_no,
+        "user_contact_no" => user.contact_no,
+        "user_fax" => user.fax,
+        "user_address" => user.address,
+        "user_email" => user.email
+      }
+    end
+    def to_alphabet(i)
+      i.to_s(26).tr( "123456789abcdefghijklmnopqr", "abcdefghijklmnopqrstuvwxyz" ).upcase
+    end
+    def merge_cells(sheet,template)
+      template.first.merged_cells.each{|cell_range|
+        col_range = cell_range.ref.col_range.to_a
+        row_range = cell_range.ref.row_range.to_a
+        cell_start = "#{to_alphabet(col_range.first+1)}#{row_range.first+1}"
+        cell_end = "#{to_alphabet(col_range.last+1)}#{row_range.last+1}"
+        sheet.merge_cells("#{cell_start}:#{cell_end}")
+      }
+    end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
-        template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
-        template_sheet = template_book.worksheet 0
+        #template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
+        #template_sheet = template_book.worksheet 0
         p = Axlsx::Package.new
         packing_list_book = p.workbook
+	horizontal_center_cell = packing_list_book.styles.add_style({ :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER })
         shipment = JSON.parse(@shipment.to_json)
-        sheet = packing_list_book.add_worksheet(:name => "Packing List test")
+        shipment_users = @shipment.orders.collect{ |o| o.user }.uniq
+        sheets = {}
         styles = []
-        template.first.each {|row|
-          row.cells.each{ |cell|
-            style_h = {
-              :fg_color => cell.font_color,
-              :sz => cell.font_size.round,
-              :font_name => cell.font_name,
-              :border => { :color => 'FF000000', :style => :thin },
-              :alignment => { :horizontal => cell.horizontal_alignment.to_sym, :vertical => cell.vertical_alignment.to_sym },
-              :b => cell.is_bolded.nil? ? false : cell.is_bolded
+        field_order = []
+        image_column = 0
+        shipment_users.each{|user|
+          header_value = load_header_values(@shipment,user)
+          sheet = packing_list_book.add_worksheet(:name => "Packing List--#{user.name}")
+          sheets[user.name] = sheet 
+          section = "Header"
+          template.first.each {|row|
+            row_styles = []
+            row_values = []
+            row.cells.each{ |cell|
+              h_alignment = cell.horizontal_alignment.to_sym rescue :center
+              v_alignment = cell.vertical_alignment.to_sym rescue :center
+              section = "Content" if cell.value == "#ContentBegin#"
+              if section == "Header"
+                style_h = {
+                  :fg_color => cell.font_color,
+                  :sz => cell.font_size.round,
+                  :font_name => cell.font_name,
+                  :border => { :color => 'FF000000', :style => :thin },
+                  :alignment => { :horizontal => h_alignment, :vertical => v_alignment },
+                  :b => cell.is_bolded.nil? ? false : cell.is_bolded
+                }
+                val = (cell.value.nil? ? nil : cell.value.tr('\"',""))
+                row_values << (header_value[val].nil? ? cell.value : header_value[val])
+                row_styles << packing_list_book.styles.add_style(style_h)
+              elsif section == "Content"
+                  image_column = cell.column if !cell.value.nil? && cell.value.include?("image")
+                  field_order << cell.value
+              end
             }
-            styles << packing_list_book.styles.add_style (style_h)
-require "bybug"; byebug
+            sheets[user.name].add_row row_values, :style => row_styles, :types => [:string] unless row_values.compact.empty?
           }
         }
         
-
-        header_rows = 0
-        template_sheet.rows.each{ |row|
-            values = JSON.parse(row.to_json)
-            styles = []
-            values.each_with_index{ |v,i|
-              format = row.formats[i]
-              horizontal = :center
-              if format.horizontal_align == :default
-                horizontal = :left
-              else
-              end
-              unless v.nil? || v == ""
-                style_hash = {
-                  :bg_color => Color::CSS[format.pattern_fg_color.to_s].html.swapcase.gsub(/\#/,"FF"),
-                  :fg_color=> Color::CSS[format.font.color .to_s].html.swapcase.gsub(/\#/,"FF"),
-                  :sz=>format.font.size, 
-                  :font_name => format.font.name, 
-                  :border=> {:style => format.top, :color => "FF000000"},
-                  :alignment => { :horizontal=> horizontal, :vertical => format.vertical_align }
-                }
-                n_style = packing_list_book.styles.add_style (style_hash)
-                styles << n_style
-              else
-                styles << nil
-              end
+        @shipment.orders.each { |order|
+          orderitems = OrderItem.where(order_id: order.id).order(:sorting)
+          orderitems_formatted = orderitems.map {|item|
+            {
+              "order_id" => item.order_id,
+              "supplier_name" => order.supplier.supplier_name,
+              "supplier_contact_no" => order.supplier.supplier_contact_no,
+              "image_space" => "",
+              "product_code" => item.product_code,
+              "prodect_name" => item.product_name,
+              "spec" => item.spec,
+              "quantity_per_unit" => item.quantity_per_unit,
+              "no_of_unit" => item.no_of_unit,
+              "item_total_volume" => item.item_total_volume,
+              "item_total_weight" => item.item_total_weight,
+              "item_price" => item.item_price,
+              "item_total_price" => item.item_total_price,
+              "volume_per_unit" => item.volume_per_unit,
+              "weight_per_unit" => item.weight_per_unit,
+              "image" => item.image.remote_url
             }
-            sheet.add_row values, :style => styles, :types => [:string]
           }
+          orderitems_formatted.each_with_index {|item, index|
+            arr = item.values.first item.values.size-1
+            sheets[order.user.name].add_row arr, :style => horizontal_center_cell,:height => 55
+            row_no = sheets[order.user.name].rows.length
+            
+            unless item["image"].nil? || item["image"].blank? then
+              img = File.expand_path("#{Rails.root}/public#{item["image"]}", __FILE__)
+              sheets[order.user.name].add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
+                image.width=100
+                image.height=66
+                image.start_at image_column, row_no-1
+              end
+            else
+              sheets[order.user.name].merge_cells("D#{row_no}:D#{row_no-1}")
+            end
+          }
+        }
+        sheets.keys.each{|key|
+          sheets[key].add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheets[key].rows.length})","=SUM(J6:J#{sheets[key].rows.length})","=SUM(K6:K#{sheets[key].rows.length})",
+             "","=SUM(M5:M#{sheets[key].rows.length})","","",""], :style => horizontal_center_cell
+          merge_cells(sheets[key],template)
+        }
         packing_list_book.styles do |s|
           
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
@@ -100,37 +166,7 @@ require "bybug"; byebug
             sheet.add_row ["IN NO.","MARKS","CTN NO","DESCRIPTION","","ITEM CODE","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
             sheet.merge_cells("D6:E6")
 
-            @shipment.orders.each do |order|
-              orderitems = OrderItem.where(order_id: order.id).order(:sorting)
-              orderitems.each_with_index do |order_item, index|
-                sheet.add_row [order.id, shipment["marks"],"","    ",
-                  order_item.product_name,order_item.product_code,
-                  order_item.spec,order_item.quantity_per_unit,
-                  order_item.no_of_unit,order_item.item_total_volume,
-                  order_item.item_total_weight,
-                  order_item.discount == "0" ? order_item.item_price : order_item.item_price.to_f - order_item.discount.to_f,
-                  order_item.item_total_price,order_item.weight_per_unit,
-                  order_item.item_total_weight,order_item.remarks], 
-                  :style => horizontal_center_cell,:height => 55
-                  
-                  row_no = sheet.rows.length
-                  
-                  unless order_item.image_uid.nil? then
-                    img = File.expand_path("#{Rails.root}/public#{order_item.image.remote_url}", __FILE__)
-                    sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
-
-                      image.width=100
-                      image.height=66
-                      image.start_at 3, row_no-1
-                    end
-                  else
-                    sheet.merge_cells("D#{row_no}:D#{row_no-1}")
-                  end
-
-              end
-            end
-             sheet.add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheet.rows.length})","=SUM(J6:J#{sheet.rows.length})","=SUM(K6:K#{sheet.rows.length})",
-                "","=SUM(M5:M#{sheet.rows.length})","","",""], :style => horizontal_center_cell
+            
           end
           #customs clearance invoice
           packing_list_book.add_worksheet(:name => "Invoice") do |sheet|          
@@ -263,7 +299,7 @@ require "bybug"; byebug
     end
 private
   def shipment_params
-    params.require(:shipment).permit(:shipment_uuid,:description,:status,:customer_name,:marks,:port_dispatch,:port_distination,:doc_date,:loading_date)
+    params.require(:shipment).permit(:shipment_uuid,:description,:status,:customer_name,:marks,:port_dispatch,:port_destination,:doc_date,:loading_date,:bl_no,:seal_no,:container_no)
   end
   def admin_only
     unless current_user.admin?

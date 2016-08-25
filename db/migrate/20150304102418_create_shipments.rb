@@ -7,9 +7,12 @@ class CreateShipments < ActiveRecord::Migration
       t.string :customer_name
       t.string :marks
       t.string :port_dispatch
-      t.string :port_distination
+      t.string :port_destination
+      t.string :container_no
       t.string :doc_date
       t.string :loading_date
+      t.string :seal_no
+      t.string :bl_no
       
       t.timestamps
     end
