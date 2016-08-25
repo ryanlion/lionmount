@@ -63,11 +63,16 @@ class ShipmentsController < ApplicationController
         sheet.merge_cells("#{cell_start}:#{cell_end}")
       }
     end
+    def set_column_width(sheet,template) 
+      widths = []
+      template.first.merge_cells.first.ref.col_range.each{|n|
+        widths << template.first.get_column_width(n).to_i
+      }
+      sheet.column_widths(*widths)
+    end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
-        #template_book = Spreadsheet.open 'public/system/spreadsheet/template/packing_template.xls'
-        #template_sheet = template_book.worksheet 0
         p = Axlsx::Package.new
         packing_list_book = p.workbook
 	horizontal_center_cell = packing_list_book.styles.add_style({ :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER })
@@ -152,6 +157,7 @@ class ShipmentsController < ApplicationController
         sheets.keys.each{|key|
           sheets[key].add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheets[key].rows.length})","=SUM(J6:J#{sheets[key].rows.length})","=SUM(K6:K#{sheets[key].rows.length})",
              "","=SUM(M5:M#{sheets[key].rows.length})","","",""], :style => horizontal_center_cell
+          set_column_width(sheets[key],template)
           merge_cells(sheets[key],template)
         }
         packing_list_book.styles do |s|
