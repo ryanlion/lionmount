@@ -79,7 +79,7 @@ class ShipmentsController < ApplicationController
         shipment = JSON.parse(@shipment.to_json)
         shipment_users = @shipment.orders.collect{ |o| o.user }.uniq
         sheets = {}
-        styles = []
+        content_styles = []
         field_order = []
         image_column = 0
         shipment_users.each{|user|
@@ -107,8 +107,17 @@ class ShipmentsController < ApplicationController
                 row_values << (header_value[val].nil? ? cell.value : header_value[val])
                 row_styles << packing_list_book.styles.add_style(style_h)
               elsif section == "Content"
-                  image_column = cell.column if !cell.value.nil? && cell.value.include?("image")
-                  field_order << cell.value
+                image_column = cell.column if !cell.value.nil? && cell.value.include?("image")
+                style_h = {
+                  :fg_color => cell.font_color,
+                  :sz => cell.font_size.round,
+                  :font_name => cell.font_name,
+                  :border => { :color => 'FF000000', :style => :thin },
+                  :alignment => { :horizontal => h_alignment, :vertical => v_alignment },
+                  :b => cell.is_bolded.nil? ? false : cell.is_bolded
+                }
+                content_styles << packing_list_book.styles.add_style(style_h)
+                field_order << cell.value
               end
             }
             sheets[user.name].add_row row_values, :style => row_styles, :types => [:string] unless row_values.compact.empty?
@@ -139,7 +148,7 @@ class ShipmentsController < ApplicationController
           }
           orderitems_formatted.each_with_index {|item, index|
             arr = item.values.first item.values.size-1
-            sheets[order.user.name].add_row arr, :style => horizontal_center_cell,:height => 55
+            sheets[order.user.name].add_row arr, :style => content_styles,:height => 55
             row_no = sheets[order.user.name].rows.length
             
             unless item["image"].nil? || item["image"].blank? then
@@ -150,7 +159,7 @@ class ShipmentsController < ApplicationController
                 image.start_at image_column, row_no-1
               end
             else
-              sheets[order.user.name].merge_cells("D#{row_no}:D#{row_no-1}")
+              sheets[order.user.name].merge_cells("#{to_alphabet(image_column)}#{row_no}:#{to_alphabet(image_column)}#{row_no-1}")
             end
           }
         }
@@ -164,16 +173,7 @@ class ShipmentsController < ApplicationController
           
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           horizontal_center_cell_noborder =  s.add_style  :alignment => { :horizontal=> :center }
-          #packing_list sheet
-          packing_list_book.add_worksheet(:name => "Packing List") do |sheet|          
-            
-            sheet.column_widths 8,8,8,6,10,nil,20,nil,nil,nil,7,8,8,8
-
-            sheet.add_row ["IN NO.","MARKS","CTN NO","DESCRIPTION","","ITEM CODE","SPECIFICATION","QTY/CTN","CTN","CBM","G.W","PRICE","AMOUNT","U.W","U.CBM","REMARKS"], :style => Axlsx::STYLE_THIN_BORDER
-            sheet.merge_cells("D6:E6")
-
-            
-          end
+          
           #customs clearance invoice
           packing_list_book.add_worksheet(:name => "Invoice") do |sheet|          
             sheet.add_row ["","","","","","","","",""], :types => [:string], :style => horizontal_center_cell_noborder
@@ -276,33 +276,6 @@ class ShipmentsController < ApplicationController
         send_file 'public/system/spreadsheet/spreadsheet.xlsx'
     end
 
-
-    def packing_list_1
-        @shipment = Shipment.find_by(id: params[:id])
-        template_book = Spreadsheet.open 'public/system/spreadsheet/template/real_packing_amount_template.xls'
-
-        template_sheet = template_book.worksheet 0
-
-        Spreadsheet.client_encoding = 'UTF-8'
-        book = Spreadsheet::Workbook.new
-        packing_list_sheet= book.create_worksheet
-        packing_list_sheet.name = "Packing List"
-
-        template_sheet.each do |row|
-          packing_list_sheet.row(packing_list_sheet.last_row_index+1).replace  row
-        end
-        packing_list_sheet.delete_row(0)
-        @shipment.orders.each do |order|
-            order.order_items.each_with_index do |order_item, index|
-                packing_list_sheet.row(packing_list_sheet.last_row_index+1).replace [order_item.product_name, order_item.packing,'ssss']
-            end
-        end
-        
-        #book.write 'public/system/spreadsheet/spreadsheet.xls'
-        file_contents = StringIO.new
-        book.write file_contents
-        send_data file_contents.string.force_encoding('binary'), filename: "spreadsheet.xls"
-    end
 private
   def shipment_params
     params.require(:shipment).permit(:shipment_uuid,:description,:status,:customer_name,:marks,:port_dispatch,:port_destination,:doc_date,:loading_date,:bl_no,:seal_no,:container_no)
