@@ -82,6 +82,7 @@ class ShipmentsController < ApplicationController
         content_styles = []
         field_order = []
         image_column = 0
+        col_range = template.first.merge_cells.first.ref.col_range
         shipment_users.each{|user|
           header_value = load_header_values(@shipment,user)
           sheet = packing_list_book.add_worksheet(:name => "Packing List--#{user.name}")
@@ -106,7 +107,7 @@ class ShipmentsController < ApplicationController
                 val = (cell.value.nil? ? nil : cell.value.tr('\"',""))
                 row_values << (header_value[val].nil? ? cell.value : header_value[val])
                 row_styles << packing_list_book.styles.add_style(style_h)
-              elsif section == "Content"
+              elsif section == "Content" && field_order.size <= col_range.last
                 image_column = cell.column if !cell.value.nil? && cell.value.include?("image")
                 style_h = {
                   :fg_color => cell.font_color,
@@ -117,7 +118,7 @@ class ShipmentsController < ApplicationController
                   :b => cell.is_bolded.nil? ? false : cell.is_bolded
                 }
                 content_styles << packing_list_book.styles.add_style(style_h)
-                field_order << cell.value
+                field_order << cell.value.tr('\"',"") if !cell.value.nil? && (cell.value.include? "\"")
               end
             }
             sheets[user.name].add_row row_values, :style => row_styles, :types => [:string] unless row_values.compact.empty?
@@ -126,7 +127,7 @@ class ShipmentsController < ApplicationController
         
         @shipment.orders.each { |order|
           orderitems = OrderItem.where(order_id: order.id).order(:sorting)
-          orderitems_formatted = orderitems.map {|item|
+          orderitems_mapped = orderitems.map {|item|
             {
               "order_id" => item.order_id,
               "supplier_name" => order.supplier.supplier_name,
@@ -134,7 +135,9 @@ class ShipmentsController < ApplicationController
               "image_space" => "",
               "product_code" => item.product_code,
               "prodect_name" => item.product_name,
+              "product_name_eng" => item.product_name_eng,
               "spec" => item.spec,
+              "spec_eng" => item.spec_eng,
               "quantity_per_unit" => item.quantity_per_unit,
               "no_of_unit" => item.no_of_unit,
               "item_total_volume" => item.item_total_volume,
@@ -146,8 +149,9 @@ class ShipmentsController < ApplicationController
               "image" => item.image.remote_url
             }
           }
-          orderitems_formatted.each_with_index {|item, index|
-            arr = item.values.first item.values.size-1
+          orderitems_mapped.each_with_index {|item, index|
+            #arr = item.values.first item.values.size-1
+            arr = field_order.map {|k| item[k] }
             sheets[order.user.name].add_row arr, :style => content_styles,:height => 55
             row_no = sheets[order.user.name].rows.length
             
