@@ -70,6 +70,9 @@ class ShipmentsController < ApplicationController
       }
       sheet.column_widths(*widths)
     end
+    def set_footer(sheet,template)
+      
+    end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
@@ -81,6 +84,8 @@ class ShipmentsController < ApplicationController
         sheets = {}
         content_styles = []
         field_order = []
+        footer_values = []
+        footer_styles = []
         image_column = 0
         col_range = template.first.merge_cells.first.ref.col_range
         shipment_users.each{|user|
@@ -95,6 +100,7 @@ class ShipmentsController < ApplicationController
               h_alignment = cell.horizontal_alignment.to_sym rescue :center
               v_alignment = cell.vertical_alignment.to_sym rescue :center
               section = "Content" if cell.value == "#ContentBegin#"
+              section = "Footer" if cell.value == "#FooterBegin#"
               if section == "Header"
                 style_h = {
                   :fg_color => cell.font_color,
@@ -119,6 +125,12 @@ class ShipmentsController < ApplicationController
                 }
                 content_styles << packing_list_book.styles.add_style(style_h)
                 field_order << cell.value.tr('\"',"") if !cell.value.nil? && (cell.value.include? "\"")
+              elsif section == "Footer"
+                if cell.value == "{sum}"
+require "byebug"; byebug
+                  footer_values << "=SUM(#{})"
+                #elsif
+                end
               end
             }
             sheets[user.name].add_row row_values, :style => row_styles, :types => [:string] unless row_values.compact.empty?
@@ -168,8 +180,9 @@ class ShipmentsController < ApplicationController
           }
         }
         sheets.keys.each{|key|
-          sheets[key].add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheets[key].rows.length})","=SUM(J6:J#{sheets[key].rows.length})","=SUM(K6:K#{sheets[key].rows.length})",
-             "","=SUM(M5:M#{sheets[key].rows.length})","","",""], :style => horizontal_center_cell
+          #sheets[key].add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheets[key].rows.length})","=SUM(J6:J#{sheets[key].rows.length})","=SUM(K6:K#{sheets[key].rows.length})",
+          #   "","=SUM(M5:M#{sheets[key].rows.length})","","",""], :style => horizontal_center_cell
+          set_footer(sheets[key],template)
           set_column_width(sheets[key],template)
           merge_cells(sheets[key],template)
         }
