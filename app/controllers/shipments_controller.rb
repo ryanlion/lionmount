@@ -71,7 +71,8 @@ class ShipmentsController < ApplicationController
       sheet.column_widths(*widths)
     end
     def set_footer(sheet,values,styles)
-      sheet.add_row values, :styles => styles
+      vals = values.map{|v| (!v.nil? && (v.include? "=SUM") ? "#{v.gsub('last_row_no',sheet.rows.size.to_s)}" : v) }
+      sheet.add_row vals, :styles => styles
     end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
@@ -130,7 +131,7 @@ class ShipmentsController < ApplicationController
                 }
                 content_styles << packing_list_book.styles.add_style(style_h)
                 field_order << cell.value.tr('\"',"") if !cell.value.nil? && (cell.value.include? "\"")
-              elsif section == "Footer"
+              elsif section == "Footer" && footer_values.size <= col_range.last - 1 
                 style_h = {
                   :fg_color => cell.font_color,
                   :sz => cell.font_size.round,
@@ -140,7 +141,7 @@ class ShipmentsController < ApplicationController
                   :b => cell.is_bolded.nil? ? false : cell.is_bolded
                 }
                 if cell.value == "{sum}"
-                  footer_values << "=SUM(#{to_alphabet(cell.column)}#{header_length}:#{to_alphabet(cell.column)}#{cell.row})"
+                  footer_values << "=SUM(#{to_alphabet(cell.column)}#{header_length}:#{to_alphabet(cell.column)}last_row_no)"
                   footer_styles << packing_list_book.styles.add_style(style_h)
                 elsif cell.value != "#FooterBegin#"
                   footer_values << cell.value
