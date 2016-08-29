@@ -71,12 +71,29 @@ class OrdersController < ApplicationController
     end
     def header_values()
     end
+    def init_doc_varibles()
+      {
+        sheets => {},
+        content_styles => [],
+        field_order = [],
+        footer_values = [],
+        footer_styles = [],
+        header_length = 0,
+        image_column = 0,
+        col_range = template.first.merge_cells.first.ref.col_range
+      }
+    end
+    def set_doc_varibles(vals,key,val)
+      vals[key] = val
+      vals
+    end
     def order_xlsx
       @order = Order.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
 require "byebug"; byebug
         p = Axlsx::Package.new
         order_book = p.workbook
+        doc_varibles = init_doc_varibles 
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
