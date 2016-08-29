@@ -1,4 +1,6 @@
+require_relative "../helps/doc_helper"
 class OrdersController < ApplicationController
+  include DocHelper
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
     before_filter :admin_only, :except => [:index, :packing_list]
     def update
@@ -67,14 +69,14 @@ class OrdersController < ApplicationController
       params.require(:order).permit(:user_id, :supplier_name,:supplier_english_name,
         :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email, :marks, :supplier_id)
     end
+    def header_values()
+    end
     def order_xlsx
       @order = Order.find_by(id: params[:id])
-        #template_book = Spreadsheet.open 'public/system/spreadsheet/template/real_packing_amount_template.xls'
-
-        #template_sheet = template_book.worksheet 0
-
+        template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
+require "byebug"; byebug
         p = Axlsx::Package.new
-        packing_list_book = p.workbook
+        order_book = p.workbook
 
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER

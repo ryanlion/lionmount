@@ -178,7 +178,6 @@ class ShipmentsController < ApplicationController
             }
           }
           orderitems_mapped.each_with_index {|item, index|
-            #arr = item.values.first item.values.size-1
             arr = field_order.map {|k| item[k] }
             sheets[order.user.name].add_row arr, :style => content_styles,:height => 55
             row_no = sheets[order.user.name].rows.length
