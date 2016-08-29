@@ -71,21 +71,64 @@ class OrdersController < ApplicationController
     end
     def header_values()
     end
-    def init_doc_varibles()
+    def init_doc_varibles(template)
+      header_styles = []
+      header_values = []
+      content_styles = []
+      content_values = []
+      footer_styles =[]
+      footer_values = []
+      image_column = 0
+      template.first.each{|row|
+        header_row_styles = []
+        header_row_values = []
+        content_row_styles = []
+        content_row_values = []
+        footer_row_styles = []
+        footer_row_values = []
+        row.cells.each{|cell|
+          if row[0].value == "#HeaderRow#"
+            if cell.value != "#HeaderRow#"
+              header_row_styles << capture_style(cell)
+              header_values << cell.value
+            end
+          elsif row[0].value == "#ContentRow#"
+            if cell.value != "#ContentRow#"
+              content_row_styles << capture_style(cell)
+              content_values << cell.value
+              image_column = cell.column if image_column == 0 && cell.value == "image_space" 
+            end
+          elsif row[0].value == "#FooterRow#"
+            if cell.value != "#FooterRow#"
+              footer_styles << capture_styles(cell)
+              content_values << cell.value
+            end
+          end
+        }
+      }
       {
-        sheets => {},
-        content_styles => [],
-        field_order = [],
-        footer_values = [],
-        footer_styles = [],
-        header_length = 0,
-        image_column = 0,
-        col_range = template.first.merge_cells.first.ref.col_range
+        "sheets" => {},
+        "header_styles" => header_styles,
+        "header_values" => header_values,
+        "content_styles" => content_styles,
+        "content_values" => content_values,
+        "footer_values" => footer_values,
+        "footer_styles" => footer_styles,
+        "image_column" => image_column,
+        "col_range" => template.first.merge_cells.first.ref.col_range
       }
     end
-    def set_doc_varibles(vals,key,val)
-      vals[key] = val
-      vals
+    def print_header(order,sheet,doc_varibles,header_ref)
+      doc_varibles["header_values"].each_with_index{|header_row,i|
+        values = header_row.each{|cell|
+          val = (cell.value.nil? ? nil : cell.value.tr('\"',""))
+          values = (header_ref[val].nil? ? cell.value : header_value[val])
+          sheet.add_row vaules, :style => doc_varibles["header_styles"][i]
+        }
+      }
+    end
+    def print_content(order,sheet,doc_varibles,order_item_values)
+      
     end
     def order_xlsx
       @order = Order.find_by(id: params[:id])
@@ -93,8 +136,13 @@ class OrdersController < ApplicationController
 require "byebug"; byebug
         p = Axlsx::Package.new
         order_book = p.workbook
-        doc_varibles = init_doc_varibles 
-
+        sheet = order_book.add_worksheet(:name => "Order:#{@order.id}-#{order_book.sheets.size}")
+        doc_varibles = init_doc_varibles(template)
+        header_ref = order_context_values(@order,customer,user,supplier)
+        print_header(@order,sheet,doc_varibles,header_ref) 
+        @order.order_items{|item|
+          item
+        }
         packing_list_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           top_border = s.add_style({:border => { :style => :thin, :color => 'FF000000',  :name => :top, :edges => [:top] }})
