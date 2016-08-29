@@ -70,8 +70,8 @@ class ShipmentsController < ApplicationController
       }
       sheet.column_widths(*widths)
     end
-    def set_footer(sheet,template)
-      
+    def set_footer(sheet,values,styles)
+      sheet.add_row values, :styles => styles
     end
     def packing_list
         @shipment = Shipment.find_by(id: params[:id])
@@ -86,6 +86,7 @@ class ShipmentsController < ApplicationController
         field_order = []
         footer_values = []
         footer_styles = []
+        header_length = 0
         image_column = 0
         col_range = template.first.merge_cells.first.ref.col_range
         shipment_users.each{|user|
@@ -99,8 +100,12 @@ class ShipmentsController < ApplicationController
             row.cells.each{ |cell|
               h_alignment = cell.horizontal_alignment.to_sym rescue :center
               v_alignment = cell.vertical_alignment.to_sym rescue :center
-              section = "Content" if cell.value == "#ContentBegin#"
-              section = "Footer" if cell.value == "#FooterBegin#"
+              if cell.value == "#ContentBegin#"
+                section = "Content"
+                header_length = cell.row+1 
+              elsif cell.value == "#FooterBegin#"
+                section = "Footer"
+              end
               if section == "Header"
                 style_h = {
                   :fg_color => cell.font_color,
@@ -126,10 +131,20 @@ class ShipmentsController < ApplicationController
                 content_styles << packing_list_book.styles.add_style(style_h)
                 field_order << cell.value.tr('\"',"") if !cell.value.nil? && (cell.value.include? "\"")
               elsif section == "Footer"
+                style_h = {
+                  :fg_color => cell.font_color,
+                  :sz => cell.font_size.round,
+                  :font_name => cell.font_name,
+                  :border => { :color => 'FF000000', :style => :thin },
+                  :alignment => { :horizontal => h_alignment, :vertical => v_alignment },
+                  :b => cell.is_bolded.nil? ? false : cell.is_bolded
+                }
                 if cell.value == "{sum}"
-require "byebug"; byebug
-                  footer_values << "=SUM(#{})"
-                #elsif
+                  footer_values << "=SUM(#{to_alphabet(cell.column)}#{header_length}:#{to_alphabet(cell.column)}#{cell.row})"
+                  footer_styles << packing_list_book.styles.add_style(style_h)
+                elsif cell.value != "#FooterBegin#"
+                  footer_values << cell.value
+                  footer_styles << packing_list_book.styles.add_style(style_h)
                 end
               end
             }
@@ -182,7 +197,7 @@ require "byebug"; byebug
         sheets.keys.each{|key|
           #sheets[key].add_row ["TOTAL","","","","","","","","=SUM(I6:I#{sheets[key].rows.length})","=SUM(J6:J#{sheets[key].rows.length})","=SUM(K6:K#{sheets[key].rows.length})",
           #   "","=SUM(M5:M#{sheets[key].rows.length})","","",""], :style => horizontal_center_cell
-          set_footer(sheets[key],template)
+          set_footer(sheets[key],footer_values,footer_styles)
           set_column_width(sheets[key],template)
           merge_cells(sheets[key],template)
         }
