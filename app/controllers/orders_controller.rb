@@ -1,4 +1,4 @@
-require_relative "../helps/doc_helper"
+require_relative "../helpers/doc_helper"
 class OrdersController < ApplicationController
   include DocHelper
     protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
@@ -54,6 +54,7 @@ class OrdersController < ApplicationController
     def create
       new_order_params=order_params.except("supplier_name")
       @order = Order.new new_order_params
+      @order.follower_id = current_user.id
       @order.save
       @users = User.all
       redirect_to edit_order_path(@order.id)
@@ -68,8 +69,6 @@ class OrdersController < ApplicationController
     def order_params
       params.require(:order).permit(:user_id, :supplier_name,:supplier_english_name,
         :supplier_address, :supplier_contact_person, :supplier_contact_no,:supplier_email, :marks, :supplier_id)
-    end
-    def header_values()
     end
     def init_doc_varibles(template)
       header_styles = []
@@ -90,60 +89,62 @@ class OrdersController < ApplicationController
           if row[0].value == "#HeaderRow#"
             if cell.value != "#HeaderRow#"
               header_row_styles << capture_style(cell)
-              header_values << cell.value
+              header_row_values << cell.value
             end
           elsif row[0].value == "#ContentRow#"
             if cell.value != "#ContentRow#"
-              content_row_styles << capture_style(cell)
+              content_styles << capture_style(cell)
               content_values << cell.value
               image_column = cell.column if image_column == 0 && cell.value == "image_space" 
             end
           elsif row[0].value == "#FooterRow#"
             if cell.value != "#FooterRow#"
-              footer_styles << capture_styles(cell)
-              content_values << cell.value
+              footer_row_styles << capture_style(cell)
+              footer_row_values << cell.value
             end
           end
         }
+        if row[0].value == "#HeaderRow#"
+          header_values << header_row_values 
+          header_styles << header_row_styles
+        elsif row[0].value == "#FooterRow#"
+          footer_values << footer_row_values 
+          footer_styles << footer_row_styles
+        end
       }
       {
         "sheets" => {},
         "header_styles" => header_styles,
         "header_values" => header_values,
+        "header_merged_cells" => get_merged_cells(template.first,0,header_values.size),
         "content_styles" => content_styles,
         "content_values" => content_values,
         "footer_values" => footer_values,
         "footer_styles" => footer_styles,
+        "footer_merged_cells" => get_merged_cells(template.first,header_values.size+1,footer_values.size),
         "image_column" => image_column,
         "col_range" => template.first.merge_cells.first.ref.col_range
       }
     end
-    def print_header(order,sheet,doc_varibles,header_ref)
-      doc_varibles["header_values"].each_with_index{|header_row,i|
-        values = header_row.each{|cell|
-          val = (cell.value.nil? ? nil : cell.value.tr('\"',""))
-          values = (header_ref[val].nil? ? cell.value : header_value[val])
-          sheet.add_row vaules, :style => doc_varibles["header_styles"][i]
-        }
-      }
-    end
-    def print_content(order,sheet,doc_varibles,order_item_values)
-      
-    end
+     
     def order_xlsx
       @order = Order.find_by(id: params[:id])
-        template = RubyXL::Parser.parse("public/system/spreadsheet/template/packing_template.xlsx")
-require "byebug"; byebug
+        template = RubyXL::Parser.parse("public/system/spreadsheet/template/order_template.xlsx")
         p = Axlsx::Package.new
         order_book = p.workbook
-        sheet = order_book.add_worksheet(:name => "Order:#{@order.id}-#{order_book.sheets.size}")
+        sheet = order_book.add_worksheet(:name => "Order_#{@order.id}_#{order_book.worksheets.size}")
         doc_varibles = init_doc_varibles(template)
-        header_ref = order_context_values(@order,customer,user,supplier)
-        print_header(@order,sheet,doc_varibles,header_ref) 
-        @order.order_items{|item|
-          item
+        page_ref = order_context_values(@order)
+        print_header(@order,sheet,doc_varibles,page_ref) 
+        merge_cells(sheet,doc_varibles["header_merged_cells"])
+        @order.order_items.each{|item|
+          print_content(@order,sheet,doc_varibles,item)
         }
-        packing_list_book.styles do |s|
+        print_footer(@order,sheet,doc_varibles,page_ref)
+
+
+
+        order_book.styles do |s|
           horizontal_center_cell =  s.add_style  :alignment => { :horizontal=> :center }, :border => Axlsx::STYLE_THIN_BORDER
           top_border = s.add_style({:border => { :style => :thin, :color => 'FF000000',  :name => :top, :edges => [:top] }})
           top_left_right_border = s.add_style({:alignment => { :horizontal=> :center },:border => { :style => :thin, :color => 'FF000000',  :name => :top_left_right, :edges => [:top,:left,:right] }})
@@ -152,7 +153,7 @@ require "byebug"; byebug
           bottom_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :bottom, :edges => [:bottom] }})
           left_border = s.add_style({:border => { :style => :thin, :color => 'FF000000', :name => :left, :edges => [:left] }})
 
-          packing_list_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
+          order_book.add_worksheet(:name => "Purchase Contract") do |sheet|          
             sheet.add_row ["利恩国际贸易有限公司","","","","","","","","","",""], :style => horizontal_center_cell, :types => [:string]
             sheet.rows.first.cells.each do |cell|
               cell.style = top_left_right_border

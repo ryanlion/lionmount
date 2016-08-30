@@ -3,6 +3,7 @@ class CreateOrders < ActiveRecord::Migration
     create_table :orders do |t|
       t.belongs_to :supplier
       t.belongs_to :user, index:true
+      t.integer :follower_id
       t.string :total_weight
       t.string :total_volume
       t.string :total_price
