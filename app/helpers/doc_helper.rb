@@ -59,7 +59,8 @@ module DocHelper
   end
   def get_merged_cells(sheet,start_row,end_row)
     merged_cells = sheet.merged_cells.map{|m_c| { "col_range" => m_c.ref.col_range, "row_range" => m_c.ref.row_range}}
-    merged_cells = merged_cells.delete_if{|c| c["row_range"].first < start_row && c["row_range"].last > end_row}
+require "byebug"; byebug
+    merged_cells = merged_cells.select{|c| c["row_range"].first >= start_row && c["row_range"].last < end_row}
     merged_cells
   end
   def merge_cells(sheet,merged_cells)
@@ -79,9 +80,6 @@ module DocHelper
   end
   
   def print_content(p_obj,sheet,doc_varibles,item)
-    #arr = doc_varibles["content_values"].map {|k| item[k] }
-    #sheets[order.user.name].add_row arr, :style => content_styles,:height => 55
-    #order_item_values(order,item)
     ref=doc_varibles["content_values"].map{|v| v.tr('"',"")}
     values = order_item_values(p_obj,item)
     picked_values = ref.map{|r| values[r]}
