@@ -88,6 +88,7 @@ class OrdersController < ApplicationController
         row.cells.each{|cell|
           if row[0].value == "#HeaderRow#"
             if cell.value != "#HeaderRow#"
+require "byebug"; byebug
               header_row_styles << capture_style(cell)
               header_row_values << cell.value
             end
@@ -123,7 +124,8 @@ class OrdersController < ApplicationController
         "footer_styles" => footer_styles,
         "footer_merged_cells" => get_merged_cells(template.first,header_values.size+1,footer_values.size),
         "image_column" => image_column,
-        "col_range" => template.first.merge_cells.first.ref.col_range
+        "col_range" => template.first.merge_cells.first.ref.col_range,
+        "column_widths" => get_column_width(template.first,1,template.first.merge_cells.first.ref.col_range)
       }
     end
      

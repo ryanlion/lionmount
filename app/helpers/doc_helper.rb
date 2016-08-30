@@ -57,9 +57,11 @@ module DocHelper
       :b => cell.is_bolded.nil? ? false : cell.is_bolded
     }
   end
+  def get_column_widths(sheet,start_column,end_column)
+    
+  end
   def get_merged_cells(sheet,start_row,end_row)
     merged_cells = sheet.merged_cells.map{|m_c| { "col_range" => m_c.ref.col_range, "row_range" => m_c.ref.row_range}}
-require "byebug"; byebug
     merged_cells = merged_cells.select{|c| c["row_range"].first >= start_row && c["row_range"].last < end_row}
     merged_cells
   end
