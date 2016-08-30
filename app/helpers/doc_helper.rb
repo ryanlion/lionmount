@@ -58,7 +58,19 @@ module DocHelper
     }
   end
   def get_column_widths(sheet,start_column,end_column)
-    
+    range = start_column..end_column
+    widths = []
+    range.each{|column_no|
+      width = sheet.get_column_width(column_no)
+      widths << width
+    }
+    widths
+  end
+  def set_column_widths(sheet,widths)
+    #sheet.column_widths(*widths)
+    widths.each_with_index{|w,i|
+      sheet.column_info[i].width = w
+    }
   end
   def get_merged_cells(sheet,start_row,end_row)
     merged_cells = sheet.merged_cells.map{|m_c| { "col_range" => m_c.ref.col_range, "row_range" => m_c.ref.row_range}}

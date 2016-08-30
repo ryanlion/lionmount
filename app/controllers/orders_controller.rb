@@ -88,7 +88,6 @@ class OrdersController < ApplicationController
         row.cells.each{|cell|
           if row[0].value == "#HeaderRow#"
             if cell.value != "#HeaderRow#"
-require "byebug"; byebug
               header_row_styles << capture_style(cell)
               header_row_values << cell.value
             end
@@ -96,7 +95,7 @@ require "byebug"; byebug
             if cell.value != "#ContentRow#"
               content_styles << capture_style(cell)
               content_values << cell.value
-              image_column = cell.column if image_column == 0 && cell.value == "image_space" 
+              image_column = cell.column if image_column == 0 && cell.value.include?("image_space") 
             end
           elsif row[0].value == "#FooterRow#"
             if cell.value != "#FooterRow#"
@@ -124,8 +123,8 @@ require "byebug"; byebug
         "footer_styles" => footer_styles,
         "footer_merged_cells" => get_merged_cells(template.first,header_values.size+1,footer_values.size),
         "image_column" => image_column,
-        "col_range" => template.first.merge_cells.first.ref.col_range,
-        "column_widths" => get_column_width(template.first,1,template.first.merge_cells.first.ref.col_range)
+        "max_col_no" => header_values.first.size,
+        "column_widths" => get_column_widths(template.first,1,header_values.first.size)
       }
     end
      
@@ -133,11 +132,14 @@ require "byebug"; byebug
       @order = Order.find_by(id: params[:id])
         template = RubyXL::Parser.parse("public/system/spreadsheet/template/order_template.xlsx")
         p = Axlsx::Package.new
+        p.use_autowidth = false
         order_book = p.workbook
         sheet = order_book.add_worksheet(:name => "Order_#{@order.id}_#{order_book.worksheets.size}")
         doc_varibles = init_doc_varibles(template)
         page_ref = order_context_values(@order)
-        print_header(@order,sheet,doc_varibles,page_ref) 
+        print_header(@order,sheet,doc_varibles,page_ref)
+        set_column_widths(sheet,doc_varibles["column_widths"]) 
+        #sheet.column_widths(*doc_varibles["column_widths"])
         merge_cells(sheet,doc_varibles["header_merged_cells"])
         @order.order_items.each{|item|
           print_content(@order,sheet,doc_varibles,item)
