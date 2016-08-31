@@ -39,7 +39,7 @@ gem 'activesupport'
 gem "bootstrap-sass"
 gem 'thin'
 gem 'rake'
-gem 'rubyXL', '~> 3.2.3'
+gem 'rubyXL'#, '3.2.21'
 gem 'rubyzip', '~> 1.1.6'
 gem 'zip-zip'
 gem 'nokogiri'                      # XML library used by roxml

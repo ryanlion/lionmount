@@ -5,15 +5,16 @@ module DocHelper
     supplier = order.supplier
     {
       "customer" => customer.name,
+      "follower" => user.name,
       "order_id" => order.id,
       "order_marks" => order.marks,
       "order_deposit" => order.deposit,
       "order_date" => order.created_at,
       "order_delivery_date" => "",#order.delivery_date,
       "customer_contact_no" => user.contact_no,
-      "customer_fax" => user.fax,
-      "customer_address" => user.address,
-      "customer_email" => user.email,
+      "customer_fax" => customer.fax,
+      "customer_address" => customer.address,
+      "customer_email" => customer.email,
       "supplier_name" => supplier.supplier_name,
       "supplier_contact_no" => supplier.supplier_contact_no,
       "supplier_contact_person" => supplier.supplier_contact_person
@@ -48,14 +49,30 @@ module DocHelper
   def capture_style(cell)
     h_alignment = cell.horizontal_alignment.to_sym rescue :center
     v_alignment = cell.vertical_alignment.to_sym rescue :center
+    wrap_text = cell.text_wrap rescue false
+    border={}
+    unless cell.get_border(:bottom).nil?
+      border = { :color => 'FF000000', :style => cell.get_border(:bottom).to_sym }
+    else
+      border = nil
+    end
     {
       :fg_color => cell.font_color,
       :sz => cell.font_size.round,
       :font_name => cell.font_name,
-      :border => { :color => 'FF000000', :style => :thin },
-      :alignment => { :horizontal => h_alignment, :vertical => v_alignment },
+      :border => border,
+      :alignment => { :horizontal => h_alignment, :vertical => v_alignment, :wrap_text => wrap_text },
       :b => cell.is_bolded.nil? ? false : cell.is_bolded
     }
+  end
+  def get_row_heights(sheet,start_row,end_row)
+    range = start_row..end_row
+    heights = []
+    range.each{|row_no|
+      height = sheet.get_row_height(row_no)
+      heights << height
+    }
+    heights
   end
   def get_column_widths(sheet,start_column,end_column)
     range = start_column..end_column
@@ -86,10 +103,10 @@ module DocHelper
     doc_varibles["header_values"].each_with_index{|header_row,i|
       values = header_row.map{|cell|
         val = (cell.nil? ? nil : cell.tr('\"',""))
-        (header_ref[val].nil? ? cell : header_value[val])
+        (header_ref[val].nil? ? cell : header_ref[val])
       } 
       styles = doc_varibles["header_styles"][i].map{|s| sheet.styles.add_style(s)}
-      sheet.add_row values, :style => styles
+      sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
     } 
   end
   
@@ -98,14 +115,14 @@ module DocHelper
     values = order_item_values(p_obj,item)
     picked_values = ref.map{|r| values[r]}
     styles =  doc_varibles["content_styles"].map{|s| sheet.styles.add_style(s)}
-    sheet.add_row picked_values, :style => styles 
+    sheet.add_row picked_values, :style => styles, :height => doc_varibles["content_heights"].first 
     row_no = sheet.rows.length
 
     unless values["image"].nil? || values["image"].blank? then
       img = File.expand_path("#{Rails.root}/public#{values["image"]}", __FILE__)
       sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
-        image.width=100
-        image.height=66
+        image.width=66
+        image.height=44
         image.start_at doc_varibles["image_column"], row_no-1
       end
     else
