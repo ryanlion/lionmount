@@ -136,19 +136,22 @@ class OrdersController < ApplicationController
         p = Axlsx::Package.new
         p.use_autowidth = false
         order_book = p.workbook
-        sheet = order_book.add_worksheet(:name => "Order_#{@order.id}_#{order_book.worksheets.size}")
+        order_items = @order.order_items.sort_by &:sorting
+        item_per_page = 15
+        order_sheets = create_sheets(order_book,item_per_page,order_items.size)
+        #sheet = order_book.add_worksheet(:name => "Order_#{@order.id}_#{order_book.worksheets.size}")
         doc_varibles = init_doc_varibles(template)
         page_ref = order_context_values(@order)
-        print_header(@order,sheet,doc_varibles,page_ref)
-        set_column_widths(sheet,doc_varibles["column_widths"]) 
-        #sheet.column_widths(*doc_varibles["column_widths"])
-        merge_cells(sheet,doc_varibles["header_merged_cells"])
-        order_items = @order.order_items.sort_by &:sorting
-        order_items.each{|item|
-          print_content(@order,sheet,doc_varibles,item)
+        order_sheets.each_with_index{|sheet,i|
+          print_header(@order,sheet,doc_varibles,page_ref)
+          set_column_widths(sheet,doc_varibles["column_widths"]) 
+          #sheet.column_widths(*doc_varibles["column_widths"])
+          merge_cells(sheet,doc_varibles["header_merged_cells"])
+          order_items[(i*item_per_page)..((i+1)*item_per_page-1)].each{|item|
+            print_content(@order,sheet,doc_varibles,item)
+          }
+          print_footer(@order,sheet,doc_varibles,page_ref)
         }
-        print_footer(@order,sheet,doc_varibles,page_ref)
-        
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
         send_file 'public/system/spreadsheet/spreadsheet.xlsx'
     end

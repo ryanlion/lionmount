@@ -46,6 +46,15 @@ module DocHelper
       "image" => (item.image.nil? ? "" : item.image.remote_url)
     }
   end
+  def create_sheets(workbook,items_per_page,items_total)
+    sum = 1
+    sheets = []
+    while sum < items_total
+      sheets << workbook.add_worksheet(:name => "Order #{sum}-#{sum+items_per_page-1}")
+      sum += items_per_page
+    end
+    sheets
+  end
   def capture_style(cell)
     h_alignment = cell.horizontal_alignment.to_sym rescue :center
     v_alignment = cell.vertical_alignment.to_sym rescue :center
@@ -84,7 +93,6 @@ module DocHelper
     widths
   end
   def set_column_widths(sheet,widths)
-    #sheet.column_widths(*widths)
     widths.each_with_index{|w,i|
       sheet.column_info[i].width = w
     }
@@ -114,7 +122,7 @@ module DocHelper
     ref=doc_varibles["content_values"].map{|v| v.tr('"',"")}
     values = order_item_values(p_obj,item)
     picked_values = ref.map{|r| values[r]}
-    styles =  doc_varibles["content_styles"].map{|s| sheet.styles.add_style(s)}
+    styles = doc_varibles["content_styles"].map{|s| sheet.styles.add_style(s)}
     sheet.add_row picked_values, :style => styles, :height => doc_varibles["content_heights"].first 
     row_no = sheet.rows.length
 
