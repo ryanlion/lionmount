@@ -60,8 +60,13 @@ module DocHelper
     v_alignment = cell.vertical_alignment.to_sym rescue :center
     wrap_text = cell.text_wrap rescue false
     border={}
-    unless cell.get_border(:bottom).nil?
-      border = { :color => 'FF000000', :style => cell.get_border(:bottom).to_sym }
+    unless cell.get_border(:top).nil? && cell.get_border(:bottom).nil? && cell.get_border(:left).nil? && cell.get_border(:right).nil?
+      edges = []
+      edges << :top unless cell.get_border(:top).nil?
+      edges << :bottom unless cell.get_border(:bottom).nil?
+      edges << :left unless cell.get_border(:left).nil?
+      edges << :right unless cell.get_border(:right).nil?
+      border = { :color => 'FF000000', :style => :thin, :edges => edges }
     else
       border = nil
     end
@@ -102,9 +107,9 @@ module DocHelper
     merged_cells = merged_cells.select{|c| c["row_range"].first >= start_row && c["row_range"].last < end_row}
     merged_cells
   end
-  def merge_cells(sheet,merged_cells)
+  def merge_cells(sheet,merged_cells,offset)
     merged_cells.each{|cell|
-      sheet.merge_cells("#{to_alphabet(cell["col_range"].first)}#{cell["row_range"].first+1}:#{to_alphabet(cell["col_range"].last)}#{cell["row_range"].last+1}")
+      sheet.merge_cells("#{to_alphabet(cell["col_range"].first)}#{cell["row_range"].first+1+offset}:#{to_alphabet(cell["col_range"].last)}#{cell["row_range"].last+1+offset}")
     }
   end
   def print_header(order,sheet,doc_varibles,header_ref)
@@ -144,7 +149,7 @@ module DocHelper
         (footer_ref[val].nil? ? cell : footer_value[val])
       } 
       styles = doc_varibles["footer_styles"][i].map{|s| sheet.styles.add_style(s)}
-      sheet.add_row values, :style => styles
+      sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
     } 
   end
 end
