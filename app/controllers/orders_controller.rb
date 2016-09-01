@@ -114,6 +114,7 @@ class OrdersController < ApplicationController
       }
       {
         "sheets" => {},
+        "item_per_page" => 15,
         "header_styles" => header_styles,
         "header_values" => header_values,
         "header_heights" => get_row_heights(template.first,0,header_values.size),
@@ -123,7 +124,8 @@ class OrdersController < ApplicationController
         "content_heights" => get_row_heights(template.first,header_values.size,header_values.size),
         "footer_values" => footer_values,
         "footer_styles" => footer_styles,
-        "footer_merged_cells" => get_merged_cells(template.first,header_values.size+1,footer_values.size),
+        "footer_merged_cells" => get_merged_cells(template.first,header_values.size+1,header_values.size+1+footer_values.size),
+        "footer_heights" => get_row_heights(template.first,header_values.size,header_values.size+1+footer_values.size),
         "image_column" => image_column,
         "max_col_no" => header_values.first.size,
         "column_widths" => get_column_widths(template.first,1,header_values.first.size)
@@ -146,11 +148,12 @@ class OrdersController < ApplicationController
           print_header(@order,sheet,doc_varibles,page_ref)
           set_column_widths(sheet,doc_varibles["column_widths"]) 
           #sheet.column_widths(*doc_varibles["column_widths"])
-          merge_cells(sheet,doc_varibles["header_merged_cells"])
+          merge_cells(sheet,doc_varibles["header_merged_cells"],0)
           order_items[(i*item_per_page)..((i+1)*item_per_page-1)].each{|item|
             print_content(@order,sheet,doc_varibles,item)
           }
           print_footer(@order,sheet,doc_varibles,page_ref)
+          merge_cells(sheet,doc_varibles["footer_merged_cells"],item_per_page-1)
         }
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
         send_file 'public/system/spreadsheet/spreadsheet.xlsx'
