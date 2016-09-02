@@ -55,6 +55,15 @@ module DocHelper
     end
     sheets
   end
+  def replace_values(val,val_ref)
+     matched = /"([^\\"]|\\\\|\\")*"/.match(val)
+     unless matched.nil?
+       require "byebug"; byebug
+       val.gsub(matched.to_s,val_ref[val.tr('\"',"")])
+     else
+       val
+     end
+  end
   def capture_style(cell)
     h_alignment = cell.horizontal_alignment.to_sym rescue :center
     v_alignment = cell.vertical_alignment.to_sym rescue :center
@@ -145,8 +154,9 @@ module DocHelper
   def print_footer(order,sheet,doc_varibles,footer_ref) 
     doc_varibles["footer_values"].each_with_index{|footer_row,i|
       values = footer_row.map{|cell|
-        val = (cell.nil? ? nil : cell.tr('\"',""))
-        (footer_ref[val].nil? ? cell : footer_value[val])
+        #val = (cell.nil? ? nil : cell.tr('\"',""))
+        #(footer_ref[val].nil? ? cell : footer_ref[val])
+        (cell.nil? ? nil : replace_values(cell,footer_ref))
       } 
       styles = doc_varibles["footer_styles"][i].map{|s| sheet.styles.add_style(s)}
       sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
