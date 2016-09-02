@@ -56,13 +56,15 @@ module DocHelper
     sheets
   end
   def replace_values(val,val_ref)
-     matched = /"([^\\"]|\\\\|\\")*"/.match(val)
-     unless matched.nil?
-       require "byebug"; byebug
-       val.gsub(matched.to_s,val_ref[val.tr('\"',"")])
-     else
-       val
-     end
+    matched = /"([^\\"]|\\\\|\\")*"/.match(val)
+    unless matched.nil?
+      val.gsub(matched.to_s,val_ref[matched.to_s.tr('\"',"")].to_s) rescue val
+    else
+      val
+    end
+  end
+  def replace_functions(val,cells)
+    matched = /"([^\\"]|\\\\|\\")*"/.match(val)
   end
   def capture_style(cell)
     h_alignment = cell.horizontal_alignment.to_sym rescue :center
@@ -124,8 +126,9 @@ module DocHelper
   def print_header(order,sheet,doc_varibles,header_ref)
     doc_varibles["header_values"].each_with_index{|header_row,i|
       values = header_row.map{|cell|
-        val = (cell.nil? ? nil : cell.tr('\"',""))
-        (header_ref[val].nil? ? cell : header_ref[val])
+        #val = (cell.nil? ? nil : cell.tr('\"',""))
+        #(header_ref[val].nil? ? cell : header_ref[val])
+        (cell.nil? ? nil : replace_values(cell,header_ref))
       } 
       styles = doc_varibles["header_styles"][i].map{|s| sheet.styles.add_style(s)}
       sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
@@ -154,9 +157,12 @@ module DocHelper
   def print_footer(order,sheet,doc_varibles,footer_ref) 
     doc_varibles["footer_values"].each_with_index{|footer_row,i|
       values = footer_row.map{|cell|
-        #val = (cell.nil? ? nil : cell.tr('\"',""))
-        #(footer_ref[val].nil? ? cell : footer_ref[val])
-        (cell.nil? ? nil : replace_values(cell,footer_ref))
+        matched_f = /{(.*?)}/.match(cell)
+        unless matched_f
+          replace_functions(cell)
+        else
+          (cell.nil? ? nil : replace_values(cell,footer_ref))
+        end
       } 
       styles = doc_varibles["footer_styles"][i].map{|s| sheet.styles.add_style(s)}
       sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]

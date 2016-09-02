@@ -34,6 +34,7 @@ class OrdersController < ApplicationController
         @order.total_price = params["order_total_price"]
         @order.total_weight = params["order_total_weight"]
         @order.total_volume = params["order_total_volume"]
+        @order.total_ctns = params["order_total_ctns"]
         @order.save
 
         render :text => "success"
@@ -149,11 +150,12 @@ class OrdersController < ApplicationController
           set_column_widths(sheet,doc_varibles["column_widths"]) 
           #sheet.column_widths(*doc_varibles["column_widths"])
           merge_cells(sheet,doc_varibles["header_merged_cells"],0)
+          offset = order_items[(i*item_per_page)..((i+1)*item_per_page-1)].size-1
           order_items[(i*item_per_page)..((i+1)*item_per_page-1)].each{|item|
             print_content(@order,sheet,doc_varibles,item)
           }
           print_footer(@order,sheet,doc_varibles,page_ref)
-          merge_cells(sheet,doc_varibles["footer_merged_cells"],item_per_page-1)
+          merge_cells(sheet,doc_varibles["footer_merged_cells"],offset)
         }
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
         send_file 'public/system/spreadsheet/spreadsheet.xlsx'

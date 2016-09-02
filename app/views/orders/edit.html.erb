@@ -35,6 +35,7 @@
 <input type="hidden" name="order_total_weight" id="order_total_weight" value="<%= @order.total_weight %>"/>
 <input type="hidden" name="order_total_volume" id="order_total_volume" value="<%= @order.total_volume %>"/>
 <input type="hidden" name="order_total_price" id="order_total_price" value="<%= @order.total_price %>"/>
+<input type="hidden" name="order_total_ctns" id="order_total_ctns" value="<%= @order.total_ctns %>"/>
 </div>
 </form>
 <input type="hidden" id="order-id" value="<%= @order.id %>">
@@ -68,19 +69,20 @@
 <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:20px;">
   <div class="container-fluid">
     <div style="white-space: nowrap">
-          <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn btn-default pull-left",method: :post, remote: true %>
-          <a id='delete_row' class="pull-left btn btn-default">Delete Row</a>
+          <%= link_to "Add Row",  order_order_items_path(@order.id), class: "btn-sm btn-default pull-left",method: :post, remote: true %>
+          <a id='delete_row' class="pull-left btn-sm btn-default">Delete Row</a>
           <form class="navbar-form navbar-left" style="margin: 0">
-            <a class="btn btn-default pull-left moverow">Move Row After</a>
+            <a class="btn-sm btn-default pull-left moverow">Move Row After</a>
 	        <div class="form-group">
     	      <input id='rowno' type='text' placeholder='rowno' style="width: 60px" class='form-control input-md' />
 	        </div>	        
 	      </form>
         
-          <a id='language' class="navbar-right btn btn-success">Show English</a>          
-          <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="navbar-right btn btn-info">Save</a>          
-          <%= link_to 'XLSX', order_xlsx_order_path(@order.id)  , class: "navbar-right btn btn-info", method: :post %>
+          <a id='language' class="navbar-right btn-sm btn-success">Show English</a>          
+          <a id='save_order' data-rc-url="<%= order_path(@order.id) %>" class="navbar-right btn-sm btn-info">Save</a>          
+          <%= link_to 'XLSX', order_xlsx_order_path(@order.id)  , class: "navbar-right btn-sm btn-info", method: :post %>
           <a id='save_order_invisible' data-rc-url="<%= order_path(@order.id) %>" class="pull-right btn btn-info" style="display: none;">#</a>
+          <p class="navbar-text navbar-right small" style="margin: 5px">Total CTNs: <span class="badge alert-info order_total_ctns"><%= (@order.total_ctns.nil? || @order.total_ctns == "") ? "&nbsp;&nbsp;".html_safe : @order.total_ctns %></span></p>
           <p class="navbar-text navbar-right small" style="margin: 5px">Total Price: <span class="badge alert-info order_total_price"><%= (@order.total_price.nil? || @order.total_price == "") ? "&nbsp;&nbsp;".html_safe : @order.total_price %></span></p>
           <p class="navbar-text navbar-right small" style="margin: 5px">Total Weight: <span class="badge alert-info order_total_weight"><%= (@order.total_weight.nil? || @order.total_weight == "") ? "&nbsp;&nbsp;".html_safe : @order.total_weight %></span></p>
           <p class="navbar-text navbar-right small" style="margin: 5px">Total Volume: <span class="badge alert-info order_total_volume"><%= (@order.total_volume.nil? || @order.total_volume == "") ? "&nbsp;&nbsp;".html_safe : @order.total_volume %></span></p>

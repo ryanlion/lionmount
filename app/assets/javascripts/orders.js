@@ -50,30 +50,39 @@ $(document).on('change','body', function () {
   var total_price = 0.0;
   var total_weight = 0.0;
   var total_volume = 0.0;
-	$('.item_total_price').each(function () {
+  var total_ctns = 0;
+  $('.item_total_price').each(function () {
     if($(this).val() != ''){
       var item_total_price = parseFloat($(this).val());
       total_price = total_price + item_total_price;
     }
   });
-	$('.item_total_weight').each(function () {
+  $('.item_total_weight').each(function () {
     if($(this).val() != ''){
       var item_total_weight = parseFloat($(this).val());
       total_weight = total_weight + item_total_weight;
     }
   });
-	$('.item_total_volume').each(function () {
+  $('.item_total_volume').each(function () {
     if($(this).val() != ''){
       var item_total_volume = parseFloat($(this).val());
       total_volume = total_volume + item_total_volume;
     }
   });
+  $('.no_of_unit').each(function () {
+    if($(this).val() != ''){
+      var item_total_ctns = parseInt($(this).val());
+      total_ctns = total_ctns + item_total_ctns;
+    }
+  });
   $('.order_total_price').html(precise_round(total_price,2));
   $('.order_total_weight').html(precise_round(total_weight,2));
   $('.order_total_volume').html(precise_round(total_volume,2));
+  $('.order_total_ctns').html(total_ctns);
   $('#order_total_price').val(precise_round(total_price,2));
   $('#order_total_weight').val(precise_round(total_weight,2));
   $('#order_total_volume').val(precise_round(total_volume,2));
+  $('#order_total_ctns').val(total_ctns);
 });
 
 var baidu_appid = "20160614000023334";
