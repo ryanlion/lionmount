@@ -9,6 +9,10 @@ module DocHelper
       "order_id" => order.id,
       "order_marks" => order.marks,
       "order_deposit" => order.deposit,
+      "order_total_volume" => order.total_volume,
+      "order_total_weight" => order.total_weight,
+      "order_total_ctns" => order.total_ctns,
+      "order_total_price" => order.total_price,
       "order_date" => order.created_at,
       "order_delivery_date" => "",#order.delivery_date,
       "customer_contact_no" => user.contact_no,
@@ -63,8 +67,18 @@ module DocHelper
       val
     end
   end
-  def replace_functions(val,cells)
-    matched = /"([^\\"]|\\\\|\\")*"/.match(val)
+  
+  def replace_function_values(val,val_ref,is_last_page)
+    matched = /{(.*?)}/.match(val)
+    unless matched.nil?
+      if is_last_page
+        val.gsub(matched.to_s,val_ref[matched.to_s.tr('{}"',"")].to_s) rescue val
+      else
+        val.gsub(matched.to_s,"") rescue val
+      end
+    else
+      val
+    end
   end
   def capture_style(cell)
     h_alignment = cell.horizontal_alignment.to_sym rescue :center
@@ -113,6 +127,15 @@ module DocHelper
       sheet.column_info[i].width = w
     }
   end
+  def get_image_cell_info(sheet,cell)
+    merged_img_cell_ref = sheet.merged_cells.select{|c| c.ref.col_range.first == cell.column && c.ref.row_range.first == cell.row }.first.ref
+    image_height = get_row_heights(sheet,merged_img_cell_ref.col_range.first,merged_img_cell_ref.col_range.last).reduce(:+)
+    image_widths = get_colums_widths(sheet,merged_img_cell_ref.row_range.first,merged_img_cell_ref.row_range.last).reduce(:+)
+    {
+      "image_height" => image_height, 
+      "image_width" => image_width
+    }
+  end
   def get_merged_cells(sheet,start_row,end_row)
     merged_cells = sheet.merged_cells.map{|m_c| { "col_range" => m_c.ref.col_range, "row_range" => m_c.ref.row_range}}
     merged_cells = merged_cells.select{|c| c["row_range"].first >= start_row && c["row_range"].last < end_row}
@@ -126,8 +149,6 @@ module DocHelper
   def print_header(order,sheet,doc_varibles,header_ref)
     doc_varibles["header_values"].each_with_index{|header_row,i|
       values = header_row.map{|cell|
-        #val = (cell.nil? ? nil : cell.tr('\"',""))
-        #(header_ref[val].nil? ? cell : header_ref[val])
         (cell.nil? ? nil : replace_values(cell,header_ref))
       } 
       styles = doc_varibles["header_styles"][i].map{|s| sheet.styles.add_style(s)}
@@ -154,18 +175,22 @@ module DocHelper
       sheet.merge_cells("#{to_alphabet(doc_varibles["image_column"])}#{row_no}:#{to_alphabet(doc_varibles["image_column"])}#{row_no-1}")
     end
   end 
-  def print_footer(order,sheet,doc_varibles,footer_ref) 
+  def print_footer(order,sheet,doc_varibles,footer_ref,is_last_page) 
     doc_varibles["footer_values"].each_with_index{|footer_row,i|
       values = footer_row.map{|cell|
-        matched_f = /{(.*?)}/.match(cell)
-        unless matched_f
-          replace_functions(cell)
-        else
-          (cell.nil? ? nil : replace_values(cell,footer_ref))
-        end
+        tem_val = (cell.nil? ? nil : replace_values(cell,footer_ref))
+        replace_function_values(tem_val,footer_ref,is_last_page)
       } 
       styles = doc_varibles["footer_styles"][i].map{|s| sheet.styles.add_style(s)}
       sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
     } 
+  end
+  
+  def print_image(sheet,image_keyword,file_path)
+    sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
+      image.width=66
+      image.height=44
+      image.start_at doc_varibles["image_column"], row_no-1
+    end
   end
 end

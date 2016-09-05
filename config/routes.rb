@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   scope module: 'common' do
     post '/product_search' => '/common/search#product_search', as: 'product_search'
   end
-
+  resources :settings
   resources :orders do
     member do
       post :upload_pic

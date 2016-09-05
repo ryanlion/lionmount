@@ -20,7 +20,7 @@
       </div>
       <div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
+          <li class="active"><%= link_to 'Settings', settings_path , class: "navbar-link navbar-right", method: :get %></li>
           <li>
             <%= link_to 'New Order', new_order_path , class: "navbar-link navbar-right", method: :get %>
           </li>

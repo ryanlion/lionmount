@@ -74,6 +74,7 @@ class OrdersController < ApplicationController
     def init_doc_varibles(template)
       header_styles = []
       header_values = []
+      header_images = []
       content_styles = []
       content_values = []
       footer_styles =[]
@@ -91,6 +92,7 @@ class OrdersController < ApplicationController
             if cell.value != "#HeaderRow#"
               header_row_styles << capture_style(cell)
               header_row_values << cell.value
+              header_images << get_image_cell_info(template.first,cell) if cell.value && cell.value.include?("#image")
             end
           elsif row[0].value == "#ContentRow#"
             if cell.value != "#ContentRow#"
@@ -118,6 +120,7 @@ class OrdersController < ApplicationController
         "item_per_page" => 15,
         "header_styles" => header_styles,
         "header_values" => header_values,
+        "header_images" => header_images,
         "header_heights" => get_row_heights(template.first,0,header_values.size),
         "header_merged_cells" => get_merged_cells(template.first,0,header_values.size),
         "content_styles" => content_styles,
@@ -141,20 +144,22 @@ class OrdersController < ApplicationController
         order_book = p.workbook
         order_items = @order.order_items.sort_by &:sorting
         item_per_page = 15
+        current_item_index = 1
+        is_last_page = false
         order_sheets = create_sheets(order_book,item_per_page,order_items.size)
-        #sheet = order_book.add_worksheet(:name => "Order_#{@order.id}_#{order_book.worksheets.size}")
         doc_varibles = init_doc_varibles(template)
         page_ref = order_context_values(@order)
         order_sheets.each_with_index{|sheet,i|
           print_header(@order,sheet,doc_varibles,page_ref)
           set_column_widths(sheet,doc_varibles["column_widths"]) 
-          #sheet.column_widths(*doc_varibles["column_widths"])
           merge_cells(sheet,doc_varibles["header_merged_cells"],0)
           offset = order_items[(i*item_per_page)..((i+1)*item_per_page-1)].size-1
           order_items[(i*item_per_page)..((i+1)*item_per_page-1)].each{|item|
             print_content(@order,sheet,doc_varibles,item)
+            is_last_page = (current_item_index == order_items.size)
+            current_item_index += 1
           }
-          print_footer(@order,sheet,doc_varibles,page_ref)
+          print_footer(@order,sheet,doc_varibles,page_ref,is_last_page)
           merge_cells(sheet,doc_varibles["footer_merged_cells"],offset)
         }
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
