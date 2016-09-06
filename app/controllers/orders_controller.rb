@@ -6,12 +6,12 @@ class OrdersController < ApplicationController
     def update
         order_items = params["order_items"]
         
-        order_items.each do |order_item|
+        order_items.each_with_index do |order_item,i|
           @order_item = OrderItem.find_by(id: order_item["id"])
           @order_item.product_code = order_item["product_code"]
           @order_item.product_name = order_item["product_name"]
           @order_item.product_name_eng = order_item["product_name_eng"]
-          @order_item.sorting = order_item["sorting"]
+          @order_item.sorting = i+1
           @order_item.itemUUID = order_item["itemUUID"]
           @order_item.weight_per_product = order_item["weight_per_product"]
           @order_item.spec = order_item["spec"]
@@ -161,6 +161,7 @@ class OrdersController < ApplicationController
           }
           print_footer(@order,sheet,doc_varibles,page_ref,is_last_page)
           merge_cells(sheet,doc_varibles["footer_merged_cells"],offset)
+          setup_page(sheet)
         }
         p.serialize("public/system/spreadsheet/spreadsheet.xlsx")
         send_file 'public/system/spreadsheet/spreadsheet.xlsx'

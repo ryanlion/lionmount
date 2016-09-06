@@ -159,6 +159,26 @@ module DocHelper
       sheet.merge_cells("#{to_alphabet(cell["col_range"].first)}#{cell["row_range"].first+1+offset}:#{to_alphabet(cell["col_range"].last)}#{cell["row_range"].last+1+offset}")
     }
   end
+  def setup_page(sheet)
+    #options = {
+    #    :margins => {:left => 0, :right => 0, :top => 0, :bottom => 0, :header => 0, :footer => 0 },
+    #    :setup => { :orientation => :portrait, :paper_size => 12, :paper_width => "245mm", :paper_height => "350mm"},
+    #    :options => {:grid_lines => false, :headings => false, :horizontal_centered => true}
+    #  }
+    #sheet.page_setup.set(options)
+    sheet.print_options.vertical_centered = true
+    sheet.print_options.horizontal_centered = true
+    sheet.page_margins.left = 0.2
+    sheet.page_margins.right = 0.3
+    sheet.page_margins.top = 0.1
+    sheet.page_margins.bottom = 0.1
+    sheet.page_margins.header = 0.1
+    sheet.page_margins.footer = 0.1
+    sheet.page_setup.scale = 65
+    sheet.page_setup.orientation = :portrait
+    sheet.page_setup.paper_height = "50mm"
+    sheet.page_setup.fit_to :height => 1
+  end
   def print_header(order,sheet,doc_varibles,header_ref)
     doc_varibles["header_values"].each_with_index{|header_row,i|
       values = header_row.map{|cell|
