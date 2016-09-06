@@ -128,12 +128,25 @@ module DocHelper
     }
   end
   def get_image_cell_info(sheet,cell)
-    merged_img_cell_ref = sheet.merged_cells.select{|c| c.ref.col_range.first == cell.column && c.ref.row_range.first == cell.row }.first.ref
-    image_height = get_row_heights(sheet,merged_img_cell_ref.col_range.first,merged_img_cell_ref.col_range.last).reduce(:+)
-    image_widths = get_colums_widths(sheet,merged_img_cell_ref.row_range.first,merged_img_cell_ref.row_range.last).reduce(:+)
+    #merged_img_cell_ref = sheet.merged_cells.select{|c| c.ref.col_range.first == cell.column && c.ref.row_range.first == cell.row }.first.ref
+    #image_height = get_row_heights(sheet,merged_img_cell_ref.row_range.first,merged_img_cell_ref.row_range.last).reduce(:+)
+    #image_width = get_column_widths(sheet,merged_img_cell_ref.col_range.first,merged_img_cell_ref.col_range.last).reduce(:+)
+    image_path = nil, image_height = nil, image_width = nil, image_start_column = nil, image_start_row = nil
+    if cell.value == "#image_logo#"
+      settings = Settings.first
+      image_path = "#{Rails.root}/public#{settings.site_logo.remote_url}"
+      image_width = settings.order_logo_width
+      image_height = settings.order_logo_height
+      image_start_column = cell.column
+      image_start_row = cell.row
+    end
     {
-      "image_height" => image_height, 
-      "image_width" => image_width
+      "image_name" => cell.value,
+      #"image_range" => merged_img_cell_ref,
+      "image_start_cell" => {"column" => image_start_column, "row" => image_start_row },
+      "image_height" => image_height,
+      "image_width" => image_width,
+      "image_path" => image_path
     }
   end
   def get_merged_cells(sheet,start_row,end_row)
@@ -149,7 +162,12 @@ module DocHelper
   def print_header(order,sheet,doc_varibles,header_ref)
     doc_varibles["header_values"].each_with_index{|header_row,i|
       values = header_row.map{|cell|
-        (cell.nil? ? nil : replace_values(cell,header_ref))
+        if !cell.nil? && cell == doc_varibles["header_images"].first["image_name"]
+          print_image(sheet,doc_varibles["header_images"].first)
+          nil
+        else
+          (cell.nil? ? nil : replace_values(cell,header_ref))
+        end
       } 
       styles = doc_varibles["header_styles"][i].map{|s| sheet.styles.add_style(s)}
       sheet.add_row values, :style => styles, :height => doc_varibles["header_heights"][i]
@@ -186,11 +204,13 @@ module DocHelper
     } 
   end
   
-  def print_image(sheet,image_keyword,file_path)
+  def print_image(sheet,image_info)
+    img = image_info["image_path"]
     sheet.add_image(:image_src => img, :noSelect => false, :noMove => false) do |image|
-      image.width=66
-      image.height=44
-      image.start_at doc_varibles["image_column"], row_no-1
+      image.width= image_info["image_width"]
+      image.height= image_info["image_height"]
+      image.start_at image_info["image_start_cell"]["column"]-1,image_info["image_start_cell"]["row"]#image_info["image_range"].row_range.first+1, image_info["image_range"].col_range.first
+      #image.end_at 2,2#image_info["image_range"].row_range.last+1, image_info["image_range"].col_range.last
     end
   end
 end

@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Site Settings</div>
+  <div class="panel-body">
+    <%= form_for :setting, :html=> {:id => 'edit-settings-form'}, url: setting_path(@setting), method: :put do |f| %>
+      <div class="row clearfix">
+        <div class="col-md-12 column">
+          <table id="new-order-table" class="table table-bordered table-hover" data-height="500">
+            <% if @setting.site_logo %>
+            <tr>
+              <td></td><td><img height="500" width="472" src="<%= @setting.site_logo.thumb('500x472#').url %>" /</td>
+            </tr>
+            <% end %>
+            <tr>
+              <td>Site Logo:</td><td><%= f.file_field :site_logo %></td>
+            </tr>
+            <tr>
+              <td>Site Name:</td><td><%= f.text_field :site_name, :value => @setting.site_name %></td>
+            </tr>
+            <tr>
+              <td>Order Logo height:</td><td><%= f.text_field :order_logo_height, :value => @setting.order_logo_height %></td>
+            </tr>
+            <tr>
+              <td>Order Logo width:</td><td><%= f.text_field :order_logo_width, :value => @setting.order_logo_width %></td>
+            </tr>
+          </table>
+        </div>
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"/>
+        <button id='save_settings' class="pull-right btn btn-info">Save</button>
+      </div>
+    <% end %>
+  </div>
+</div>
