@@ -1,23 +1,21 @@
 development:
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   database: lionmount
   pool: 5
   username: lionmount
   password: lionmount123
 test:
   adapter: postgresql
-  encoding: unicode
+  encoding: utf8
   database: lionmount
   pool: 5
   username: lionmount
   password: lionmount123
 production:
-    adapter: mysql2
-    encoding: utf8
-    reconnect: false
-    database: 'lionmount'
-    pool: 5
-    username: rootsdf
-    password:
-
+  adapter: postgresql
+  encoding: utf8
+  database: lionmount
+  pool: 5
+  username: lionmount
+  password: lionmount123
