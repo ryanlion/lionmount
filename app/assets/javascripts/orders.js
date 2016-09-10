@@ -103,7 +103,7 @@ function translate(source_obj, target_obj){
   var source = $(source_obj).val().replace(/\n/g,"<br>");
   var sign = baidu_appid + source + random + baidu_key; 
   var sign_md5 = $.md5(sign);
-  #var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+ source + "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
+  //var url = "http://api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+ source + "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
   var url = "//api.fanyi.baidu.com/api/trans/vip/translate?"+"q="+ source + "&from=zh&to=en&appid=" + baidu_appid + "&salt="+ random + "&sign="+ sign_md5;
   $.ajax({
     url: url,
