@@ -4,7 +4,7 @@ ruby "2.1.2"
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '~> 5.0.4'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -33,7 +33,6 @@ gem 'therubyracer'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-  gem 'byebug'
 gem 'mysql2', '~> 0.3.18'
 gem 'activesupport'
 gem "bootstrap-sass"
@@ -64,4 +63,5 @@ group :production do
 end
 group :development do
   gem 'spring'
+  gem 'byebug'
 end

@@ -53,7 +53,7 @@ module DocHelper
   def create_sheets(workbook,items_per_page,items_total)
     sum = 1
     sheets = []
-    while sum < items_total
+    while sum <= items_total
       sheets << workbook.add_worksheet(:name => "Order #{sum}-#{sum+items_per_page-1}")
       sum += items_per_page
     end
