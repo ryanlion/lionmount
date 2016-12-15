@@ -65,7 +65,7 @@ class ShipmentsController < ApplicationController
     end
     def set_column_width(sheet,template) 
       widths = []
-      template.first.merge_cells.first.ref.col_range.each{|n|
+      template.first.merged_cells.first.ref.col_range.each{|n|
         widths << template.first.get_column_width(n).to_i
       }
       sheet.column_widths(*widths)
@@ -89,7 +89,7 @@ class ShipmentsController < ApplicationController
         footer_styles = []
         header_length = 0
         image_column = 0
-        col_range = template.first.merge_cells.first.ref.col_range
+        col_range = template.first.merged_cells.first.ref.col_range
         shipment_users.each{|user|
           header_value = load_header_values(@shipment,user)
           sheet = packing_list_book.add_worksheet(:name => "Packing List--#{user.name}")
