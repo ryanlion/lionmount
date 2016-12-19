@@ -3,7 +3,7 @@ class CreateOrderItems < ActiveRecord::Migration
     create_table :order_items do |t|
       t.belongs_to :order, index:true
       t.string :itemUUID
-      t.string :order_id
+      t.integer :order_id
       t.string :product_code
       t.string :product_name
       t.string :product_name_eng
